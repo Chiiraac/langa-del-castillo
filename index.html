@@ -1063,7 +1063,60 @@ const POTL=leafMat([0.24,0.44,0.18]);
     else if(kind<0.8){ let yy=y; const n=1+Math.floor(R4()*3); for(let k=0;k<n;k++){ const sz=0.45+R4()*0.15, a=(R4()-0.5)*0.4, dd=[d[0]*Math.cos(a)-d[1]*Math.sin(a),d[0]*Math.sin(a)+d[1]*Math.cos(a)];
         pbox(px+(R4()-0.5)*0.1,pz+(R4()-0.5)*0.1,dd,sz,sz,yy,yy+sz*0.8,crateW); yy+=sz*0.8; } }
     else { const bx=x+d[0]*side*(off+0.3)+ox*0.24, bz=z+d[1]*side*(off+0.3)+oz*0.24, yb=G2(bx,bz)+0.09; if(inside2D(bx,bz,0.05)) continue;
-      pbox(bx,bz,d,1.5,0.42,yb-0.1,yb+0.42,poyo); pbox(bx+ox*0.03,bz+oz*0.03,d,1.58,0.5,yb+0.42,yb+0.5,poyo); } } }
+      pbox(bx,bz,d,1.5,0.42,yb-0.1,yb+0.42,poyo); pbox(bx+ox*0.03,bz+oz*0.03,d,1.58,0.5,yb+0.42,yb+0.5,poyo); } }
+  // ---- Taberna: la casa blanca de la esquina de la Calle Ramón y Cajal con la Calle Horno (la fachada que da a la
+  // placita del cruce, la del portón). Rótulo de madera pintado sobre el portón, cartel colgado de un brazo de hierro
+  // (se lee por los dos lados), banco contra la pared y barricas de mesa con taburetes. ----
+  { const A=[-15.71,45.60], B=[-24.13,56.48], L=Math.hypot(B[0]-A[0],B[1]-A[1]), e=[(B[0]-A[0])/L,(B[1]-A[1])/L], n=[e[1],-e[0]];   // n: hacia la calle
+    const at=(s,o)=>[A[0]+e[0]*s+n[0]*o,A[1]+e[1]*s+n[1]*o];
+    // El portón de la fachada (el más cercano a la mitad); si no lo hay, la mitad.
+    let sD=L/2, best=1e9; for(const q of D){ const s=(q[0]-A[0])*e[0]+(q[1]-A[1])*e[1], o=(q[0]-A[0])*n[0]+(q[1]-A[1])*n[1]; if(Math.abs(o)<0.6&&s>1&&s<L-1&&Math.abs(s-L/2)<best){ best=Math.abs(s-L/2); sD=s; } }
+    const yD=G2(...at(sD,0.3)), FUENTE='"IM Fell English SC", Georgia, serif';
+    try{ await Promise.race([document.fonts.load('100px "IM Fell English SC"'),new Promise(r=>setTimeout(r,2000))]); }catch(err){}
+    const lienzo=(w,h,draw)=>{ const c=document.createElement('canvas'); c.width=w; c.height=h; draw(c.getContext('2d'),w,h);
+      const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4; return new THREE.MeshStandardMaterial({map:t,roughness:0.75}); };
+    // Tabla vieja: color de fondo con vetas claras y oscuras.
+    const tabla=(g,w,h,fondo,sem)=>{ g.fillStyle=fondo; g.fillRect(0,0,w,h); let s=sem; const r=()=>(s=(s*16807)%2147483647)/2147483647;
+      for(let i=0;i<90;i++){ const y=r()*h; g.strokeStyle=r()<0.55?`rgba(0,0,0,${0.06+r()*0.1})`:`rgba(255,225,180,${0.04+r()*0.06})`; g.lineWidth=1+r()*3;
+        g.beginPath(); g.moveTo(0,y); g.bezierCurveTo(w*0.3,y+(r()-0.5)*10,w*0.7,y+(r()-0.5)*10,w,y+(r()-0.5)*8); g.stroke(); } };
+    const letras=(g,txt,x,y,maxW,px,color)=>{ g.font=`${px}px ${FUENTE}`; const k=Math.min(1,maxW/g.measureText(txt).width); g.font=`${Math.floor(px*k)}px ${FUENTE}`;
+      g.textAlign='center'; g.textBaseline='middle'; g.fillStyle='rgba(0,0,0,0.5)'; g.fillText(txt,x+3,y+4); g.fillStyle=color; g.fillText(txt,x,y); };
+    const rotulo=lienzo(1024,200,(g,w,h)=>{ tabla(g,w,h,'#4a2b17',7); g.strokeStyle='#d8c59b'; g.lineWidth=5; g.strokeRect(16,16,w-32,h-32);
+      letras(g,'TABERNA',w/2,h/2+6,w-120,140,'#efe1bf'); });
+    const colgante=lienzo(512,384,(g,w,h)=>{ tabla(g,w,h,'#5b3a20',13); g.strokeStyle='#d8c59b'; g.lineWidth=6; g.strokeRect(14,14,w-28,h-28);
+      letras(g,'TABERNA',w/2,82,w-70,96,'#efe1bf');
+      // Racimo de uvas con su hoja.
+      g.strokeStyle='#3b2a14'; g.lineWidth=7; g.beginPath(); g.moveTo(w/2,150); g.quadraticCurveTo(w/2+6,170,w/2,190); g.stroke();
+      g.fillStyle='#55702c'; g.beginPath(); g.ellipse(w/2+46,176,40,22,-0.4,0,Math.PI*2); g.fill();
+      for(let fila=0;fila<5;fila++) for(let k=0;k<=4-fila;k++){ const x=w/2+(k-(4-fila)/2)*30, y=205+fila*26;
+        g.fillStyle='#4a1f3c'; g.beginPath(); g.arc(x,y,15,0,Math.PI*2); g.fill(); g.fillStyle='rgba(255,220,255,0.35)'; g.beginPath(); g.arc(x-5,y-5,4,0,Math.PI*2); g.fill(); } });
+    const dorso=col([0.30,0.20,0.12]), tapa=col([0.42,0.30,0.19]);
+    // Barra de hierro entre dos puntos (prisma de 6 lados).
+    const barra=(a,b,r)=>{ const P=new THREE.Vector3(...V(...a)),Q=new THREE.Vector3(...V(...b)),ax=Q.clone().sub(P).normalize();
+      const s1=new THREE.Vector3().crossVectors(ax,Math.abs(ax.y)<0.9?new THREE.Vector3(0,1,0):new THREE.Vector3(1,0,0)).normalize(), s2=new THREE.Vector3().crossVectors(ax,s1), pos=[],uv=[],idx=[];
+      for(let k=0;k<=6;k++){ const g=k/6*Math.PI*2, dv=s1.clone().multiplyScalar(Math.cos(g)*r).add(s2.clone().multiplyScalar(Math.sin(g)*r)); pos.push(P.x+dv.x,P.y+dv.y,P.z+dv.z,Q.x+dv.x,Q.y+dv.y,Q.z+dv.z); uv.push(0,0,0,0); }
+      for(let k=0;k<6;k++){ const i=k*2; idx.push(i,i+2,i+1,i+1,i+2,i+3); } mesh(pos,uv,idx,ironMat); };
+    // Rótulo sobre el portón (2,4 m de ancho, por encima del dintel).
+    { const c=at(sD,0.05); cartel(c[0],c[1],n,2.4,yD+2.78,yD+3.25,rotulo,dorso,0.04); }
+    // Cartel colgado de un brazo de hierro, hacia el cruce (lado de B), con tirante y dos cadenillas.
+    { const sS=Math.min(sD+1.9,L-1.2), yB=yD+3.45, w0=at(sS,0), tip=at(sS,1.1), up=[w0[0],yB,w0[1]];
+      const m=at(sS,0.75); barra(up,[tip[0],yB,tip[1]],0.022); barra([w0[0],yB-0.6,w0[1]],[m[0],yB,m[1]],0.016);
+      caja(...at(sS,0.03),e,0.12,0.06,yB-0.7,yB+0.08,ironMat);
+      const y1=yB-0.14, y0=y1-0.47;
+      for(const o of [0.38,0.86]){ const p=at(sS,o); caja(p[0],p[1],n,0.02,0.02,y1,yB,ironMat); }
+      const c=at(sS,0.62); for(const sg of [1,-1]) cartel(c[0]+e[0]*sg*0.02,c[1]+e[1]*sg*0.02,[e[0]*sg,e[1]*sg],0.62,y0,y1,colgante,dorso,0.02); }
+    // Terraza: banco contra la pared, barricas de mesa con tablero redondo y taburetes.
+    const libre=(p,m=0.25)=>!inside2D(p[0],p[1],m);
+    const taburete=p=>{ if(!libre(p,0.2)) return; const y=G2(...p)+0.09, d=[e[0],e[1]];
+      pbox(p[0],p[1],d,0.36,0.36,y+0.58,y+0.64,crateW); for(const [a,b] of [[-0.14,-0.14],[0.14,-0.14],[-0.14,0.14],[0.14,0.14]]) pbox(p[0]+e[0]*a+n[0]*b,p[1]+e[1]*a+n[1]*b,d,0.045,0.045,y,y+0.58,crateW); };
+    const mesa=(s,o)=>{ const p=at(s,o); if(!libre(p,0.35)) return; const y=G2(...p)+0.09; barrel(p[0],p[1],y,0.95,0.3);
+      torno(p[0],p[1],y+0.95,[[0,0],[0.46,0],[0.46,0.045],[0,0.045]],tapa,20);
+      for(const [ds,dO] of [[-0.75,0],[0.75,0],[0,0.72]]) taburete(at(s+ds,o+dO)); };
+    { const s=Math.max(sD-2.5,1.2), p=at(s,0.24), y=G2(...p)+0.09;
+      if(libre(at(s,0.5),0.05)){ pbox(p[0],p[1],e,1.7,0.4,y,y+0.42,poyo); pbox(p[0]+n[0]*0.02,p[1]+n[1]*0.02,e,1.78,0.46,y+0.42,y+0.48,crateW); } mesa(s,1.25); }
+    mesa(Math.min(sD+3.4,L-1.4),1.4);
+    { const p=at(sD+1.75,0.42); if(libre(p,0.3)) barrel(p[0],p[1],G2(...p)+0.09,0.85,0.29); }
+    window.__TABERNA=at(sD,7.5).concat([Math.atan2(-n[0],-n[1])*180/Math.PI]); } }
 shL.add([0.42,0.42,0.27]);shD.add([0.29,0.32,0.21]);pots.add([0.66,0.33,0.20]);plants.add([0.22,0.42,0.17]);
 fl[0].add([0.86,0.13,0.16]);fl[1].add([0.93,0.45,0.65]);fl[2].add([0.96,0.95,0.92]);
 wood.add([0.33,0.25,0.18]);cables.add([0.08,0.08,0.08],false);metal.add([0.30,0.31,0.32]);lamps.add([0.95,0.93,0.85]);scene.children[scene.children.length-1].material.name='farol';
@@ -1693,6 +1746,7 @@ const PLACES=[
   ['Calle la Fuente', [15,-41], -40],
   ['Calle Castillo', [-125,153], 80],
   ['Carretera', [230,-240], 119],
+  ['Taberna', window.__TABERNA&&window.__TABERNA.slice(0,2), window.__TABERNA&&window.__TABERNA[2]],
 ].filter(p=>p[1]);
 const player={x:PLACES[0][1][0], z:PLACES[0][1][1], yaw:PLACES[0][2]*Math.PI/180, pitch:0, y:0};
 window.__player=player;
