@@ -114,8 +114,25 @@ const [data,T0,FC0]=await Promise.all(['LangaMapData','LangaTerrain','FacadeColo
 const CASAS_NUEVAS=[
   // Calle Ramón y Cajal: el solar de tierra delante de la casa baja de la puerta verde.
   {refcat:'nueva-ramon-y-cajal-1',floors:2,height:6.2,footprint:[-16.1,23.21,-12.79,14.31,-5.85,16.88,-9.16,25.79]},
+  // Calle nueva que sube de la Calle Eras: casas en hilera en su acera este, con la de la esquina dando a las dos.
+  {refcat:'nueva-eras-1',floors:2,height:6.1,footprint:[37.30,10.55,42.63,14.27,39.10,19.33,35.06,18.23]},
+  {refcat:'nueva-eras-2',floors:2,height:6.2,footprint:[42.63,14.27,46.07,16.68,43.40,20.50,39.10,19.33]},
+  {refcat:'nueva-eras-3',floors:3,height:9.4,footprint:[35.06,18.23,43.40,20.50,41.77,26.49,33.43,24.21]},
+  {refcat:'nueva-eras-4',floors:2,height:6.1,footprint:[33.43,24.21,41.73,26.47,40.15,32.26,31.85,30.00]},
+  {refcat:'nueva-eras-5',floors:2,height:6.2,footprint:[31.85,30.00,39.09,31.98,38.00,36.90,32.70,35.80]},
+  // Corrales con tapia de piedra, portón ("puerta": el lado de la planta que da a la calle) y cobertizo al fondo.
+  {refcat:'corral-eras-1',floors:1,height:2.3,corral:true,puerta:3,footprint:[50.12,17.84,55.90,24.73,49.01,30.52,43.22,23.63]},
+  {refcat:'corral-eras-2',floors:1,height:2.3,corral:true,puerta:3,footprint:[22.89,6.57,26.65,16.91,21.95,18.62,18.19,8.28]},
+  {refcat:'corral-eras-3',floors:1,height:2.3,corral:true,puerta:0,footprint:[52.58,-11.54,50.76,-4.78,42.07,-7.11,43.88,-13.87]},
 ];
 data.buildings.push(...CASAS_NUEVAS);
+// Calles que no están en OpenStreetMap: las marcó en la vista de águila quien conoce el pueblo.
+const CALLES_NUEVAS=[
+  {type:'residential',width:4,points:[36.00,6.30,34.50,11.80,33.30,16.20,32.10,20.80,30.90,25.20,29.70,29.60,29.20,33.40,30.30,36.50,32.60,39.40,35.20,42.70,36.90,46.30,36.70,49.60,35.50,52.60,34.30,55.80,32.50,59.00,30.00,61.90,28.00,65.00]},   // sube de la Calle Eras hacia el norte
+  {type:'residential',width:4,points:[46.83,13.80,50.90,12.80,54.20,10.40,57.10,8.10,59.80,6.80,61.90,5.30,63.00,3.00,64.20,0.90,65.70,-1.80,66.80,-6.30]},   // sigue a la Calle Eras hacia el este y baja
+  {type:'residential',width:3.5,points:[60.60,6.20,66.50,10.50,70.00,10.90,72.70,11.30,75.10,12.60,77.50,14.10,79.80,15.60,81.40,17.60,81.20,19.40,79.30,20.60,76.70,22.00,74.40,24.60,72.20,27.70,69.10,29.30,65.70,30.10]}, // ramal en curva que sale de la anterior
+];
+data.roads.push(...CALLES_NUEVAS);
 // La iglesia (edificio de culto en OpenStreetMap): el Catastro la da como de una planta y 3 m; la nave es más alta.
 const IGLESIA='4338706XL3643G';
 for(const b of data.buildings) if(b.refcat===IGLESIA){ b.height=11; b.floors=3; }
@@ -700,6 +717,37 @@ function torno(x,z,y0,perfil,mat,seg=16){ const pos=[],uv=[],idx=[];
   for(let j=0;j<perfil.length-1;j++) for(let k=0;k<seg;k++){ const a=j*(seg+1)+k,b=a+seg+1; idx.push(a,b,a+1,a+1,b,b+1); }
   mesh(pos,uv,idx,mat); }
 
+// ---- Corral: tapia de mampostería con albardilla de teja, portón de madera de dos hojas y cobertizo al fondo ----
+// "puerta" es el lado de la planta (de f[puerta] a f[puerta+1]) que lleva el portón.
+function corral(f,bi,seed,puerta){
+  const B=FP[bi], base=B.base, top=B.h, n=f.length, th=0.42;
+  const muro=fac('muro',[0.90,0.86,0.78],0.08,seed,top), tablas=fac('tablas',[0.66,0.54,0.42],0,seed,-1,true), viga=fac('tablas',[0.48,0.38,0.28],0,seed,-1,true);
+  let cx=0,cz=0; for(const p of f){cx+=p.x;cz+=p.y;} cx/=n; cz/=n;
+  const lado=i=>{ const a=f[i],b=f[(i+1)%n],len=a.distanceTo(b),d=[(b.x-a.x)/len,(b.y-a.y)/len]; let nn=[-d[1],d[0]];
+    if((cx-(a.x+b.x)/2)*nn[0]+(cz-(a.y+b.y)/2)*nn[1]<0) nn=[-nn[0],-nn[1]]; return {a,b,len,d,nn}; };   // nn: hacia dentro
+  for(let i=0;i<n;i++){ const {a,len,d,nn}=lado(i); if(len<0.5) continue;
+    const tramo=(s0,s1)=>{ if(s1-s0<0.2) return; const c=[a.x+d[0]*(s0+s1)/2+nn[0]*th/2,a.y+d[1]*(s0+s1)/2+nn[1]*th/2];
+      caja(c[0],c[1],d,s1-s0,th,base,top,muro); caja(c[0],c[1],d,s1-s0+0.12,th+0.24,top,top+0.13,roofMat); };
+    if(i===puerta&&len>4.6){ const g0=len/2-1.5,g1=len/2+1.5; tramo(0,g0); tramo(g1,len);
+      for(const s of [g0,g1]){ const c=[a.x+d[0]*s+nn[0]*th/2,a.y+d[1]*s+nn[1]*th/2]; caja(c[0],c[1],d,0.55,0.6,base,top+0.35,muro); caja(c[0],c[1],d,0.7,0.75,top+0.35,top+0.47,roofMat); }
+      const gm=[a.x+d[0]*len/2+nn[0]*th*0.6,a.y+d[1]*len/2+nn[1]*th*0.6], y=HT(gm[0],gm[1])+0.02;
+      for(const k of [-1,1]){ const c=[gm[0]+d[0]*k*0.73,gm[1]+d[1]*k*0.73]; caja(c[0],c[1],d,1.4,0.07,y,y+2.05,tablas);
+        caja(c[0]+nn[0]*0.05,c[1]+nn[1]*0.05,d,1.3,0.05,y+0.35,y+0.5,viga); caja(c[0]+nn[0]*0.05,c[1]+nn[1]*0.05,d,1.3,0.05,y+1.55,y+1.7,viga); } }
+    else tramo(0,len); }
+  // Cobertizo de teja apoyado en el muro del fondo (el de enfrente del portón), sobre postes de madera.
+  if(n===4){ const {a,len,d,nn}=lado((puerta+2)%4), hondo=Math.min(3.2,lado((puerta+1)%4).len*0.4); if(hondo<2) return;
+    const i0=0.4, i1=len-0.4, yA=top+0.45, P=(s,b)=>[a.x+d[0]*s+nn[0]*b,a.y+d[1]*s+nn[1]*b];
+    const gy=s=>HT(...P(s,th+hondo)), yB=Math.max(gy(i0),gy(i1))+2.25;
+    const pos=[],uv=[],idx=[], q=(p0,p1,p2,p3)=>{const v=pos.length/3;pos.push(...p0,...p1,...p2,...p3);uv.push(...mUV(p0,p1,p3));idx.push(v,v+1,v+2,v,v+2,v+3);};
+    const T=(s,b,y)=>V(...[P(s,b)].map(p=>[p[0],y,p[1]])[0]);
+    q(T(i0,th,yA),T(i1,th,yA),T(i1,th+hondo+0.3,yB-0.08),T(i0,th+hondo+0.3,yB-0.08));
+    q(T(i0,th+hondo+0.3,yB-0.2),T(i1,th+hondo+0.3,yB-0.2),T(i1,th,yA-0.12),T(i0,th,yA-0.12));
+    mesh(pos,uv,idx,roofMat);
+    const np=Math.max(2,Math.round((i1-i0)/3)+1);
+    for(let k=0;k<np;k++){ const s=i0+0.2+(i1-i0-0.4)*k/(np-1), c=P(s,th+hondo), g=HT(c[0],c[1]); caja(c[0],c[1],d,0.16,0.16,g-0.1,yB-0.05,viga); }
+    caja(...P(len/2,th+hondo),d,i1-i0,0.18,yB-0.24,yB-0.06,viga); }
+}
+
 // ---- La iglesia: nave alta de mampostería con esquinas de sillar, contrafuertes, ventanas altas, portada con arco
 // de dovelas mirando a la Plaza Mayor y torre campanario (cuerpo de piedra y campanas en un cuerpo de ladrillo,
 // como las torres mudéjares de la comarca), con tejado a cuatro aguas y una cruz de hierro.
@@ -792,6 +840,7 @@ for(let bi=0;bi<data.buildings.length;bi++){ const b=data.buildings[bi]; if(bi%1
   const cur=fu||ryc||alta, O={floors:b.floors,fh:b.height/b.floors,bigDoor,seed:bi+1,self:bi,quoins,lintel,shut,chimney:h(14)<0.5?0.15+0.7*h(15):0};
   const flip=rnd()<0.5; rnd();
   if(b.refcat===IGLESIA){ iglesia(f,bi,seed); return; }
+  if(b.corral){ corral(f,bi,seed,b.puerta); return; }
   const geo=building(f,FP[bi].h-FP[bi].base,slope??sl,cur?0.6:0.45,hasPlinth?(cur?1.05:0.7):0,O,FP[bi].base,RT,flip);
   // Piedra labrada (esquinas, recercados, alféizares): lisa y de color piedra; las juntas las hace la propia geometría.
   const wall=fac(fam,lime,cov,seed,top), stone=fac('muro',pick([[0.80,0.75,0.66],[0.76,0.71,0.62],[0.84,0.78,0.67]],bi,19),1.3,seed), wood=fac('tablas',[1,1,1],0,seed,-1,true);
