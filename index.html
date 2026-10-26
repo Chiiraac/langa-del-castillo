@@ -124,6 +124,11 @@ const CASAS_NUEVAS=[
   {refcat:'corral-eras-1',floors:1,height:2.3,corral:true,puerta:3,footprint:[50.12,17.84,55.90,24.73,49.01,30.52,43.22,23.63]},
   {refcat:'corral-eras-2',floors:1,height:2.3,corral:true,puerta:3,footprint:[22.89,6.57,26.65,16.91,21.95,18.62,18.19,8.28]},
   {refcat:'corral-eras-3',floors:1,height:2.3,corral:true,puerta:0,footprint:[52.58,-11.54,50.76,-4.78,42.07,-7.11,43.88,-13.87]},
+  // Plaza de la iglesia: tres casas en el solar del oeste, de cara a la plaza, y una en el hueco al sur de la iglesia.
+  {refcat:'nueva-plaza-1',floors:3,height:8.9,footprint:[-31.27,115.06,-30.64,108.19,-22.67,108.92,-23.31,115.79]},
+  {refcat:'nueva-plaza-2',floors:2,height:6.3,footprint:[-30.64,108.17,-30.01,101.40,-22.04,102.14,-22.67,108.92]},
+  {refcat:'nueva-plaza-3',floors:3,height:9.1,footprint:[-30.01,101.40,-29.45,95.43,-21.48,96.17,-22.04,102.14]},
+  {refcat:'nueva-iglesia-sur',floors:2,height:6.2,footprint:[12.10,76.50,18.10,76.50,18.10,83.00,12.10,83.00]},
 ];
 data.buildings.push(...CASAS_NUEVAS);
 // Calles que no están en OpenStreetMap: las marcó en la vista de águila quien conoce el pueblo.
@@ -131,11 +136,19 @@ const CALLES_NUEVAS=[
   {type:'residential',width:4,points:[36.00,6.30,34.50,11.80,33.30,16.20,32.10,20.80,30.90,25.20,29.70,29.60,29.20,33.40,30.30,36.50,32.60,39.40,35.20,42.70,36.90,46.30,36.70,49.60,35.50,52.60,34.30,55.80,32.50,59.00,30.00,61.90,28.00,65.00]},   // sube de la Calle Eras hacia el norte
   {type:'residential',width:4,points:[46.83,13.80,50.90,12.80,54.20,10.40,57.10,8.10,59.80,6.80,61.90,5.30,63.00,3.00,64.20,0.90,65.70,-1.80,66.80,-6.30]},   // sigue a la Calle Eras hacia el este y baja
   {type:'residential',width:3.5,points:[60.60,6.20,66.50,10.50,70.00,10.90,72.70,11.30,75.10,12.60,77.50,14.10,79.80,15.60,81.40,17.60,81.20,19.40,79.30,20.60,76.70,22.00,74.40,24.60,72.20,27.70,69.10,29.30,65.70,30.10]}, // ramal en curva que sale de la anterior
+  // Alrededor de la iglesia (marcadas también en la vista de águila).
+  {type:'residential',width:3.0,points:[-19.60,116.20,-12.00,116.20,-5.00,116.30]},   // callejón al norte de la plaza
+  {type:'residential',width:3.5,points:[-17.40,87.90,-8.00,87.90,0.20,86.90,10.00,85.40,20.00,85.20,26.60,84.80,39.20,84.60]},   // al sur de la iglesia, de la plaza al ábside
+  {type:'residential',width:2.0,points:[26.60,84.80,26.70,79.50,27.10,74.30,28.10,69.80,28.00,62.50]},   // pasadizo que baja hacia el sur
+  {type:'residential',width:2.5,points:[-22.40,93.50,-26.70,93.50]},   // calle corta al oeste de la plaza
+  {type:'residential',width:1.3,points:[39.20,84.60,39.30,92.50,39.80,97.00,39.90,101.50,38.30,103.70,35.60,104.20,33.85,105.20,33.85,108.40,31.00,111.50]},   // pasadizo por detrás de la iglesia, del ábside a la plazoleta del norte
 ];
 data.roads.push(...CALLES_NUEVAS);
 // La iglesia (edificio de culto en OpenStreetMap): el Catastro la da como de una planta y 3 m; la nave es más alta.
 const IGLESIA='4338706XL3643G';
 for(const b of data.buildings) if(b.refcat===IGLESIA){ b.height=11; b.floors=3; }
+// Detrás de la iglesia, la nave baja de una planta del Catastro es en realidad una casa de dos.
+for(const b of data.buildings) if(b.refcat==='4337621XL3643G'&&b.floors===1){ b.height=6.2; b.floors=2; }
 const renderer = new THREE.WebGLRenderer({antialias:true, powerPreference:'high-performance'});
 renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 1.5));
 renderer.setSize(innerWidth, innerHeight); renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -711,6 +724,15 @@ function caja(cx,cz,d,len,wid,y0,y1,mat){ const n=[-d[1],d[0]],hl=len/2,hw=wid/2
 // Cara plana vertical (cuadrilátero) en el plano de una pared: origen o=[x,z], dirección e, desplazada "fuera" metros por n.
 function lamina(o,e,n,fuera,s0,s1,y0,y1,mat){ const P=(s,y)=>V(o[0]+e[0]*s+n[0]*fuera,y,o[1]+e[1]*s+n[1]*fuera); const p=[P(s0,y0),P(s1,y0),P(s1,y1),P(s0,y1)];
   mesh([...p[0],...p[1],...p[2],...p[3]],mUV(p[0],p[1],p[3]),[0,1,2,0,2,3],mat); }
+// Escalón en media luna delante de una puerta: c=[x,z] en la fachada, o hacia fuera, e a lo largo de la fachada.
+function mediaLuna(c,o,e,r,y0,y1,mat,seg=24){ const pos=[],uv=[],idx=[];
+  const P=(t,y)=>{ const a=-Math.PI/2+Math.PI*t; return V(c[0]+(o[0]*Math.cos(a)+e[0]*Math.sin(a))*r,y,c[1]+(o[1]*Math.cos(a)+e[1]*Math.sin(a))*r); };
+  const c0=0; pos.push(...V(c[0],y1,c[1])); uv.push(0,0);
+  for(let k=0;k<=seg;k++){ const a=-Math.PI/2+Math.PI*k/seg; pos.push(...P(k/seg,y1)); uv.push(Math.cos(a)*r,Math.sin(a)*r); }
+  for(let k=0;k<seg;k++) idx.push(c0,c0+2+k,c0+1+k);
+  for(let k=0;k<seg;k++){ const v=pos.length/3, s0=Math.PI*r*k/seg, s1=Math.PI*r*(k+1)/seg;
+    pos.push(...P(k/seg,y0),...P((k+1)/seg,y0),...P((k+1)/seg,y1),...P(k/seg,y1)); uv.push(s0,y0,s1,y0,s1,y1,s0,y1); idx.push(v,v+1,v+2,v,v+2,v+3); }
+  mesh(pos,uv,idx,mat); }
 // Pieza de revolución (campana, barrica): perfil [[radio,altura],...] alrededor de (x,y0,z).
 function torno(x,z,y0,perfil,mat,seg=16){ const pos=[],uv=[],idx=[];
   perfil.forEach(([r,h],j)=>{ for(let k=0;k<=seg;k++){ const a=k/seg*Math.PI*2; pos.push(...V(x+Math.cos(a)*r,y0+h,z+Math.sin(a)*r)); uv.push(a*r,h); } });
@@ -769,7 +791,7 @@ function iglesia(f,bi,seed){
   const at=(s,off)=>[P.a[0]+P.e[0]*s+P.o[0]*off,P.a[1]+P.e[1]*s+P.o[1]*off], G=(q)=>HT(q[0],q[1]);
   // Portada: escalones, jambas, arco de dovelas, tímpano, puerta de madera claveteada y un óculo encima.
   { const s=P.len/2, c=at(s,0), y=G(c), w=2.6, hp=3.4, R0=w/2, R1=w/2+0.55;
-    for(let k=0;k<3;k++) caja(...at(s,0.75+0.38*(2-k)),P.e,w+2.6-k*0.35,0.4+0.38*(2-k)*2,y-0.25,y+0.04+0.15*k,sillar);
+    for(let k=0;k<3;k++) mediaLuna(at(s,0.1),P.o,P.e,3.9-0.6*k,y-0.25,y+0.04+0.15*k,sillar);   // escalinata en semicírculo
     caja(...at(s,0.08),P.e,w+3.4,0.16,y-0.2,y+hp+R1+1.1,piedra);   // paño de sillería de la portada
     caja(...at(s,0.12),P.e,w+3.8,0.24,y+hp+R1+1.1,y+hp+R1+1.35,piedra);
     lamina(P.a,P.e,P.o,0.18,s-R0,s+R0,y+0.45,y+hp,madera);
@@ -850,6 +872,26 @@ for(let bi=0;bi<data.buildings.length;bi++){ const b=data.buildings[bi]; if(bi%1
   const wfD=fac('tablas',shutC||(h(16)<0.5?[0.86,0.84,0.78]:[1,1,1]),shutC||h(16)<0.5?0.95:0,seed,-1,true), barnD=h(17)<0.6?wood:fac('tablas',pick(PAINT,bi,18),0.85,seed,-1,true);
   pushGeometry(geo,[wall,roofMat,plinthD,windowMat,surD,doorD,ironMat,barnD,shutD,wood,stone,wood,wfD]); geo.dispose();
 })(); }
+// ---- Parque delante de la iglesia (entre la calle y la escalinata): paseo de losas, dos parterres con bordillo,
+// cuatro árboles y dos bancos mirando al paseo ----
+{ const X0=-14.2, X1=0.6, Z0=89.6, Z1=107.8, ZP=98.7, AP=1.7;   // paseo a lo largo de z=ZP, medio ancho AP
+  const losas=macro(pbr('losas',{mul:[1.0,0.98,0.95]}),0.2,17), cesped=macro(pbr('tierra',{mul:[0.40,0.78,0.30],rough:1.2}),0.3,9);
+  const bordillo=fac('sillar',[1,1,1],0,7), madera=col([0.50,0.36,0.22]), hierro=col([0.15,0.15,0.16]), hojas=leafMat([0.26,0.38,0.18]);
+  const suelo=(x0,x1,z0,z1,dy,mat)=>{ const nx=Math.max(1,Math.ceil(x1-x0)), nz=Math.max(1,Math.ceil(z1-z0)), pos=[],uv=[],idx=[];
+    for(let j=0;j<=nz;j++) for(let i=0;i<=nx;i++){ const x=x0+(x1-x0)*i/nx, z=z0+(z1-z0)*j/nz; pos.push(...V(x,HT(x,z)+dy,z)); uv.push(x/2.5,z/2.5); }
+    for(let j=0;j<nz;j++) for(let i=0;i<nx;i++){ const a=j*(nx+1)+i; idx.push(a,a+1,a+nx+2,a,a+nx+2,a+nx+1); }
+    mesh(pos,uv,idx,mat); };
+  suelo(X0,X1,Z0,Z1,0.07,losas);
+  for(const [z0,z1] of [[ZP+AP,Z1-1.0],[Z0+1.0,ZP-AP]]){ const xa=X0+1.0, xb=X1-4.6;   // deja sitio a la escalinata
+    suelo(xa,xb,z0,z1,0.17,cesped);
+    const cx=(xa+xb)/2, cz=(z0+z1)/2;
+    for(const [x,z,d,len] of [[cx,z0,[1,0],xb-xa],[cx,z1,[1,0],xb-xa],[xa,cz,[0,1],z1-z0],[xb,cz,[0,1],z1-z0]]) caja(x,z,d,len+0.25,0.22,HT(x,z)-0.1,HT(x,z)+0.24,bordillo); }
+  for(const [x,z] of [[-10,104.6],[-4.6,104.9],[-9.6,92.6],[-4.4,92.3]]){ const y=HT(x,z)+0.17;
+    limb([x,y-0.2,z],[x,y+2.6,z],0.16,0.11,7); limb([x,y+2.2,z],[x+0.7,y+3.4,z+0.3],0.07,0.04,5); limb([x,y+2.3,z],[x-0.6,y+3.3,z-0.4],0.07,0.04,5);
+    crown([x,y+4.0,z],1.9,hojas,5,1); }
+  const banco=(x,z,o)=>{ const y=HT(x,z)+0.07, d=[1,0]; caja(x,z,d,1.8,0.45,y+0.42,y+0.48,madera); caja(x,z+o*0.24,d,1.8,0.06,y+0.5,y+0.92,madera);
+    for(const k of [-0.75,0.75]) caja(x+k,z,d,0.06,0.42,y,y+0.42,hierro); };
+  banco(-7.2,ZP+AP+0.6,1); banco(-7.2,ZP-AP-0.6,-1); }
 await step('Poniendo las tejas…',0.78);
 // Teja curva (media caña cónica con grosor): eje z hacia abajo del faldón, de -L a 0; arco hacia arriba.
 function tileGeo(r0,r1,L,th){ const pos=[],idx=[],N=4;
