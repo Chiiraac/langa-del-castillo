@@ -163,6 +163,16 @@ const CASAS_NUEVAS=[
   {refcat:'nueva-m2-15',floors:2,height:6.1,footprint:[77.77,-124.07,83.62,-125.38,85.91,-115.13,80.06,-113.82]},   // Calle Eras (80.5, -123.3)
   {refcat:'nueva-m2-16',floors:2,height:6.2,footprint:[117.30,-162.82,124.69,-167.96,130.67,-159.36,123.28,-154.22]},   // Barrio Alto (124.1, -161.8)
   {refcat:'nueva-m2-17',floors:2,height:6.4,footprint:[125.04,-167.83,132.23,-172.82,137.45,-165.31,130.27,-160.31]},   // Barrio Alto (130.7, -166.7)
+  // Tercera tanda: barrio del oeste (por encima de la Calle la Fuente) y Camino Manchones.
+  {refcat:'nueva-m3-1',floors:2,height:6.2,footprint:[-135.63,52.69,-138.25,45.13,-128.36,41.70,-125.74,49.26]},   // barrio del oeste (-135, 48.5)
+  {refcat:'nueva-m3-2',floors:2,height:6.1,footprint:[-138.33,44.91,-141.20,36.65,-131.44,33.26,-128.58,41.53]},   // barrio del oeste (-138, 40.3)
+  {refcat:'nueva-m3-3',floors:2,height:6.0,footprint:[-141.24,36.53,-143.04,31.34,-138.51,29.76,-136.71,34.96]},   // barrio del oeste (-139.6, 31.2)
+  {refcat:'nueva-m3-4',floors:2,height:6.3,footprint:[-146.69,38.42,-144.56,44.56,-154.25,47.92,-156.38,41.78]},   // barrio del oeste (-147.2, 42.3)
+  {refcat:'nueva-m3-5',floors:2,height:6.2,footprint:[-144.56,44.57,-142.18,51.42,-150.99,54.47,-153.37,47.62]},   // barrio del oeste (-145.3, 48)
+  {refcat:'nueva-m3-6',floors:2,height:6.1,footprint:[-147.61,60.15,-150.09,55.81,-142.72,51.59,-140.23,55.93]},   // barrio del oeste (-142.9, 56.3)
+  {refcat:'nueva-m3-7',floors:2,height:6.0,footprint:[-143.67,26.61,-150.67,26.33,-149.74,16.10,-142.75,16.38]},   // barrio del oeste (-145.9, 23.5)
+  {refcat:'nueva-m3-8',floors:2,height:6.2,footprint:[-150.93,26.32,-158.18,26.03,-157.88,18.45,-150.64,18.73]},   // barrio del oeste (-155.3, 22.8)
+  {refcat:'nueva-m3-9',floors:2,height:6.3,footprint:[32.74,-132.95,29.37,-141.30,38.89,-145.14,42.25,-136.79]},   // Camino Manchones (35.7, -139)
 ];
 data.buildings.push(...CASAS_NUEVAS);
 // Calles que no están en OpenStreetMap: las marcó en la vista de águila quien conoce el pueblo.
@@ -1301,11 +1311,6 @@ if(FU){
     for(const [sB,side] of [[60,1],[100,1],[112,-1],[140,1],[150,-1]]){ const q=at(sB,0), ext=side>0?q.L:q.R, p=at(sB,side*Math.max(ext-0.6,3.4)), y=GY(p.x,p.z)+0.12, n=[q.n[0]*side,q.n[1]*side];
       box(p.x,p.z,q.d,1.8,0.45,y+0.42,y+0.48,wood); box(p.x+n[0]*0.22,p.z+n[1]*0.22,q.d,1.8,0.06,y+0.5,y+0.9,wood);
       for(const kk of [-0.75,0.75]) box(p.x+q.d[0]*kk,p.z+q.d[1]*kk,q.d,0.06,0.45,y,y+0.45,iron); } }
-  // Cobertizo abierto con tejado de teja al final de la calle (número 23).
-  { const q=at(198,0), side=-1, p=at(198,side*(Math.max(q.R,4)+2.2)), y=GY(p.x,p.z), wood=col([0.38,0.30,0.22]);
-    for(const a of [-1.8,1.8]) for(const b of [-1.4,1.4]) cyl([p.x+q.d[0]*a+q.n[0]*b,y,p.z+q.d[1]*a+q.n[1]*b],[p.x+q.d[0]*a+q.n[0]*b,y+2.4,p.z+q.d[1]*a+q.n[1]*b],0.08,0.08,6,wood);
-    box(p.x+q.n[0]*1.6,p.z+q.n[1]*1.6,q.d,4.0,0.4,y,y+2.5,stoneM,'m');
-    box(p.x,p.z,q.d,4.4,3.4,y+2.4,y+2.6,roofMat,'m'); }
   // Faroles de pared, como en el resto del pueblo, cada 30 m alternando lados (si ya hay uno cerca, no).
   const ironF=col([0.30,0.31,0.32]), lampM=col([0.95,0.93,0.85]); lampM.name='farol';
   { let k=0; for(let s=10;s<total;s+=30,k++){ const side=k%2?1:-1, q=at(s,0), ext=side>0?q.L:q.R, p=at(s,side*(ext+0.4));
