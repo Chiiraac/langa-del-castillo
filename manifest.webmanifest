@@ -1,8 +1,14 @@
 {
+ "id": "./",
  "name": "Langa del Castillo",
  "short_name": "Langa",
  "lang": "es",
- "description": "El pueblo de Langa del Castillo en 3D, para recorrerlo a pie.",
+ "description": "Un pueblo real de Aragón, calle a calle: Langa del Castillo en 3D, para recorrerlo a pie.",
+ "categories": [
+  "games",
+  "travel",
+  "education"
+ ],
  "start_url": "./",
  "scope": "./",
  "display": "fullscreen",

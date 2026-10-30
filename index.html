@@ -2,8 +2,21 @@
 <html lang="es">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Langa del Castillo (Zaragoza) en 3D: recorre a pie sus calles, sus casas y su castillo desde el navegador.">
+<meta name="description" content="Un pueblo real de Aragón, calle a calle: recorre a pie Langa del Castillo (Zaragoza), sus casas, su iglesia barroca y su castillo medieval, en el navegador y en el móvil.">
+<meta name="author" content="Atalaya Estudio">
 <meta name="langa-sin-npc" content="1">
+<meta name="langa-publica" content="1">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Atalaya Estudio">
+<meta property="og:title" content="Langa del Castillo · Paseo en 3D por el pueblo">
+<meta property="og:description" content="Un pueblo real de Aragón, calle a calle: sus casas, su iglesia barroca y su castillo medieval. Gratis, en el navegador y en el móvil.">
+<meta property="og:url" content="https://chiiraac.github.io/langa-del-castillo/">
+<meta property="og:image" content="https://chiiraac.github.io/langa-del-castillo/compartir.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Los tejados de Langa del Castillo desde el aire, con el título del juego">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#2b2418">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -28,30 +41,87 @@ html,body{height:100%;margin:0;overflow:hidden;background:var(--ink);color:var(-
 canvas{display:block;position:fixed;inset:0;width:100%;height:100%}
 #pad{position:fixed;inset:0;touch-action:none;z-index:1}
 .hud{position:fixed;z-index:2;pointer-events:none}
-#top{top:calc(env(safe-area-inset-top,0px) + 12px);left:16px;right:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-#place{background:var(--veil);padding:6px 12px;border-radius:4px;max-width:45vw;min-width:0}
-#place b{display:block;font-family:var(--display);font-size:1.15rem;font-weight:400;letter-spacing:.02em;line-height:1.15}
-#place span{font-size:.75rem;opacity:.85;letter-spacing:.06em;text-transform:uppercase}
-#go{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;pointer-events:auto;min-width:0}
-#go button{font:700 .78rem var(--ui);color:var(--stone);background:var(--veil);border:1px solid rgba(239,228,200,.35);border-radius:999px;padding:7px 12px;cursor:pointer}
-#go button:focus-visible,#start:focus-visible{outline:2px solid var(--stone);outline-offset:2px}
+#top{top:calc(env(safe-area-inset-top,0px) + 12px);left:16px;right:16px;display:flex;align-items:flex-start;gap:8px}
+/* Letrero de la calle: una sola línea, con el pueblo y los lugares descubiertos encima. */
+#place{display:flex;flex-direction:column-reverse;min-width:0;max-width:min(22rem,calc(100vw - 32px - 104px));background:var(--veil);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-left:3px solid var(--tile);border-radius:2px 8px 8px 2px;padding:6px 14px 7px 12px;box-sizing:border-box}
+#place b{font:400 1.125rem/1.25 var(--display);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#place span{font:700 .625rem/1.3 var(--ui);letter-spacing:.16em;text-transform:uppercase;opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.redondo{flex:0 0 44px;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:var(--stone);background:var(--veil);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(239,228,200,.28);padding:0;cursor:pointer;pointer-events:auto}
+#botones{margin-left:auto;display:flex;gap:8px}
+svg.i{width:22px;height:22px;flex:0 0 22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+button:focus-visible{outline:2px solid var(--stone);outline-offset:2px}
 #stick{position:fixed;z-index:2;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;border:2px solid rgba(239,228,200,.5);background:rgba(30,24,15,.25);pointer-events:none}
-#knob{position:absolute;left:50%;top:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:rgba(239,228,200,.75)}
-#hint{bottom:calc(env(safe-area-inset-bottom,0px) + 14px);left:16px;right:16px;text-align:center;font-size:.85rem;transition:opacity 1s}
+#knob{position:absolute;left:50%;top:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:rgba(239,228,200,.75);transition:background .2s}
+#knob.corre{background:#e3a668}
+#hint{bottom:calc(env(safe-area-inset-bottom,0px) + 16px);left:16px;right:16px;display:flex;justify-content:center;transition:opacity 1s}
+#hint span{background:var(--veil);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:999px;padding:9px 16px;font-size:.9rem;line-height:1.3;text-align:center;max-width:21rem}
 #bubble{position:fixed;z-index:2;transform:translate(-50%,-100%);max-width:min(16rem,70vw);background:var(--stone);color:var(--ink);font-size:.9rem;line-height:1.35;padding:8px 12px;border-radius:12px;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.3)}
 #bubble::after{content:'';position:absolute;left:50%;bottom:-7px;margin-left:-7px;border:7px solid transparent;border-bottom:0;border-top-color:var(--stone)}
-#hint span{background:var(--veil);padding:6px 12px;border-radius:4px;display:inline-block}
-#load{position:fixed;inset:0;z-index:5;display:grid;place-items:center;padding:16px;background:radial-gradient(ellipse at 50% 35%,#4a3e2a,var(--ink) 70%)}
-#load .card{max-width:30rem;text-align:center;display:grid;gap:14px;justify-items:center}
-#load h1{font-family:var(--display);font-weight:400;font-size:clamp(2.2rem,8vw,3.6rem);line-height:1;margin:0;color:var(--stone);text-wrap:balance}
-#load p{margin:0;line-height:1.5;color:var(--stone-deep);max-width:26rem}
-#coords{font-size:.78rem;letter-spacing:.08em;font-variant-numeric:tabular-nums;color:var(--stone-deep)}
-#credits{font-size:.68rem;line-height:1.45;color:var(--stone-deep);opacity:.8;max-width:24rem}
+#vineta{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,transparent 55%,rgba(20,14,8,.32) 100%)}
+/* Aviso al descubrir un lugar. */
+#aviso{position:fixed;z-index:3;left:16px;right:16px;margin:0 auto;width:fit-content;max-width:24rem;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);transform:translateY(20px);opacity:0;transition:opacity .4s,transform .4s;display:flex;align-items:center;gap:12px;box-sizing:border-box;background:rgba(30,24,15,.92);border:1px solid rgba(239,228,200,.25);border-left:3px solid var(--tile);border-radius:12px;padding:10px 14px;color:var(--stone);font:400 .95rem/1.3 var(--ui);cursor:pointer;pointer-events:none}
+#aviso.ver{opacity:1;transform:none;pointer-events:auto}
+#aviso b{font-weight:700}
+#aviso small{display:block;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--stone-deep)}
+/* Panel (menú): hoja desde abajo en el móvil, columna a la derecha en el ordenador. */
+#velo{position:fixed;inset:0;z-index:4;background:rgba(14,11,7,.45)}
+#panel{position:fixed;z-index:4;left:0;right:0;bottom:0;max-height:78vh;overflow:auto;overscroll-behavior:contain;background:rgba(30,24,15,.96);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-radius:16px 16px 0 0;border-top:1px solid rgba(239,228,200,.18);padding:8px 16px calc(env(safe-area-inset-bottom,0px) + 16px);box-sizing:border-box;transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1);visibility:hidden}
+#panel.abierto{transform:none;visibility:visible}
+#panel .asa{width:36px;height:4px;border-radius:2px;background:rgba(239,228,200,.3);margin:0 auto 4px}
+#panel header{display:flex;align-items:center;justify-content:space-between}
+#panel h2{font:700 .6875rem var(--ui);letter-spacing:.16em;text-transform:uppercase;color:var(--stone-deep);margin:16px 0 4px}
+#panel header h2{margin:0}
+#panel .dueno{border:1px dashed rgba(169,86,58,.7);border-radius:12px;padding:4px 8px 8px;margin-top:14px}
+#panel .dueno h2{color:#e3a668}
+#cerrar{width:44px;height:44px;border-radius:12px;border:0;background:transparent;color:var(--stone);display:grid;place-items:center;margin-right:-10px;cursor:pointer}
+.lugar{display:flex;align-items:center;gap:14px;width:100%;min-height:52px;padding:0 12px;box-sizing:border-box;font:700 1rem var(--ui);color:var(--stone);background:none;border:0;border-bottom:1px solid rgba(239,228,200,.09);text-align:left;cursor:pointer}
+.lugar small{margin-left:auto;font-weight:400;font-size:.75rem;color:var(--stone-deep);opacity:.85;text-align:right}
+.lugar[aria-current]{background:rgba(169,86,58,.28);border-radius:10px;border-bottom-color:transparent}
+.lugar.oculto{color:rgba(239,228,200,.4);cursor:default}
+.ajuste{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:0 12px;font:700 1rem var(--ui);border-bottom:1px solid rgba(239,228,200,.09)}
+.ajuste input[type=range]{width:9rem;accent-color:var(--tile)}
+.seg{display:inline-flex;border:1px solid rgba(239,228,200,.3);border-radius:10px;overflow:hidden;flex:0 0 auto}
+.seg button{min-width:64px;height:40px;border:0;background:transparent;color:var(--stone);font:700 .875rem var(--ui);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--stone);color:var(--ink)}
+@media (min-width:900px){#panel{left:auto;top:0;width:340px;max-height:none;border-radius:0;border-top:0;border-left:1px solid rgba(239,228,200,.18);transform:translateX(105%)}}
+/* Fichas: la historia de un lugar, cómo se juega, créditos. */
+#ficha{position:fixed;inset:0;z-index:6;display:grid;place-items:center;padding:16px;background:rgba(14,11,7,.55)}
+#ficha .caja{width:min(26rem,100%);max-height:84vh;overflow:auto;box-sizing:border-box;background:rgba(30,24,15,.97);border:1px solid rgba(239,228,200,.25);border-top:3px solid var(--tile);border-radius:14px;padding:18px 18px 14px}
+#ficha h3{font:400 1.5rem/1.15 var(--display);margin:0 0 10px;color:var(--stone)}
+#ficha .texto{font-size:1rem;line-height:1.55;color:var(--stone)}
+#ficha .texto p{margin:0 0 10px}
+#ficha .texto a{color:var(--stone-deep)}
+#ficha .fuente{font-size:.75rem;line-height:1.4;color:var(--stone-deep);opacity:.85;margin:6px 0 12px}
+#ficha .fila{display:flex;justify-content:flex-end}
+#ficha .fila button{font:700 .95rem var(--ui);min-height:44px;padding:0 20px;border-radius:999px;border:0;background:var(--stone);color:var(--ink);cursor:pointer}
+/* Franja del modo dueño (volar y marcar edificios). */
+#franja{position:fixed;z-index:3;left:50%;top:calc(env(safe-area-inset-top,0px) + 66px);transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:rgba(30,24,15,.9);border:1px dashed rgba(227,166,104,.8);border-radius:999px;padding:4px 4px 4px 14px;font:700 .7rem var(--ui);letter-spacing:.14em;text-transform:uppercase;color:#e3a668;white-space:nowrap}
+#franja button{font:700 .8rem var(--ui);letter-spacing:0;text-transform:none;min-height:36px;padding:0 14px;border-radius:999px;border:0;background:var(--stone);color:var(--ink);cursor:pointer}
+/* Pantalla de título y carga. */
+#load{position:fixed;inset:0;z-index:5;display:grid;grid-template-rows:auto 1fr auto;padding:calc(env(safe-area-inset-top,0px) + 20px) 16px calc(env(safe-area-inset-bottom,0px) + 16px);background:#1e180f;overflow:auto;transition:opacity .6s}
+#load.fuera{opacity:0;pointer-events:none}
+#load .portada{position:absolute;left:0;right:0;top:0;width:100%;height:46%;display:block}
+#estudio{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--stone-deep);font:700 .7rem var(--ui);letter-spacing:.34em;text-transform:uppercase;opacity:.9}
+#estudio small{font-weight:400;letter-spacing:.34em;opacity:.75;font-size:1em}
+#load .card{position:relative;align-self:end;max-width:30rem;margin:0 auto;text-align:center;display:grid;gap:12px;justify-items:center;padding-bottom:4px}
+#load h1{font:400 clamp(2.6rem,13vw,4.5rem)/.92 var(--display);margin:0;color:var(--stone);text-shadow:0 2px 16px rgba(0,0,0,.5)}
+#load h1 .a{display:block;letter-spacing:.2em;margin-right:-.2em}
+#load h1 .del{display:flex;align-items:center;justify-content:center;gap:10px;font-size:.36em;line-height:1.6;letter-spacing:.12em;color:var(--stone-deep)}
+#load h1 .del::before,#load h1 .del::after{content:"";width:2.4em;height:1px;background:var(--tile)}
+#load h1 .b{display:block;letter-spacing:.04em}
+#load p{margin:0;line-height:1.5;color:var(--stone-deep);max-width:24rem;font-size:.95rem}
+#coords{font-size:.72rem;letter-spacing:.12em;color:var(--stone-deep);font-variant-numeric:tabular-nums}
+.barra{display:grid;gap:8px;justify-items:center;margin-top:6px}
+#bar{width:min(15rem,66vw);height:3px;border-radius:2px;background:rgba(239,228,200,.14);overflow:hidden}
+#bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#a9563a,#d9925f);box-shadow:0 0 10px rgba(217,146,95,.55);transition:width .3s}
+#estado{font-size:.8rem;color:var(--stone-deep);font-variant-numeric:tabular-nums;display:flex;gap:10px;width:min(15rem,66vw);justify-content:space-between}
+#status{text-align:left}
+#reintentar{font:700 .9rem var(--ui);min-height:44px;padding:0 20px;border-radius:999px;border:1px solid rgba(239,228,200,.4);background:transparent;color:var(--stone);cursor:pointer}
+#start{font:700 .95rem var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--stone);border:0;border-radius:6px;min-width:15rem;min-height:52px;box-shadow:0 8px 24px rgba(0,0,0,.4);cursor:pointer}
+#extras{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+#extras button{font:400 .85rem var(--ui);color:var(--stone-deep);background:none;border:0;min-height:44px;padding:0 10px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+#credits{position:relative;font-size:.66rem;line-height:1.45;color:var(--stone-deep);opacity:.75;max-width:26rem;margin:10px auto 0;text-align:center}
 #credits a{color:inherit}
-#bar{width:min(18rem,70vw);height:6px;border-radius:3px;background:rgba(239,228,200,.15);overflow:hidden}
-#bar i{display:block;height:100%;width:0;background:var(--tile);transition:width .3s}
-#status{font-size:.85rem;color:var(--stone);font-variant-numeric:tabular-nums}
-#start{font:700 1rem var(--ui);color:var(--ink);background:var(--stone);border:0;border-radius:999px;padding:12px 28px;cursor:pointer}
 #clave{position:fixed;inset:0;z-index:6;display:grid;place-items:center;padding:16px;background:rgba(20,16,10,.55)}
 #clave form{display:grid;gap:10px;width:min(20rem,100%);background:var(--ink);border:1px solid rgba(239,228,200,.35);border-radius:12px;padding:16px;box-sizing:border-box}
 #clave label{font-family:var(--display);font-size:1.25rem;line-height:1.2}
@@ -71,28 +141,70 @@ canvas{display:block;position:fixed;inset:0;width:100%;height:100%}
 #marcasTxt textarea{font:.85rem/1.4 ui-monospace,Menlo,monospace;color:var(--stone);background:rgba(239,228,200,.08);border:1px solid rgba(239,228,200,.4);border-radius:8px;padding:8px;resize:vertical;-webkit-user-select:text;user-select:text;min-width:0}
 #marcasTxt .fila{display:flex;gap:8px;justify-content:flex-end}
 #marcasTxt #mtCopiar{background:var(--stone);color:var(--ink);border:0}
-@media (prefers-reduced-motion: reduce){#bar i,#hint{transition:none}}
+@media (prefers-reduced-motion: reduce){#bar i,#hint,#load,#panel,#aviso{transition:none}}
 </style>
-<div id="load"><div class="card">
-  <h1>Langa del Castillo</h1>
-  <div id="coords">41°12′43″ N · 1°23′55″ O · 878 m</div>
-  <p>El pueblo con sus calles, sus casas y su castillo, para recorrerlo a pie.</p>
-  <div id="bar"><i></i></div>
-  <div id="status">Cargando datos…</div>
-  <button id="start" type="button" hidden>Entrar al pueblo</button>
-  <div id="credits">Calles © colaboradores de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> · Edificios: Dirección General del Catastro · Relieve: EU-DEM, © Copernicus · Texturas: Poly Haven (CC0)</div>
-</div></div>
+<div id="load">
+  <svg class="portada" viewBox="0 0 360 240" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="pc" x2="0" y2="1"><stop offset="0" stop-color="#141821"/><stop offset=".5" stop-color="#4a3a3c"/><stop offset=".82" stop-color="#b8744a"/><stop offset="1" stop-color="#e3a668"/></linearGradient>
+      <linearGradient id="pf" x2="0" y2="1"><stop offset="0" stop-color="#1e180f" stop-opacity="0"/><stop offset="1" stop-color="#1e180f"/></linearGradient>
+    </defs>
+    <rect width="360" height="240" fill="url(#pc)"/>
+    <circle cx="268" cy="198" r="13" fill="#f6d39a"/>
+    <path d="M0 200q50-12 100-4t110-8 150 6V240H0z" fill="#5a3e2e" opacity=".85"/>
+    <path d="M0 214q60-4 120-16 40-8 70-6 50 6 90 18 40 6 80 4V240H0z" fill="#2a2016"/>
+    <path d="M176 198v-40l3-2 3 1 2-3 4 2 3-1 4 2v41z" fill="#1e180f"/>
+    <path d="M150 201l7-3v-3h4v2l6-2v6zM196 201v-5l6-3 5 2v6z" fill="#1e180f"/>
+    <path d="M0 228l14-8 14 6 10-6 16 7 12-5 18 8v10H0zM236 226l12-7 16 6 12-6 14 7 18-6 14 8 16-5 22 7v10H236z" fill="#1e180f"/>
+    <rect y="196" width="360" height="44" fill="url(#pf)"/>
+  </svg>
+  <div id="estudio">
+    <svg width="18" height="22" viewBox="0 0 32 40" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M10 38V13l-2-4h16l-2 4v25"/><path d="M8 9V4h3.5v2.5h3V4h3v2.5h3V4H24v5"/><path d="M16 17.5v5"/><path d="M2 38h28"/></svg>
+    <span>Atalaya <small>Estudio</small></span>
+  </div>
+  <div></div>
+  <div class="card">
+    <h1 aria-label="Langa del Castillo"><span class="a">Langa</span><span class="del">del</span><span class="b">Castillo</span></h1>
+    <div id="coords">41°12′43″ N · 1°23′55″ O · 878 m</div>
+    <p>Un pueblo real de Aragón, calle a calle, con su iglesia barroca y su castillo medieval.</p>
+    <div class="barra"><div id="bar"><i></i></div><div id="estado"><span id="status">Cargando datos…</span><span id="pct">0 %</span></div></div>
+    <button id="reintentar" type="button" hidden>Reintentar</button>
+    <button id="start" type="button" hidden>Entrar al pueblo</button>
+    <div id="extras"><button type="button" data-ficha="ayuda">Cómo se juega</button><button type="button" data-ficha="creditos">Créditos y licencias</button></div>
+    <div id="credits">Calles © colaboradores de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> (ODbL) · Edificios: fuente Dirección General del Catastro, consulta 10-10-2026, datos transformados · Relieve generado con información de Copernicus (Unión Europea), EU-DEM v1.1, adaptado · Texturas: Poly Haven (CC0) · Letras: SIL OFL · three.js (MIT) · Proyecto independiente, no oficial</div>
+  </div>
+</div>
 <div id="pad"></div>
-<div class="hud" id="top"><div id="place"><b>Plaza Mayor</b><span>Langa del Castillo</span></div><div id="go"></div></div>
+<div id="vineta" hidden></div>
+<div class="hud" id="top"><div id="place"><b>Plaza Mayor</b><span>Langa del Castillo</span></div>
+  <div id="botones">
+    <button class="redondo" id="bSonido" type="button" aria-label="Silenciar el sonido"><svg class="i" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="on" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/><path class="off" d="M16 9l6 6M22 9l-6 6" style="display:none"/></svg></button>
+    <button class="redondo" id="bMenu" type="button" aria-label="Menú" aria-expanded="false"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+</div>
 <div id="stick" hidden><div id="knob"></div></div>
-<div class="hud" id="hint"><span id="hintText">Arrastra a la izquierda para andar y a la derecha para mirar</span></div>
+<div class="hud" id="hint"><span id="hintText">Mitad izquierda: andar (al borde, corres) · Mitad derecha: mirar</span></div>
+<div id="aviso" role="status" aria-live="polite"></div>
+<div id="franja" hidden><span>Modo dueño</span><button type="button" id="franjaSalir">Bajar a pie</button></div>
+<div id="velo" hidden></div>
+<section id="panel" aria-label="Menú" aria-hidden="true"></section>
+<div id="ficha" hidden><div class="caja" role="dialog" aria-modal="true" aria-labelledby="fichaTit"><h3 id="fichaTit"></h3><div class="texto" id="fichaTxt"></div><div class="fuente" id="fichaFuente"></div><div class="fila"><button type="button" id="fichaCerrar">Seguir</button></div></div></div>
 <div id="pajaro" hidden><div class="fila"><button type="button" id="pjMenos" aria-label="Alejar">−</button><span id="pjCuenta">Toca el mapa donde falte un edificio</span><button type="button" id="pjMas" aria-label="Acercar">+</button></div><div class="fila"><button type="button" id="pjDeshacer">Quitar la última</button><button type="button" id="pjBorrar">Borrar todas</button><button type="button" id="pjCopiar">Copiar marcas</button></div></div>
 <div id="marcasTxt" hidden><div class="caja"><b>Pégame este texto en el chat</b><textarea id="marcasArea" rows="8" readonly></textarea><div class="fila"><button type="button" id="mtCerrar">Cerrar</button><button type="button" id="mtCopiar">Copiar</button></div></div></div>
 <div id="clave" hidden><form><label for="claveIn">Contraseña de la vista de águila</label><input id="claveIn" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go"><p id="claveErr" hidden>No es esa. Prueba otra vez.</p><div class="fila"><button type="button" id="claveNo">Cancelar</button><button type="submit">Entrar</button></div></form></div>
 <script>
 // Navegadores muy antiguos: sin "import maps" o sin WebGL el juego no puede arrancar; mejor decirlo que quedarse colgado.
 (()=>{ const ok=(window.HTMLScriptElement&&HTMLScriptElement.supports&&HTMLScriptElement.supports('importmap')), c=document.createElement('canvas'), gl=c.getContext('webgl2')||c.getContext('webgl');
-  if(!ok||!gl) document.getElementById('status').textContent=!gl?'Este dispositivo no puede mostrar gráficos 3D (WebGL).':'Este navegador es demasiado antiguo: actualízalo para jugar.'; })();
+  if(!ok||!gl){ window.__sinJuego=true; document.getElementById('status').textContent=!gl?'Este dispositivo no puede mostrar gráficos 3D (WebGL).':'Este navegador es demasiado antiguo: actualízalo para jugar.'; } })();
+// Si la carga falla (sin conexión, un archivo que no llega, un error) o se queda parada, se dice y se puede reintentar.
+(()=>{ const $=id=>document.getElementById(id), t0=Date.now();
+  window.__falloCarga=msg=>{ if(window.gameReady||window.__sinJuego||window.__fallo) return; window.__fallo=true;
+    $('status').textContent=msg||'No se ha podido cargar el pueblo. Comprueba la conexión.'; $('pct').textContent=''; $('reintentar').hidden=false; };
+  addEventListener('error',e=>{ if(!window.gameReady) window.__falloCarga(); });
+  addEventListener('unhandledrejection',()=>{ if(!window.gameReady) window.__falloCarga(); });
+  const vig=setInterval(()=>{ if(window.gameReady||window.__fallo){ clearInterval(vig); return; }
+    if(Date.now()-(window.__progreso||t0)>45000) window.__falloCarga('La carga se ha quedado parada. Comprueba la conexión y vuelve a intentarlo.'); },3000);
+  $('reintentar').addEventListener('click',()=>location.reload()); })();
 </script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <script type="module">
@@ -106,9 +218,33 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 const $=id=>document.getElementById(id);
-const step=(msg,frac)=>{ $('status').textContent=msg; $('bar').firstElementChild.style.width=Math.round(frac*100)+'%'; return new Promise(r=>setTimeout(r,20)); };
+const step=(msg,frac)=>{ if(window.__fallo||window.__sinJuego) return new Promise(()=>{}); window.__progreso=Date.now(); $('status').textContent=msg; $('pct').textContent=Math.round(frac*100)+' %'; $('bar').firstElementChild.style.width=Math.round(frac*100)+'%'; return new Promise(r=>setTimeout(r,20)); };
+// Fichas: la historia de un lugar, cómo se juega y los créditos. Van al principio para que funcionen ya en la
+// pantalla de carga (los enlaces de "Cómo se juega" y "Créditos y licencias").
+const FICHAS={
+  ayuda:['Cómo se juega',`<p><b>En el móvil:</b> pon el dedo en la mitad izquierda de la pantalla y arrástralo hacia donde quieras ir; si lo llevas hasta el borde, corres. En la mitad derecha, desliza para mirar. En Ajustes puedes cambiar de lado.</p>
+<p><b>En el ordenador:</b> WASD o las flechas para andar, Mayús para correr y arrastra con el ratón para mirar. M o Esc abren el menú.</p>
+<p><b>El menú</b> (arriba a la derecha) te lleva a cualquier sitio del pueblo y guarda los lugares con historia que vas descubriendo.</p>
+<p><b>Lugares con historia:</b> al pasar cerca de la iglesia, la fuente, el castillo… aparece un aviso abajo. Tócalo para leer su historia.</p>
+<p>En el iPhone, «Compartir → Añadir a pantalla de inicio» lo abre como una app, a pantalla completa.</p>`,''],
+  creditos:['Créditos y licencias',`<p><b>Langa del Castillo</b> · un juego de Atalaya Estudio. Proyecto independiente, sin relación con el Ayuntamiento de Langa del Castillo ni con las entidades citadas.</p>
+<p><b>Calles y sus nombres:</b> © colaboradores de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>, bajo la Open Database License (ODbL 1.0).</p>
+<p><b>Edificios</b> (planta y número de plantas) y <b>color de las fachadas:</b> fuente Dirección General del Catastro, información consultada el 10 de octubre de 2026 y transformada para este juego. No es cartografía ni información catastral oficial.</p>
+<p><b>Relieve:</b> generado con información del Servicio de Vigilancia Terrestre de Copernicus de la Unión Europea (EU-DEM v1.1), adaptado. La Unión Europea no respalda este proyecto.</p>
+<p><b>Texturas:</b> <a href="https://polyhaven.com" target="_blank" rel="noopener">Poly Haven</a> (CC0). <b>Letras:</b> IM Fell English SC y Atkinson Hyperlegible (SIL Open Font License). <b>Gráficos:</b> three.js (MIT). <b>Sonido:</b> síntesis propia.</p>
+<p><b>Historia:</b> SIPCA (Gobierno de Aragón), Inventario de Fortificaciones Aragonesas (castillosenaragon.es, ficha CD.34), Wikipedia y el Diccionario de Madoz (1847).</p>
+<p><b>Privacidad:</b> el juego no usa cookies ni recoge datos personales. Solo guarda en tu dispositivo tus ajustes, los lugares que descubres y una copia para jugar sin conexión. Las letras y la librería 3D se descargan de Google Fonts y jsDelivr, que reciben tu dirección IP.</p>
+<p>Gracias a quien conoce el pueblo y nos ayudó a completarlo.</p>`,''],
+};
+const parrafos=t=>t.split('\n').map(x=>`<p>${x}</p>`).join('');
+function abrirFicha(tit,html,fuente){ $('fichaTit').textContent=tit; $('fichaTxt').innerHTML=html; $('fichaFuente').textContent=fuente||''; $('fichaFuente').hidden=!fuente; $('ficha').hidden=false; $('fichaCerrar').focus(); }
+function cerrarFicha(){ $('ficha').hidden=true; }
+function fichaFija(k){ const [t,h,f]=FICHAS[k]; abrirFicha(t,h,f); }
+$('fichaCerrar').addEventListener('click',cerrarFicha);
+$('ficha').addEventListener('click',e=>{ if(e.target.id==='ficha') cerrarFicha(); });
+for(const b of document.querySelectorAll('#extras button')) b.addEventListener('click',()=>fichaFija(b.dataset.ficha));
 await step('Cargando datos…',0.05);
-const [data,T0,FC0]=await Promise.all(['LangaMapData','LangaTerrain','FacadeColors'].map(n=>fetch('data/'+n+'.json').then(r=>r.json())));
+const [data,T0,FC0]=await Promise.all(['LangaMapData','LangaTerrain','FacadeColors'].map(n=>fetch('data/'+n+'.json').then(r=>{ if(!r.ok) throw new Error('No llega data/'+n+'.json'); return r.json(); })));
 // Casas que no están en el Catastro, en solares vacíos: planta en metros (x este, z norte), plantas y altura.
 // Van al final de la lista para no cambiar el estilo que el azar da a las demás.
 const CASAS_NUEVAS=[
@@ -1167,7 +1303,7 @@ fl[0].add([0.86,0.13,0.16]);fl[1].add([0.93,0.45,0.65]);fl[2].add([0.96,0.95,0.9
 wood.add([0.33,0.25,0.18]);cables.add([0.08,0.08,0.08],false);metal.add([0.30,0.31,0.32]);lamps.add([0.95,0.93,0.85]);scene.children[scene.children.length-1].material.name='farol';
 trunks.add([0.30,0.24,0.19]);almonds.add([0.47,0.50,0.32]);cyps.add([0.13,0.24,0.13]);
 }
-await step('Ajustando la Calle la Fuente…',0.88);
+await step('Langa aparece en los documentos en 1131…',0.88);
 // ---------------- Calle la Fuente, ajustada a mano según la foto de Street View (febrero 2025) ----------------
 // Andando desde la Calle Alta hacia el noroeste: a la izquierda acera ancha de baldosa con arbolitos, banco y
 // contenedores; a la derecha casi sin acera, con coches aparcados y el buzón de Correos. Badén a media calle,
@@ -1284,7 +1420,7 @@ if(FU){
   // ---- Detalles de los vídeos de 2008 ----
   const stoneM=fac('sillar',[1,1,1],0,2.2);
   // La fuente (número 5): bloque de piedra con un arco y un caño, pegada a la tapia.
-  { const s0=50, q=at(s0,0), off=Math.max(q.L-1.0,4.0), p=at(s0,off), y=GY(p.x,p.z), back=[q.n[0],q.n[1]];
+  { const s0=50, q=at(s0,0), off=Math.max(q.L-1.0,4.0), p=at(s0,off), y=GY(p.x,p.z), back=[q.n[0],q.n[1]]; window.__FUENTE_XZ=[p.x,p.z];
     box(p.x,p.z,q.d,2.6,1.0,y-0.2,y+2.2,stoneM,'m'); // cuerpo
     const ap=[p.x-back[0]*0.52,p.z-back[1]*0.52];
     box(ap[0],ap[1],q.d,1.2,0.06,y+0.1,y+1.3,col([0.18,0.17,0.15])); // hueco del arco
@@ -1318,7 +1454,7 @@ if(FU){
 }
 }
 
-await step('Ajustando la Calle Alta…',0.89);
+await step('Hasta 1916 se llamó solo Langa…',0.89);
 // ---------------- Calle Alta, ajustada según un vídeo de Street View (febrero 2025, números 31 a 16) ----------------
 // Calle ancha de hormigón con aceras estrechas; árboles jóvenes con maceteros redondos de hormigón, bancos, señal de
 // prohibido camiones y cartel a Torralbilla, cables cruzando la calle, farolas en postes metálicos y coches aparcados.
@@ -1780,29 +1916,36 @@ function collide(x,z){
 
 // Sitios a los que saltar.
 const centroid=name=>{const r=data.roads.find(r=>r.name===name); if(!r) return null; let x=0,z=0,n=r.points.length/2; for(let i=0;i<r.points.length;i+=2){x+=r.points[i];z+=r.points[i+1];} return [x/n,z/n];};
+// [nombre, posición, hacia dónde mira (grados), icono]. Empieza en la plaza mirando a la iglesia y su parque.
 const PLACES=[
-  ['Plaza Mayor', centroid('Plaza Mayor')||[-20,112], 0],
-  ['Castillo', [-112,232], -62],
-  ['Calle la Fuente', [15,-41], -40],
-  ['Calle Castillo', [-125,153], 80],
-  ['Carretera', [230,-240], 119],
-  ['Taberna', window.__TABERNA&&window.__TABERNA.slice(0,2), window.__TABERNA&&window.__TABERNA[2]],
+  ['Plaza Mayor', [-20,101], 96, 'plaza'],
+  ['Iglesia de San Pedro', [-4,99], 90, 'iglesia'],
+  ['Castillo de Langa', [-112,232], -62, 'castillo'],
+  ['Calle la Fuente', [15,-41], -40, 'calle'],
+  ['Calle Castillo', [-125,153], 80, 'calle'],
+  ['Taberna', window.__TABERNA&&window.__TABERNA.slice(0,2), window.__TABERNA&&window.__TABERNA[2], 'taberna'],
+  ['Entrada al pueblo', [230,-240], 119, 'camino'],
 ].filter(p=>p[1]);
 const player={x:PLACES[0][1][0], z:PLACES[0][1][1], yaw:PLACES[0][2]*Math.PI/180, pitch:0, y:0};
 window.__player=player;
-const goBox=$("go");
-for(const [name,pos,deg] of PLACES){ const b=document.createElement('button'); b.type='button'; b.textContent=name;
-  b.addEventListener('click',e=>{e.stopPropagation(); player.x=pos[0]; player.z=pos[1]; player.yaw=aguila.pajaro?0:deg*Math.PI/180; player.pitch=aguila.pajaro?-1.55:aguila.on?-0.75:0; player.y=0; nameTimer=0;}); goBox.appendChild(b); }
 
 // Calle más cercana con nombre, para el letrero de arriba.
 const named=[]; for(const r of data.roads) if(r.name) for(let i=2;i<r.points.length;i+=2) named.push([r.points[i-2],r.points[i-1],r.points[i],r.points[i+1],r.name]);
+const BONITO={'Calle Ramon y Cajal':'Calle Ramón y Cajal','Langa del Castillo':'Por el pueblo'};
 function placeName(x,z){
-  if(Math.hypot(x+122,z-236)<58) return 'Castillo';
+  if(Math.hypot(x+122,z-236)<58) return 'Castillo de Langa';
+  if(Math.hypot(x-21,z-98)<20) return 'Iglesia de San Pedro';
   let best=25,name=null; for(const [ax,az,bx,bz,n] of named){const ex=bx-ax,ez=bz-az,l2=ex*ex+ez*ez||1,t=Math.max(0,Math.min(1,((x-ax)*ex+(z-az)*ez)/l2)),d=Math.hypot(x-ax-ex*t,z-az-ez*t); if(d<best){best=d;name=n;}}
-  return name||(Math.hypot(x,z)>300?'Afueras':'Langa del Castillo');
+  return name?(BONITO[name]||name):(Math.hypot(x,z)>300?'Afueras':'Por el pueblo');
 }
 
-// Controles: joystick a la izquierda, mirar a la derecha (o arrastrar con el ratón), WASD/flechas en teclado.
+// Ajustes del jugador (se guardan en este navegador).
+const AJ={sens:1,invertir:false,fov:'normal',andar:'izq',balanceo:!matchMedia('(prefers-reduced-motion: reduce)').matches,letra:'normal'};
+try{ Object.assign(AJ,JSON.parse(localStorage.getItem('langa-ajustes')||'{}')); }catch(e){}
+const guardarAjustes=()=>{ try{ localStorage.setItem('langa-ajustes',JSON.stringify(AJ)); }catch(e){} };
+const ponerLetra=()=>{ document.documentElement.style.fontSize=AJ.letra==='grande'?'118%':'100%'; }; ponerLetra();
+
+// Controles: joystick a un lado (izquierda por defecto), mirar al otro (o arrastrar con el ratón), WASD/flechas en teclado.
 const pad=$('pad'), stick=$('stick'), knob=$('knob');
 let moveId=null, moveOrigin=[0,0], moveVec=[0,0], lookId=null, lookLast=[0,0];
 const STICK=60;
@@ -1810,7 +1953,7 @@ let toque=null; // dónde y cuándo empezó el dedo (para distinguir un toque de
 pad.addEventListener('pointerdown',e=>{
   pad.setPointerCapture(e.pointerId); hideHint();
   if(aguila.pajaro){ if(lookId===null){ lookId=e.pointerId; lookLast=[e.clientX,e.clientY]; toque={x:e.clientX,y:e.clientY,t:performance.now()}; } return; }
-  const left=e.clientX<innerWidth*0.5 && e.pointerType!=='mouse';
+  const left=(AJ.andar==='der'?e.clientX>innerWidth*0.5:e.clientX<innerWidth*0.5) && e.pointerType!=='mouse';
   if(left && moveId===null){ moveId=e.pointerId; moveOrigin=[e.clientX,e.clientY]; moveVec=[0,0]; stick.hidden=false; stick.style.left=e.clientX+'px'; stick.style.top=e.clientY+'px'; knob.style.transform=''; }
   else if(lookId===null){ lookId=e.pointerId; lookLast=[e.clientX,e.clientY]; }
 });
@@ -1820,20 +1963,26 @@ pad.addEventListener('pointermove',e=>{
   else if(e.pointerId===lookId&&aguila.pajaro){ // arrastrar el mapa
     const dx=e.clientX-lookLast[0], dy=e.clientY-lookLast[1], m=2*Math.max(aguila.h,20)*Math.tan(cam.fov*Math.PI/360)/innerHeight;
     const fx=Math.sin(player.yaw), fz=Math.cos(player.yaw); player.x+=(-fz*dx+fx*dy)*m; player.z+=(fx*dx+fz*dy)*m; lookLast=[e.clientX,e.clientY]; }
-  else if(e.pointerId===lookId){ const s=e.pointerType==='mouse'?0.004:0.0055; player.yaw+=(e.clientX-lookLast[0])*s; player.pitch=Math.max(-1.3,Math.min(1.3,player.pitch-(e.clientY-lookLast[1])*s)); lookLast=[e.clientX,e.clientY]; }
+  else if(e.pointerId===lookId){ const s=(e.pointerType==='mouse'?0.004:0.0055)*AJ.sens*cam.fov/68; player.yaw+=(e.clientX-lookLast[0])*s; player.pitch=Math.max(-1.3,Math.min(1.3,player.pitch-(e.clientY-lookLast[1])*s*(AJ.invertir?-1:1))); lookLast=[e.clientX,e.clientY]; }
 });
 const release=e=>{ if(e.pointerId===moveId){moveId=null;moveVec=[0,0];stick.hidden=true;}
   if(e.pointerId===lookId){ lookId=null; if(aguila.pajaro&&toque&&e.type==='pointerup'&&Math.hypot(e.clientX-toque.x,e.clientY-toque.y)<10&&performance.now()-toque.t<500) marcar(e.clientX,e.clientY); toque=null; } };
 pad.addEventListener('pointerup',release); pad.addEventListener('pointercancel',release);
 const keys=new Set();
-addEventListener('keydown',e=>{keys.add(e.code); if(e.code.startsWith('Arrow')||e.code==='Space') e.preventDefault(); hideHint();});
+addEventListener('keydown',e=>{ if(e.code==='Escape'||e.code==='KeyM'){ if(!$('ficha').hidden) cerrarFicha(); else if(window.gameReady&&$('load').hidden) abrirPanel(!$('panel').classList.contains('abierto')); return; }
+  keys.add(e.code); if(e.code.startsWith('Arrow')||e.code==='Space') e.preventDefault(); hideHint();});
 addEventListener('keyup',e=>keys.delete(e.code));
 addEventListener('blur',()=>keys.clear());
 let hintShown=true;
 function hideHint(){ if(!hintShown) return; hintShown=false; setTimeout(()=>{$('hint').style.opacity=0;},2500); }
-if(matchMedia('(hover: hover) and (pointer: fine)').matches) $('hintText').textContent='WASD o flechas para andar, Mayús para correr, arrastra con el ratón para mirar';
+const ESCRITORIO=matchMedia('(hover: hover) and (pointer: fine)').matches;
+if(ESCRITORIO) $('hintText').textContent='WASD o flechas para andar, Mayús para correr, arrastra con el ratón para mirar · M: menú';
+else if(AJ.andar==='der') $('hintText').textContent='Mitad derecha: andar (al borde, corres) · Mitad izquierda: mirar';
 
 const cam=new THREE.PerspectiveCamera(68, innerWidth/innerHeight, 0.1, 6000);
+function ajustarCamara(){ const asp=innerWidth/innerHeight, amplio=AJ.fov==='amplio', h=(amplio?100:90)*Math.PI/180;
+  cam.fov=Math.min(amplio?95:85,Math.max(60,2*Math.atan(Math.tan(h/2)/asp)*180/Math.PI)); cam.aspect=asp; cam.updateProjectionMatrix(); }
+ajustarCamara();
 // Sombra de contacto (oclusión ambiental): rincones, aleros, bajo los marcos y entre las tejas.
 // Con suavizado de bordes (MSAA) si el móvil puede dibujar en coma flotante con muestras; si no, como antes.
 const msaa=renderer.capabilities.isWebGL2&&renderer.extensions.has('EXT_color_buffer_float');
@@ -1856,23 +2005,24 @@ const aguila={on:false,h:0,ok:false,pajaro:false,alto:160}; window.__aguila=agui
 try{ aguila.ok=sessionStorage.getItem('langa-aguila')==='1'; }catch(e){}
 const huella=s=>{let h1=0xdeadbeef^1764,h2=0x41c6ce57^1764;for(let i=0,ch;i<s.length;i++){ch=s.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677);}
   h1=Math.imul(h1^(h1>>>16),2246822507);h1^=Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507);h2^=Math.imul(h1^(h1>>>13),3266489909);return 4294967296*(2097151&h2)+(h1>>>0);};
-{ const b=document.createElement('button'); b.type='button'; const lab=()=>{b.textContent=aguila.on?'Bajar a pie':'Vista de águila';}; lab();
-  const cambiar=()=>{ aguila.on=!aguila.on; if(!aguila.on) ponerPajaro(false); player.pitch=aguila.on?-0.75:0; lab(); bp.hidden=!aguila.on; };
-  const dlg=$('clave'), inp=$('claveIn'), err=$('claveErr');
-  const cerrar=()=>{ dlg.hidden=true; inp.value=''; err.hidden=true; inp.blur(); };
-  b.addEventListener('click',e=>{ e.stopPropagation(); if(aguila.on||aguila.ok){ cambiar(); return; } dlg.hidden=false; err.hidden=true; inp.focus(); });
+// En la versión pública no se enseñan (salvo con ?dueno en la dirección); en la privada están en el menú.
+const PUBLICA=!!document.querySelector('meta[name="langa-publica"]'), DUENO=!PUBLICA||/[?&]dueno/.test(location.search);
+let volar=()=>{}, ponerPajaro=()=>{}, marcarEdificios=()=>{};
+{ const dlg=$('clave'), inp=$('claveIn'), err=$('claveErr'); let luego=null;
+  const cerrar=()=>{ dlg.hidden=true; inp.value=''; err.hidden=true; inp.blur(); luego=null; };
+  const pedir=fn=>{ if(aguila.ok){ fn(); return; } luego=fn; dlg.hidden=false; err.hidden=true; inp.focus(); };
+  const cambiar=v=>{ aguila.on=v; if(!v) ponerPajaro(false); player.pitch=v?-0.75:0; $('franja').hidden=!v; pintarPanel(); };
+  volar=v=>{ if(!v){ cambiar(false); return; } pedir(()=>cambiar(true)); };
+  ponerPajaro=v=>{ aguila.pajaro=v; $('pajaro').hidden=!v; $('franja').firstElementChild.textContent=v?'Marcar edificios':'Volando';
+    if(v){ player.yaw=0; player.pitch=-1.55; $('hint').style.opacity=0; } else if(aguila.on) player.pitch=-0.75; pintarPanel(); };
+  marcarEdificios=()=>pedir(()=>{ cambiar(true); ponerPajaro(true); });
   $('claveNo').addEventListener('click',cerrar);
   dlg.querySelector('form').addEventListener('submit',e=>{ e.preventDefault();
-    if(huella(inp.value.trim().toLowerCase())===2525891690193075){ aguila.ok=true; try{ sessionStorage.setItem('langa-aguila','1'); }catch(e){} cerrar(); cambiar(); }
+    if(huella(inp.value.trim().toLowerCase())===2525891690193075){ aguila.ok=true; try{ sessionStorage.setItem('langa-aguila','1'); }catch(e){} const fn=luego; cerrar(); fn&&fn(); }
     else { err.hidden=false; inp.select(); } });
   // Lo que se escribe en la contraseña no mueve al jugador.
   for(const t of ['keydown','keyup']) inp.addEventListener(t,e=>{ e.stopPropagation(); if(t==='keydown'&&e.key==='Escape') cerrar(); });
-  $('go').appendChild(b);
-  // Vista de pájaro (dentro de la de águila): mirando recto hacia abajo, con el norte arriba, como un mapa.
-  const bp=document.createElement('button'); bp.type='button'; bp.hidden=true; bp.textContent='Vista de pájaro';
-  const ponerPajaro=v=>{ aguila.pajaro=v; bp.textContent=v?'Vista de águila':'Vista de pájaro'; $('pajaro').hidden=!v; if(v){ player.yaw=0; player.pitch=-1.55; $('hint').style.opacity=0; } else if(aguila.on) player.pitch=-0.75; };
-  bp.addEventListener('click',e=>{ e.stopPropagation(); ponerPajaro(!aguila.pajaro); });
-  $('go').appendChild(bp); }
+  $('franjaSalir').addEventListener('click',e=>{ e.stopPropagation(); cambiar(false); }); }
 
 // Marcas en la vista de pájaro: chinchetas numeradas donde falta un edificio. Se guardan en este navegador y se
 // copian como texto (coordenadas y calle) para pasárselas a quien hace el mapa.
@@ -1909,34 +2059,369 @@ $('mtCopiar').addEventListener('click',async()=>{ const a=$('marcasArea'), b=$('
   try{ await navigator.clipboard.writeText(a.value); b.textContent='¡Copiado!'; }catch(e){ a.focus(); a.select(); b.textContent='Mantén pulsado y copia'; }
   setTimeout(()=>{b.textContent='Copiar';},2500); });
 addEventListener('wheel',e=>{ if(!aguila.pajaro) return; aguila.alto=Math.min(450,Math.max(40,aguila.alto*(e.deltaY>0?1.15:1/1.15))); },{passive:true});
-{ const b=document.createElement('button'); b.type='button'; const lab=()=>{b.textContent=hq?'Calidad alta':'Calidad baja';}; lab();
-  b.addEventListener('click',e=>{ e.stopPropagation(); hq=!hq; lab(); try{ localStorage.setItem('langa-hq',hq?'1':'0'); }catch(e){} }); $('go').appendChild(b); }
-addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight); composer.setSize(innerWidth,innerHeight); cam.aspect=innerWidth/innerHeight; cam.updateProjectionMatrix();});
+addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight); composer.setSize(innerWidth,innerHeight); ajustarCamara();});
+
+// ---------- Sonido (Atalaya Estudio, departamento de Sonido) ----------
+// Todo sale de síntesis con Web Audio: no hay que descargar ningún archivo y no hay licencias que cuidar.
+// Capas: viento (con ráfagas), pájaros según la zona, pasos según el suelo, agua de la fuente, campanas a las horas
+// en punto (hora de España) y un "toc" para los botones.
+//
+// Uso desde el juego (coordenadas del juego: x este, z norte, en metros):
+//   Sonido.iniciar()              -> dentro del clic de "Entrar al pueblo" (sin un toque, el navegador no deja sonar)
+//   Sonido.pasos(vel, suelo)      -> cada fotograma; vel en m/s (0 = quieto); suelo: 'piedra'|'losas'|'tierra'|'asfalto'
+//   Sonido.zona(x, z)             -> cada medio segundo, con la posición del jugador
+//   Sonido.silenciar(true/false)  -> se recuerda en el navegador
+//   Extra: Sonido.volumen(0..1), Sonido.campanas(n), Sonido.clic(), Sonido.silenciado()
+const Sonido = (() => {
+  // Sitios que suenan (sacados de web/index.html y de los datos del mapa; la fuente es aproximada).
+  let FUENTE = [-16, -14]; const CASTILLO = [-122, 236], IGLESIA = [28, 100], PUEBLO = 300; // radio del casco
+  let ctx = null, master = null, ruido = null, reloj = null;
+  const bus = {};                   // un volumen por capa: viento, pajaros, pasos, agua, campanas, ui
+  const z = { campo: 0, castillo: 0, fuente: 0, iglesia: 120 }; // cuánto estás en cada zona (0..1); iglesia en metros
+  let mudo = false, vol = 0.8, fase = 0, antes = 0, ultimaHora = -1, proxPajaro = 0, proxRafaga = 0;
+  try { mudo = localStorage.getItem('langa-mudo') === '1'; const v = parseFloat(localStorage.getItem('langa-volumen'));
+    if (v >= 0 && v <= 1) vol = v; } catch (e) {}
+
+  const azar = (a, b) => a + Math.random() * (b - a);
+  const suave = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  const ahora = () => ctx.currentTime;
+  // Lleva un valor a otro poco a poco (sin chasquidos).
+  const ir = (param, valor, tiempo = 0.5) => param.setTargetAtTime(valor, ahora(), tiempo);
+  // Borra lo que quedaba programado en el volumen general, pero sin saltos: se queda donde está.
+  const fijar = () => { const g = master.gain, v = g.value; g.cancelScheduledValues(ahora()); g.setValueAtTime(v, ahora()); };
+
+  // Envolvente rápida: sube en "ataque" segundos y cae en "caida" segundos. Devuelve el nodo de volumen.
+  function envolvente(t, pico, ataque, caida, destino) {
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(pico, t + ataque);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + ataque + caida);
+    g.connect(destino); return g;
+  }
+  // Coloca un sonido a la izquierda o a la derecha (si el navegador sabe hacerlo).
+  function lado(destino, p) {
+    if (!ctx.createStereoPanner) return destino;
+    const s = ctx.createStereoPanner(); s.pan.value = p; s.connect(destino); return s;
+  }
+  // Un trozo de ruido (soplo, roce, agua) filtrado: el ladrillo de casi todo.
+  function soplo(t, dur, tipo, frec, q, destino, velocidad = 1) {
+    const s = ctx.createBufferSource(); s.buffer = ruido; s.playbackRate.value = velocidad;
+    const f = ctx.createBiquadFilter(); f.type = tipo; f.frequency.value = frec; f.Q.value = q;
+    s.connect(f).connect(destino); s.start(t, azar(0, 3)); s.stop(t + dur + 0.05);
+  }
+
+  // ---------- Viento: dos capas de ruido (un rumor grave y un silbido) con ráfagas al azar, nunca en bucle fijo.
+  let vGrave, vSilbido, vFiltro, vBanda;
+  function viento() {
+    const fuente = (vel) => { const s = ctx.createBufferSource(); s.buffer = ruido; s.loop = true;
+      s.playbackRate.value = vel; s.start(0, azar(0, 3)); return s; };
+    vFiltro = ctx.createBiquadFilter(); vFiltro.type = 'lowpass'; vFiltro.frequency.value = 500; // por encima de 300 Hz: el altavoz del móvil no da graves
+    vGrave = ctx.createGain(); vGrave.gain.value = 0.25;
+    fuente(0.93).connect(vFiltro).connect(vGrave).connect(bus.viento);
+    vBanda = ctx.createBiquadFilter(); vBanda.type = 'bandpass'; vBanda.frequency.value = 900; vBanda.Q.value = 6;
+    vSilbido = ctx.createGain(); vSilbido.gain.value = 0.02;
+    fuente(1.07).connect(vBanda).connect(vSilbido).connect(bus.viento);
+  }
+  function rafaga() { // cada pocos segundos, el viento cambia de fuerza y de tono
+    const fuerza = azar(0.3, 1) * (0.5 + 0.5 * Math.max(z.campo, z.castillo));
+    ir(vGrave.gain, 0.12 + 0.3 * fuerza, azar(0.8, 2.5)); ir(vFiltro.frequency, 380 + 620 * fuerza, 1.5);
+    ir(vSilbido.gain, (0.01 + 0.06 * fuerza) * (0.3 + z.castillo + 0.5 * z.campo), 1.2);
+    ir(vBanda.frequency, azar(600, 1500), 2);
+    proxRafaga = ahora() + azar(2, 7);
+  }
+
+  // ---------- Pájaros: gorriones en el pueblo, grajillas en el castillo, una alondra en el campo.
+  function gorrion(t, p) { // "chip chip": silbidos cortos que suben y bajan
+    const n = 2 + Math.floor(azar(0, 5)), f0 = azar(3200, 4400);
+    for (let i = 0; i < n; i++) {
+      const ti = t + i * azar(0.11, 0.2), o = ctx.createOscillator(), f = f0 * azar(0.92, 1.08);
+      o.frequency.setValueAtTime(f * 0.8, ti); o.frequency.linearRampToValueAtTime(f * 1.15, ti + 0.03);
+      o.frequency.linearRampToValueAtTime(f * 0.85, ti + 0.07);
+      o.connect(envolvente(ti, azar(0.05, 0.12), 0.008, 0.07, lado(bus.pajaros, p))); o.start(ti); o.stop(ti + 0.1);
+    }
+  }
+  function grajilla(t, p) { // "chak": graznido corto y nasal, de dos a cuatro veces
+    const n = 2 + Math.floor(azar(0, 3));
+    for (let i = 0; i < n; i++) {
+      const ti = t + i * azar(0.18, 0.35), o = ctx.createOscillator(), f = ctx.createBiquadFilter();
+      o.type = 'sawtooth'; o.frequency.setValueAtTime(azar(950, 1150), ti); o.frequency.exponentialRampToValueAtTime(700, ti + 0.12);
+      f.type = 'bandpass'; f.frequency.value = 1600; f.Q.value = 2.5;
+      o.connect(f).connect(envolvente(ti, azar(0.04, 0.08), 0.01, 0.12, lado(bus.pajaros, p))); o.start(ti); o.stop(ti + 0.15);
+    }
+  }
+  function alondra(t, p) { // trino largo y alto que tiembla, a lo lejos en los campos
+    const o = ctx.createOscillator(), m = ctx.createOscillator(), mg = ctx.createGain(), dur = azar(1.2, 2.5);
+    o.frequency.value = azar(3000, 3800); m.frequency.value = azar(18, 32); mg.gain.value = azar(300, 600);
+    m.connect(mg).connect(o.frequency);
+    o.connect(envolvente(t, 0.035, 0.15, dur, lado(bus.pajaros, p))); o.start(t); m.start(t); o.stop(t + dur + 0.2); m.stop(t + dur + 0.2);
+  }
+  function pajaro() {
+    const t = ahora() + azar(0, 0.2), p = azar(-0.8, 0.8), r = Math.random();
+    if (z.castillo > 0.3 && r < 0.6) grajilla(t, p);
+    else if (z.campo > 0.5 && r < 0.5) alondra(t, p);
+    else if (z.campo < 0.8) gorrion(t, p);
+    proxPajaro = ahora() + azar(1.5, 6); // a ratos hay silencio: cansa menos
+  }
+
+  // ---------- Pasos: un golpe de talón y otro más flojo de la punta, distintos según el suelo.
+  const SUELOS = { // filtro, frecuencia, Q, duración, golpe grave
+    piedra:  ['bandpass', 2400, 1.2, 0.05, 0.5],
+    losas:   ['bandpass', 3200, 2.5, 0.035, 0.6],
+    tierra:  ['lowpass', 1300, 0.7, 0.11, 0.3],
+    asfalto: ['bandpass', 1800, 1.0, 0.04, 0.45],
+  };
+  function paso(suelo, fuerza) {
+    const [tipo, frec, q, dur, grave] = SUELOS[suelo] || SUELOS.piedra, t = ahora() + 0.01;
+    for (const [dt, k] of [[0, 1], [azar(0.04, 0.07), 0.5]]) { // talón y punta
+      const g = envolvente(t + dt, 0.22 * fuerza * k * azar(0.75, 1.1), 0.004, dur, bus.pasos);
+      soplo(t + dt, dur + 0.02, tipo, frec * azar(0.85, 1.15), q, g, azar(0.9, 1.1));
+      if (suelo === 'tierra') for (let i = 0; i < 3; i++) { // crujido de piedrecillas
+        const tc = t + dt + azar(0.01, 0.06);
+        soplo(tc, 0.03, 'highpass', 3500, 0.7, envolvente(tc, 0.04 * fuerza, 0.002, 0.02, bus.pasos)); }
+    }
+    const o = ctx.createOscillator(); o.frequency.setValueAtTime(110, t); o.frequency.exponentialRampToValueAtTime(55, t + 0.06);
+    o.connect(envolvente(t, 0.25 * grave * fuerza, 0.003, 0.07, bus.pasos)); o.start(t); o.stop(t + 0.1);
+  }
+
+  // ---------- Fuente de la Calle la Fuente: rumor de agua y gotas sueltas, solo si estás cerca.
+  let aRumor;
+  function agua() {
+    const s = ctx.createBufferSource(); s.buffer = ruido; s.loop = true; s.start(0, azar(0, 3));
+    const f = ctx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 1800; f.Q.value = 0.8;
+    aRumor = ctx.createGain(); aRumor.gain.value = 0.15; s.connect(f).connect(aRumor).connect(bus.agua);
+  }
+  function gotas(desde, hasta) { // burbujas: un tono corto que sube deprisa
+    const n = Math.round(azar(2, 5) * z.fuente);
+    for (let i = 0; i < n; i++) {
+      const t = azar(desde, hasta), o = ctx.createOscillator(), f = azar(500, 1600);
+      o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f * 1.8, t + 0.04);
+      o.connect(envolvente(t, azar(0.04, 0.1), 0.003, 0.04, bus.agua)); o.start(t); o.stop(t + 0.06);
+    }
+  }
+
+  // ---------- Campanas: síntesis por parciales (zumbido, primera, tercera menor, quinta, nominal...).
+  function campanas(n = 1) {
+    if (!ctx) return;
+    const PARC = [[0.5, 0.5, 6], [1, 0.6, 4], [1.2, 0.35, 3], [1.5, 0.2, 2.5], [2, 0.35, 2], [2.5, 0.12, 1.2], [3, 0.08, 0.8]];
+    const lejos = Math.max(0.15, 1 / (1 + z.iglesia / 60));  // más flojo cuanto más lejos de la torre
+    const f = ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 1500 + 5000 * lejos; f.connect(bus.campanas);
+    for (let k = 0; k < n; k++) {
+      const t = ahora() + 0.1 + k * 2.6, base = 330 * azar(0.995, 1.005); // la campana del pueblo, hacia el Mi
+      for (const [r, a, d] of PARC) { const o = ctx.createOscillator(); o.frequency.value = base * r;
+        o.connect(envolvente(t, 0.12 * a * lejos, 0.005, d, f)); o.start(t); o.stop(t + d + 0.1); }
+    }
+  }
+  function horaEnPunto() { // hora de España; de noche (de 23 a 7) no tocan
+    let h = 0, m = 1;
+    try { const p = new Intl.DateTimeFormat('es-ES', { timeZone: 'Europe/Madrid', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' })
+      .formatToParts(new Date()); for (const x of p) { if (x.type === 'hour') h = +x.value; if (x.type === 'minute') m = +x.value; } } catch (e) { return; }
+    if (m === 0 && h !== ultimaHora) { ultimaHora = h; if (h >= 8 && h <= 22) campanas(h % 12 || 12); }
+    if (m !== 0) ultimaHora = -1;
+  }
+
+  // ---------- Interfaz: un "toc" de madera muy corto.
+  function clic() {
+    if (!ctx || mudo) return; const t = ahora() + 0.005, o = ctx.createOscillator();
+    o.frequency.setValueAtTime(900, t); o.frequency.exponentialRampToValueAtTime(500, t + 0.03);
+    o.connect(envolvente(t, 0.12, 0.002, 0.04, bus.ui)); o.start(t); o.stop(t + 0.06);
+  }
+
+  // Cada cuarto de segundo: ráfagas, pájaros, gotas y reloj. Programado un poco por delante para que no se corte.
+  function tic() {
+    if (!ctx || ctx.state !== 'running') return;
+    const t = ahora();
+    if (t > proxRafaga) rafaga();
+    if (t > proxPajaro) pajaro();
+    if (z.fuente > 0.02) gotas(t + 0.05, t + 0.3);
+    horaEnPunto();
+  }
+
+  function iniciar() {
+    if (window.__FUENTE_XZ) FUENTE = window.__FUENTE_XZ;
+    if (ctx) { if (!mudo) ctx.resume().catch(() => {}); return; }
+    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return; // navegador sin sonido: el juego sigue
+    try { if (navigator.audioSession) navigator.audioSession.type = 'ambient'; } catch (e) {} // iPhone: no corta la música del jugador
+    ctx = new AC({ latencyHint: 'balanced' });
+    const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -20; comp.ratio.value = 3; // que nada pegue picos
+    master = ctx.createGain(); master.gain.value = 0; master.connect(comp).connect(ctx.destination);
+    const NIVEL = { viento: 1.3, pajaros: 1.2, pasos: 1.5, agua: 0, campanas: 1.6, ui: 1 }; // probado: ~-28 dBFS de media
+    for (const n in NIVEL) { bus[n] = ctx.createGain(); bus[n].gain.value = NIVEL[n]; bus[n].connect(master); }
+    // Un único trozo de ruido de 4 s que comparten todas las capas (se lee desde sitios distintos y a velocidades distintas).
+    ruido = ctx.createBuffer(1, ctx.sampleRate * 4, ctx.sampleRate);
+    const d = ruido.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    viento(); agua();
+    master.gain.setValueAtTime(0, ahora()); master.gain.linearRampToValueAtTime(vol, ahora() + 3); // entra poco a poco
+    if (mudo) ctx.suspend();
+    reloj = setInterval(tic, 250);
+    // Si la pestaña se oculta o el móvil se bloquea, se calla (y no gasta batería).
+    document.addEventListener('visibilitychange', () => { if (document.hidden) ctx.suspend(); else if (!mudo) ctx.resume().catch(() => {}); });
+    // iPhone: tras una llamada el sonido queda "interrumpido"; vuelve con el siguiente toque.
+    addEventListener('pointerdown', () => { if (!mudo && !document.hidden && ctx.state !== 'running') ctx.resume().catch(() => {}); }, { passive: true });
+  }
+
+  function pasos(vel, suelo) {
+    const t = performance.now() / 1000, dt = Math.min(0.1, t - antes); antes = t;
+    if (!ctx || mudo || !(vel > 0.3)) { fase = 0.6; return; } // al arrancar, el primer paso suena enseguida
+    fase += dt * (1.2 + 0.3 * vel);                           // andando (3,5 m/s) ~2,3 pasos/s; corriendo ~3,3
+    if (fase >= 1) { fase -= 1; paso(suelo, Math.min(1.3, 0.6 + vel / 8)); }
+  }
+
+  function zona(x, zz) {
+    const d = (p) => Math.hypot(x - p[0], zz - p[1]);
+    z.campo = suave(PUEBLO - 40, PUEBLO + 40, Math.hypot(x, zz));
+    z.castillo = 1 - suave(40, 90, d(CASTILLO));
+    z.fuente = 1 - suave(3, 25, d(FUENTE));
+    z.iglesia = d(IGLESIA);
+    if (!ctx) return;
+    ir(bus.agua.gain, 2 * z.fuente, 0.8);
+    ir(bus.pajaros.gain, 1.2 * (1 - 0.4 * z.castillo), 1.5);
+  }
+
+  function silenciar(si) {
+    mudo = !!si; try { localStorage.setItem('langa-mudo', mudo ? '1' : '0'); } catch (e) {}
+    if (!ctx) return;
+    fijar(); // por si aún estaba entrando el fundido inicial
+    if (mudo) { ir(master.gain, 0, 0.05); setTimeout(() => { if (mudo) ctx.suspend(); }, 300); } // suspendido = cero gasto
+    else { ctx.resume().catch(() => {}); ir(master.gain, vol, 0.2); }
+  }
+  function volumen(v) {
+    vol = Math.min(1, Math.max(0, +v || 0)); try { localStorage.setItem('langa-volumen', String(vol)); } catch (e) {}
+    if (ctx && !mudo) { fijar(); ir(master.gain, vol, 0.1); }
+  }
+
+  return { iniciar, pasos, zona, silenciar, volumen, campanas, clic, silenciado: () => mudo };
+})();
+window.Sonido = Sonido;
+
+
+// ---------- Lugares con historia (textos de Guion e historia, con su fuente) ----------
+const FX=window.__FUENTE_XZ||[-14,-12];
+const LUGARES=[
+  {id:'plaza',nombre:'Plaza Mayor',x:-20,z:112,r:12,fuente:'Wikipedia (Langa del Castillo), que cita la Gaceta de Madrid de 1916 y el INE (2025).',
+   texto:'Langa aparece en los documentos en 1131. Fue una de las aldeas de la Comunidad de Daroca y dio nombre a una de sus sesmas, la de Langa.\nHasta 1916 se llamó solo Langa; hoy viven aquí unas 110 personas, los languinos.'},
+  {id:'iglesia',nombre:'Iglesia de San Pedro Apóstol',x:2,z:98,r:14,fuente:'SIPCA, Gobierno de Aragón (1-INM-ZAR-024-134-001).',
+   texto:'La parroquia está dedicada a San Pedro Apóstol. Es barroca, reconstruida a finales del siglo XVII: tres naves de la misma altura y una portada clásica con columnas toscanas y la imagen de San Pedro en una hornacina.\nSe restauró en 2009 y 2010.'},
+  {id:'retablo',nombre:'El retablo del Maestro de Langa',x:39,z:96,r:8,fuente:'SIPCA, Gobierno de Aragón.',
+   texto:'Dentro, la iglesia guarda una joya gótica: el retablo mayor de San Pedro, pintado al temple sobre tabla hacia 1430.\nNo se sabe quién lo pintó; a su autor se le conoce como el Maestro de Langa.'},
+  {id:'fuente',nombre:'La fuente',x:FX[0],z:FX[1],r:8,fuente:'Diccionario de Madoz (1847), citado en Wikipedia.',
+   texto:'Fuente de piedra con su arco y su caño, en la calle que lleva su nombre.\nYa en 1847 el Diccionario de Madoz anotaba que Langa tenía una fuente.'},
+  {id:'torralbilla',nombre:'Camino de Torralbilla',x:40,z:-86,r:12,fuente:'Wikipedia e Inventario de Fortificaciones Aragonesas (ficha CD.34).',
+   texto:'Langa está en el Campo de Daroca, tierra alta, a casi 900 metros. Esta calle sale hacia Torralbilla.\nEn la Edad Media, estas aldeas sufrieron de lleno las guerras con Castilla.'},
+  {id:'castillo',nombre:'Castillo de Langa',x:-122,z:236,r:58,fuente:'Inventario de Fortificaciones Aragonesas, ficha CD.34 (castillosenaragon.es).',
+   texto:'Sobre esta muela se levantó uno de los mayores castillos-refugio de la Comunidad de aldeas de Daroca: un recinto ovalado de unos 120 por 60 metros.\nHoy quedan tramos de muralla con saeteras, tres torres rebajadas y la torre-puerta. Es Bien de Interés Cultural desde 2006.'},
+  {id:'homenaje',nombre:'Torre del homenaje',x:-131.5,z:241.5,r:10,fuente:'Inventario de Fortificaciones Aragonesas, ficha CD.34.',
+   texto:'Casi en el centro del recinto se alza sola la torre del homenaje: planta cuadrada de 6 metros de lado, muros de piedra y saeteras.\nHa perdido su cuerpo superior.'},
+  {id:'1357',nombre:'1357, la guerra con Castilla',x:-150,z:230,r:12,fuente:'Ficha CD.34 y Wikipedia («Castillo de Langa»).',
+   texto:'En 1357, en plena guerra entre Aragón y Castilla, Bernat de Cabrera, gobernador de Aragón y ministro del rey Pedro IV, recorría los Campos de Langa revisando sus defensas. De esa época sería este castillo.\nDiez años después, la Comunidad de aldeas de Daroca se reunió aquí con el Baile General de Aragón.'},
+  {id:'torrepuerta',nombre:'La torre-puerta',x:-60,z:229,r:10,fuente:'Ficha CD.34 y Wikipedia.',
+   texto:'Por esta torre rectangular se entraba al recinto. Es la única parte de la fortaleza que se ha restaurado; el resto de la muralla está muy arruinado.\nEl castillo figura en la Lista Roja del Patrimonio en peligro.'},
+  {id:'ermitas',nombre:'Las ermitas',lejos:280,fuente:'Diccionario de Madoz (1847), citado en Wikipedia.',
+   texto:'Por estos caminos, en 1847 el pueblo tenía dos ermitas: Nuestra Señora de Tocón y Santa Eulalia, que ya entonces estaba sin culto por su mal estado.'},
+];
+const visitados=new Set(); try{ for(const id of JSON.parse(localStorage.getItem('langa-visitados')||'[]')) visitados.add(id); }catch(e){}
+function pintarCuenta(){ $('place').lastElementChild.textContent=`Langa · ${visitados.size}/${LUGARES.length} lugares`; }
+let avisoT=0, avisoLugar=null;
+function avisar(l){ const a=$('aviso'); avisoLugar=l;
+  a.innerHTML=`${svgI('libro')}<div><small>Lugar descubierto · ${visitados.size} de ${LUGARES.length}</small><b>${l.nombre}</b> · toca para leer</div>`;
+  a.classList.add('ver'); $('hint').style.opacity=0; hintShown=false; clearTimeout(avisoT); avisoT=setTimeout(()=>a.classList.remove('ver'),8000); Sonido.clic(); }
+$('aviso').addEventListener('click',e=>{ e.stopPropagation(); if(avisoLugar) leerLugar(avisoLugar); $('aviso').classList.remove('ver'); });
+const leerLugar=l=>abrirFicha(l.nombre,parrafos(l.texto),'Fuente: '+l.fuente);
+function comprobarLugares(x,z){ if(aguila.h>3||!$('load').hidden) return; // solo andando y ya dentro del pueblo
+  for(const l of LUGARES){ if(visitados.has(l.id)) continue;
+    if((l.lejos?l.lejos-Math.hypot(x,z):Math.hypot(x-l.x,z-l.z)-l.r)<0){ // las ermitas: lejos del pueblo visitados.add(l.id);
+      try{ localStorage.setItem('langa-visitados',JSON.stringify([...visitados])); }catch(e){} avisar(l); pintarCuenta(); break; } } }
+pintarCuenta();
+
+// ---------- Suelo bajo los pies (para el sonido de los pasos) ----------
+const SUELO=[]; for(const r of data.roads) for(let i=2;i<r.points.length;i+=2) SUELO.push([r.points[i-2],r.points[i-1],r.points[i],r.points[i+1],r.width/2+1,r.type==='track'?'tierra':r.type==='tertiary'?'asfalto':'piedra']);
+function sueloEn(x,z){ let best=1e9,t='tierra';
+  for(const [ax,az,bx,bz,h,ty] of SUELO){ if(Math.abs(x-ax)>40&&Math.abs(x-bx)>40) continue; const ex=bx-ax,ez=bz-az,l2=ex*ex+ez*ez||1,u=Math.max(0,Math.min(1,((x-ax)*ex+(z-az)*ez)/l2)),d=Math.hypot(x-ax-ex*u,z-az-ez*u)-h; if(d<best){best=d;t=ty;} }
+  if(t==='asfalto'&&Math.hypot(x,z)<300) t='piedra'; // dentro del pueblo, las calles anchas también son de piedra
+  return best<0?t:(Math.hypot(x,z)<300?'losas':'tierra'); }
+
+// ---------- Menú: ir a un sitio, tu paseo, ajustes, ayuda y (solo para el dueño) herramientas ----------
+const ICONOS={plaza:'<path d="M5 21V11l7-5 7 5v10M10 21v-5h4v5M12 2v4M10.5 3.5h3"/>',iglesia:'<path d="M6 21V11l6-4 6 4v10M12 7V2M10 4h4M10 21v-4a2 2 0 0 1 4 0v4"/>',
+  castillo:'<path d="M6 21V8h12v13M6 8V4h2.5v2h2V4h3v2h2V4H18v4M10 21v-4a2 2 0 0 1 4 0v4"/>',calle:'<path d="M8 3 6 21M16 3l2 18M12 5v2M12 11v2M12 17v2"/>',
+  taberna:'<path d="M6 8h9v12H6zM15 11h2.5a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H15M6 8c0-2 2-3.5 4.5-3.5S15 6 15 8"/>',camino:'<path d="M12 3v18M12 6h7l2 2-2 2h-7M12 12H5l-2 2 2 2h7"/>',
+  volar:'<path d="M2 13c3-3 6-3.5 10 0 4-3.5 7-3 10 0M12 13v4"/>',marcar:'<path d="M12 21s-6-6.5-6-11a6 6 0 0 1 12 0c0 4.5-6 11-6 11z"/><circle cx="12" cy="10" r="2"/>',
+  libro:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5"/>',ayuda:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17h.01"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/>',inicio:'<path d="M15 6l-6 6 6 6"/>',cerrar:'<path d="M6 6l12 12M18 6 6 18"/>'};
+function svgI(n){ return `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${ICONOS[n]||''}</svg>`; }
+const seg=(et,k,ops,val)=>`<div class="ajuste"><span>${et}</span><span class="seg" role="group" aria-label="${et}">${ops.map(([v,t])=>`<button type="button" data-aj="${k}" data-v="${v}" aria-pressed="${v===val}">${t}</button>`).join('')}</span></div>`;
+function pintarPanel(){
+  const p=$('panel'); if(!p.classList.contains('abierto')) return;
+  let h=`<div class="asa"></div><header><h2>Ir a</h2><button id="cerrar" type="button" aria-label="Cerrar">${svgI('cerrar')}</button></header>`;
+  let aqui=-1, dmin=25; PLACES.forEach(([,pos],i)=>{ const d=Math.hypot(player.x-pos[0],player.z-pos[1]); if(d<dmin){ dmin=d; aqui=i; } });
+  PLACES.forEach(([n,pos,,ic],i)=>{ const cerca=i===aqui;
+    h+=`<button class="lugar" type="button" data-ir="${i}"${cerca?' aria-current="true"':''}>${svgI(ic)}${n}${cerca?'<small>aquí</small>':''}</button>`; });
+  h+=`<h2>Tu paseo · ${visitados.size} de ${LUGARES.length} lugares con historia</h2>`;
+  LUGARES.forEach((l,i)=>{ h+=visitados.has(l.id)?`<button class="lugar" type="button" data-leer="${i}">${svgI('libro')}${l.nombre}<small>leer</small></button>`:`<div class="lugar oculto">${svgI('libro')}Sin descubrir</div>`; });
+  h+='<h2>Ajustes</h2>'+seg('Gráficos','hq',[['0','Rápidos'],['1','Bonitos']],hq?'1':'0')+seg('Sonido','mudo',[['1','No'],['0','Sí']],Sonido.silenciado()?'1':'0')
+    +`<div class="ajuste"><label for="ajSens">Sensibilidad de la vista</label><input id="ajSens" type="range" min="0.5" max="2" step="0.1" value="${AJ.sens}"></div>`
+    +seg('Invertir arriba y abajo','invertir',[['0','No'],['1','Sí']],AJ.invertir?'1':'0')+seg('Campo de visión','fov',[['normal','Normal'],['amplio','Amplio']],AJ.fov)
+    +(ESCRITORIO?'':seg('Andar con el dedo','andar',[['izq','Izquierdo'],['der','Derecho']],AJ.andar))
+    +seg('Balanceo al andar','balanceo',[['0','No'],['1','Sí']],AJ.balanceo?'1':'0')+seg('Tamaño del texto','letra',[['normal','Normal'],['grande','Grande']],AJ.letra);
+  h+=`<h2>Más</h2><button class="lugar" type="button" data-ficha="ayuda">${svgI('ayuda')}Cómo se juega</button><button class="lugar" type="button" data-ficha="creditos">${svgI('info')}Créditos y licencias</button><button class="lugar" type="button" data-titulo="1">${svgI('inicio')}Volver al título</button>`;
+  if(DUENO) h+=`<div class="dueno"><h2>Herramientas del dueño</h2><button class="lugar" type="button" data-dueno="volar">${svgI('volar')}${aguila.on&&!aguila.pajaro?'Bajar a pie':'Volar sobre el pueblo'}</button><button class="lugar" type="button" data-dueno="marcar">${svgI('marcar')}${aguila.pajaro?'Dejar de marcar':'Marcar edificios que faltan'}${marcas.length?`<small>${marcas.length} ${marcas.length===1?'marca':'marcas'}</small>`:''}</button></div>`;
+  p.innerHTML=h;
+}
+function abrirPanel(v){ const p=$('panel'); p.classList.toggle('abierto',v); p.setAttribute('aria-hidden',v?'false':'true'); $('velo').hidden=!v; $('bMenu').setAttribute('aria-expanded',String(v)); if(v){ pintarPanel(); keys.clear(); } }
+function irA(i){ const [,pos,deg]=PLACES[i]; player.x=pos[0]; player.z=pos[1]; player.yaw=aguila.pajaro?0:deg*Math.PI/180; player.pitch=aguila.pajaro?-1.55:aguila.on?-0.75:0; player.y=0; nameTimer=0; }
+function volverTitulo(){ const l=$('load'); l.hidden=false; $('start').textContent='Seguir'; requestAnimationFrame(()=>l.classList.remove('fuera')); }
+$('bMenu').addEventListener('click',e=>{ e.stopPropagation(); Sonido.clic(); abrirPanel(!$('panel').classList.contains('abierto')); });
+$('velo').addEventListener('click',()=>abrirPanel(false));
+$('panel').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; e.stopPropagation(); Sonido.clic(); const d=b.dataset;
+  if(b.id==='cerrar') return abrirPanel(false);
+  if(d.ir!==undefined){ irA(+d.ir); return abrirPanel(false); }
+  if(d.leer!==undefined) return leerLugar(LUGARES[+d.leer]);
+  if(d.ficha) return fichaFija(d.ficha);
+  if(d.titulo){ abrirPanel(false); return volverTitulo(); }
+  if(d.dueno==='volar'){ abrirPanel(false); if(aguila.on&&!aguila.pajaro) volar(false); else if(aguila.pajaro) ponerPajaro(false); else volar(true); return; }
+  if(d.dueno==='marcar'){ abrirPanel(false); if(aguila.pajaro) volar(false); else marcarEdificios(); return; }
+  if(d.aj){ const k=d.aj, v=d.v;
+    if(k==='hq'){ hq=v==='1'; try{ localStorage.setItem('langa-hq',hq?'1':'0'); }catch(e){} $('vineta').hidden=hq; }
+    else if(k==='mudo'){ Sonido.iniciar(); Sonido.silenciar(v==='1'); pintarSonido(); }
+    else if(k==='invertir'||k==='balanceo') AJ[k]=v==='1';
+    else AJ[k]=v;
+    if(k==='fov') ajustarCamara(); if(k==='letra') ponerLetra(); guardarAjustes(); pintarPanel(); } });
+$('panel').addEventListener('input',e=>{ if(e.target.id==='ajSens'){ AJ.sens=+e.target.value; guardarAjustes(); } });
+
+// ---------- Botón de sonido ----------
+function pintarSonido(){ const m=Sonido.silenciado(), b=$('bSonido'); b.querySelector('.on').style.display=m?'none':''; b.querySelector('.off').style.display=m?'':'none'; b.setAttribute('aria-label',m?'Activar el sonido':'Silenciar el sonido'); }
+$('bSonido').addEventListener('click',e=>{ e.stopPropagation(); Sonido.iniciar(); Sonido.silenciar(!Sonido.silenciado()); pintarSonido(); });
+pintarSonido();
+// Al volver a la pestaña o desbloquear el móvil, que la pantalla siga sin apagarse.
+document.addEventListener('visibilitychange',async()=>{ if(!document.hidden&&$('load').hidden){ try{ await navigator.wakeLock?.request('screen'); }catch(e){} } });
 
 // Recuperar la posición tras una actualización de la página.
 window.claude?.hot?.snapshot?.(()=>({x:player.x,z:player.z,yaw:player.yaw,pitch:player.pitch}));
 const restore=d=>{ if(d&&typeof d.x==='number'){Object.assign(player,{x:d.x,z:d.z,yaw:d.yaw,pitch:d.pitch,y:0});} };
 if(window.claude?.hot?.ready) window.claude.hot.ready(restore); else restore(window.claude?.hot?.data);
 
-let last=performance.now(), nameTimer=0, shownName='', bob=0;
+let last=performance.now(), nameTimer=0, shownName='', bob=0, correr=0, velPasos=0, suelo='losas';
 function frame(now){
   const dt=Math.min(0.05,(now-last)/1000); last=now;
-  let mx=moveVec[0], mz=moveVec[1];
+  // Joystick con zona muerta y velocidad continua; al borde (o con Mayús) se corre, acelerando sin saltos.
+  const jm=Math.hypot(moveVec[0],moveVec[1]), jk=jm>0.15?Math.min(1,(jm-0.15)/0.75)/jm:0;
+  let mx=moveVec[0]*jk, mz=moveVec[1]*jk;
   if(keys.has('KeyW')||keys.has('ArrowUp')) mz+=1; if(keys.has('KeyS')||keys.has('ArrowDown')) mz-=1;
   if(keys.has('KeyD')) mx+=1; if(keys.has('KeyA')) mx-=1;
   if(keys.has('ArrowLeft')) player.yaw-=1.8*dt; if(keys.has('ArrowRight')) player.yaw+=1.8*dt;
   const ml=Math.hypot(mx,mz); if(ml>1){mx/=ml;mz/=ml;}
-  const run=keys.has('ShiftLeft')||keys.has('ShiftRight')||Math.hypot(...moveVec)>0.95;
+  const quiere=(keys.has('ShiftLeft')||keys.has('ShiftRight')||jm>0.93)&&ml>0.05;
+  correr+=((quiere?1:0)-correr)*Math.min(1,dt*3); knob.classList.toggle('corre',correr>0.5);
   aguila.h+=((aguila.on?(aguila.pajaro?aguila.alto:110):0)-aguila.h)*Math.min(1,dt*1.6);
-  grupoMarcas.visible=aguila.h>3; // las chinchetas solo se ven desde el aire if(!aguila.on&&aguila.h<0.05) aguila.h=0;
-  const speed=(run?7:3.5)*dt*(1+aguila.h/18), fx=Math.sin(player.yaw), fz=Math.cos(player.yaw);
-  { const nx=player.x+(fx*mz+fz*mx)*speed, nz=player.z+(fz*mz-fx*mx)*speed;
+  grupoMarcas.visible=aguila.h>3; // las chinchetas solo se ven desde el aire
+  if(!aguila.on&&aguila.h<0.05) aguila.h=0;
+  const speed=(2.8+2.6*correr)*dt*(1+aguila.h/18), fx=Math.sin(player.yaw), fz=Math.cos(player.yaw);
+  { const ox=player.x, oz=player.z, nx=player.x+(fx*mz+fz*mx)*speed, nz=player.z+(fz*mz-fx*mx)*speed;
     if(aguila.h>3){ const r=Math.hypot(nx,nz),lim=data.radius-5,k=r>lim?lim/r:1; player.x=nx*k; player.z=nz*k; } // volando no hay casas con las que chocar
-    else [player.x,player.z]=collide(nx,nz); }
+    else [player.x,player.z]=collide(nx,nz);
+    const v=Math.hypot(player.x-ox,player.z-oz)/Math.max(dt,1e-3); velPasos=aguila.h>1||v>15?0:v; }
+  Sonido.pasos(velPasos,suelo);
   const gy=HT(player.x,player.z)+0.1+1.65+(window.__fly||0)+aguila.h;
   player.y=player.y?player.y+(gy-player.y)*Math.min(1,dt*10):gy;
   // Balanceo suave al andar.
-  const moving=aguila.h>1?0:Math.hypot(mx,mz)*(run?1.6:1); bob+=dt*moving*(run?11:8); const bobY=Math.sin(bob)*0.035*Math.min(1,moving);
+  const moving=aguila.h>1||!AJ.balanceo?0:Math.min(1.6,velPasos/2.8); bob+=dt*moving*7; const bobY=Math.sin(bob)*0.035*Math.min(1,moving);
   cam.position.set(...V(player.x,player.y+bobY,player.z)); sky.position.copy(cam.position); clouds.position.set(cam.position.x,cam.position.y+700,cam.position.z); clouds.material.uniforms.uOff.value.x+=dt*0.0012;
   const cp=Math.cos(player.pitch);
   cam.lookAt(...V(player.x+fx*cp,player.y+Math.sin(player.pitch),player.z+fz*cp));
@@ -1947,7 +2432,8 @@ function frame(now){
   const sx=player.x+fx*lejos, sz=player.z+fz*lejos;
   const c=new THREE.Vector3(...V(sx,aguila.h>3?HT(sx,sz):player.y,sz));
   sun.target.position.copy(c); sun.position.copy(c).addScaledVector(SUN_DIR,300);
-  nameTimer-=dt; if(nameTimer<=0){ nameTimer=0.5; for(const [im,cx,cz] of TILE_CELLS) im.visible=Math.hypot(cx-player.x,cz-player.z)<65; const n=placeName(player.x,player.z); if(n!==shownName){ shownName=n; $('place').firstElementChild.textContent=n; } }
+  nameTimer-=dt; if(nameTimer<=0){ nameTimer=0.5; for(const [im,cx,cz] of TILE_CELLS) im.visible=Math.hypot(cx-player.x,cz-player.z)<65; const n=placeName(player.x,player.z); if(n!==shownName){ shownName=n; $('place').firstElementChild.textContent=n; }
+    comprobarLugares(player.x,player.z); suelo=sueloEn(player.x,player.z); Sonido.zona(player.x,player.z); }
   renderer.info.autoReset=false; renderer.info.reset();
   if(hq) composer.render(); else renderer.render(scene,cam);
   requestAnimationFrame(frame);
@@ -1957,9 +2443,11 @@ await step('Cargando texturas…',0.98); await Promise.all(texWait);
 await step('Listo',1);
 $('status').textContent='Listo';
 $('start').hidden=false;
-$('start').focus();
+if(ESCRITORIO) $('start').focus(); // en el móvil, el foco pintaba un doble aro alrededor del botón
 $('start').addEventListener('click',async()=>{
-  $('load').hidden=true;
+  Sonido.iniciar(); pintarSonido();
+  const l=$('load'); l.classList.add('fuera'); setTimeout(()=>{ if(l.classList.contains('fuera')) l.hidden=true; },650);
+  $('vineta').hidden=hq; hintShown=true; $('hint').style.opacity=1;
   try{ await navigator.wakeLock?.request('screen'); }catch(e){}
 });
 window.gameReady=true;
