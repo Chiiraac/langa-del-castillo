@@ -2327,7 +2327,8 @@ $('aviso').addEventListener('click',e=>{ e.stopPropagation(); if(avisoLugar) lee
 const leerLugar=l=>abrirFicha(l.nombre,parrafos(l.texto),'Fuente: '+l.fuente);
 function comprobarLugares(x,z){ if(aguila.h>3||!$('load').hidden) return; // solo andando y ya dentro del pueblo
   for(const l of LUGARES){ if(visitados.has(l.id)) continue;
-    if((l.lejos?l.lejos-Math.hypot(x,z):Math.hypot(x-l.x,z-l.z)-l.r)<0){ // las ermitas: lejos del pueblo visitados.add(l.id);
+    // (las ermitas se descubren lejos del pueblo; el resto, al acercarse)
+    if((l.lejos?l.lejos-Math.hypot(x,z):Math.hypot(x-l.x,z-l.z)-l.r)<0){ visitados.add(l.id);
       try{ localStorage.setItem('langa-visitados',JSON.stringify([...visitados])); }catch(e){} avisar(l); pintarCuenta(); break; } } }
 pintarCuenta();
 
