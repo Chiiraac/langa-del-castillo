@@ -2,19 +2,19 @@
 <html lang="es">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Un pueblo real de Aragón, calle a calle: recorre a pie Langa del Castillo (Zaragoza), sus casas, su iglesia barroca y su castillo medieval, en el navegador y en el móvil.">
+<meta name="description" content="La niebla de Langa: un juego de miedo en 3D en un pueblo real de Aragón. Tu hermana ha desaparecido en la niebla de Langa del Castillo (Zaragoza). Linterna, radio y sombras sin cara. También, paseo libre por el pueblo.">
 <meta name="author" content="Atalaya Estudio">
 <meta name="langa-sin-npc" content="1">
 <meta name="langa-publica" content="1">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Atalaya Estudio">
-<meta property="og:title" content="Langa del Castillo · Paseo en 3D por el pueblo">
-<meta property="og:description" content="Un pueblo real de Aragón, calle a calle: sus casas, su iglesia barroca y su castillo medieval. Gratis, en el navegador y en el móvil.">
+<meta property="og:title" content="La niebla de Langa · Capítulo 1: Los que esperan">
+<meta property="og:description" content="Tu hermana ha desaparecido en la niebla de un pueblo real de Aragón. Juego de miedo en 3D, gratis, en el navegador y en el móvil. Ficción, sin gore.">
 <meta property="og:url" content="https://chiiraac.github.io/langa-del-castillo/">
 <meta property="og:image" content="https://chiiraac.github.io/langa-del-castillo/compartir.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Los tejados de Langa del Castillo desde el aire, con el título del juego">
+<meta property="og:image:alt" content="Los tejados de Langa del Castillo en la niebla, con el título del juego">
 <meta property="og:locale" content="es_ES">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#2b2418">
@@ -97,6 +97,31 @@ button:focus-visible{outline:2px solid var(--stone);outline-offset:2px}
 /* Franja del modo dueño (volar y marcar edificios). */
 #franja{position:fixed;z-index:3;left:50%;top:calc(env(safe-area-inset-top,0px) + 66px);transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:rgba(30,24,15,.9);border:1px dashed rgba(227,166,104,.8);border-radius:999px;padding:4px 4px 4px 14px;font:700 .7rem var(--ui);letter-spacing:.14em;text-transform:uppercase;color:#e3a668;white-space:nowrap}
 #franja button{font:700 .8rem var(--ui);letter-spacing:0;text-transform:none;min-height:36px;padding:0 14px;border-radius:999px;border:0;background:var(--stone);color:var(--ink);cursor:pointer}
+/* Modo historia: objetivo con flecha, botón de acción, diálogos, pantalla negra y susto. */
+#objetivo{position:fixed;z-index:2;left:16px;top:calc(env(safe-area-inset-top,0px) + 66px);max-width:calc(100vw - 32px);display:flex;align-items:center;gap:8px;background:var(--veil);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:999px;padding:5px 12px 5px 8px;font:700 .8rem/1.2 var(--ui);color:var(--stone);pointer-events:none;box-sizing:border-box}
+#objetivo .fl{display:flex;align-items:center;gap:4px;flex:0 0 auto;color:#e3a668;font-variant-numeric:tabular-nums}
+#objFlecha{width:16px;height:16px;transition:transform .2s}
+#objTexto{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#accion{position:fixed;z-index:3;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 96px);min-height:52px;padding:0 24px;border-radius:999px;border:0;background:var(--stone);color:var(--ink);font:700 1rem var(--ui);box-shadow:0 6px 20px rgba(0,0,0,.45);cursor:pointer;max-width:calc(100vw - 32px)}
+#accion:disabled{background:rgba(239,228,200,.55);cursor:default}
+#bLinterna.activo{background:#e3a668;color:var(--ink)}
+#dialogo{position:fixed;z-index:5;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);margin:0 auto;max-width:34rem;background:rgba(14,11,8,.94);border:1px solid rgba(239,228,200,.22);border-radius:14px;padding:14px 16px 12px;cursor:pointer}
+#dlgQuien{font:700 .75rem var(--ui);letter-spacing:.16em;text-transform:uppercase}
+#dlgTexto{font:400 1.05rem/1.5 var(--ui);color:var(--stone);margin:6px 0 4px}
+#dlgSigue{font-size:.75rem;color:var(--stone-deep);text-align:right}
+#dlgOpciones{display:grid;gap:8px;margin-top:8px}
+#dlgOpciones button{min-height:48px;border-radius:10px;border:1px solid rgba(239,228,200,.35);background:rgba(239,228,200,.06);color:var(--stone);font:700 .95rem var(--ui);text-align:left;padding:0 14px;cursor:pointer}
+#cine{position:fixed;inset:0;z-index:7;background:#000;display:grid;place-items:center;padding:24px;cursor:pointer}
+#cineTxt{max-width:26rem;text-align:center;font:400 1.35rem/1.5 var(--display);color:#d9d2c0;opacity:0;transition:opacity 1.2s}
+#cineTxt.ver{opacity:1}
+#cine small{position:absolute;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);left:0;right:0;text-align:center;color:#6d665a;font-size:.8rem}
+#narra{position:fixed;z-index:3;left:16px;right:16px;margin:0 auto;max-width:26rem;bottom:calc(env(safe-area-inset-bottom,0px) + 162px);text-align:center;font:italic 400 1.02rem/1.45 var(--ui);color:#efe9da;text-shadow:0 1px 3px #000,0 0 14px rgba(0,0,0,.85);background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.45),transparent 72%);padding:10px 14px;opacity:0;transition:opacity .45s;pointer-events:none}
+#narra.ver{opacity:1}
+#cineTxt .ct{display:block;font:400 2.3rem/1.1 var(--display);letter-spacing:.04em;color:#e8e0cc}
+#cineTxt .cs{display:block;margin-top:14px;font:700 .8rem var(--ui);letter-spacing:.24em;text-transform:uppercase;color:#a9563a}
+#susto{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 50%,transparent 35%,rgba(120,0,0,.55) 100%);transition:opacity .4s}
+#paseo{font:700 .85rem var(--ui);letter-spacing:.1em;text-transform:uppercase;color:var(--stone);background:transparent;border:1px solid rgba(239,228,200,.4);border-radius:6px;min-width:15rem;min-height:44px;cursor:pointer}
+.objeto small{white-space:nowrap}
 /* Pantalla de título y carga. */
 #load{position:fixed;inset:0;z-index:5;display:grid;grid-template-rows:auto 1fr auto;padding:calc(env(safe-area-inset-top,0px) + 20px) 16px calc(env(safe-area-inset-bottom,0px) + 16px);background:#1e180f;overflow:auto;transition:opacity .6s}
 #load.fuera{opacity:0;pointer-events:none}
@@ -166,18 +191,20 @@ button:focus-visible{outline:2px solid var(--stone);outline-offset:2px}
   <div class="card">
     <h1 aria-label="Langa del Castillo"><span class="a">Langa</span><span class="del">del</span><span class="b">Castillo</span></h1>
     <div id="coords">41°12′43″ N · 1°23′55″ O · 878 m</div>
-    <p>Un pueblo real de Aragón, calle a calle, con su iglesia barroca y su castillo medieval.</p>
+    <p id="lema">Un pueblo real de Aragón, calle a calle, con su iglesia barroca y su castillo medieval.</p>
     <div class="barra"><div id="bar"><i></i></div><div id="estado"><span id="status">Cargando datos…</span><span id="pct">0 %</span></div></div>
     <button id="reintentar" type="button" hidden>Reintentar</button>
-    <button id="start" type="button" hidden>Entrar al pueblo</button>
+    <button id="start" type="button" hidden>Empezar la historia</button>
+    <button id="paseo" type="button" hidden>Paseo libre</button>
     <div id="extras"><button type="button" data-ficha="ayuda">Cómo se juega</button><button type="button" data-ficha="creditos">Créditos y licencias</button></div>
-    <div id="credits">Calles © colaboradores de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> (ODbL) · Edificios: fuente Dirección General del Catastro, consulta 10-10-2026, datos transformados · Relieve generado con información de Copernicus (Unión Europea), EU-DEM v1.1, adaptado · Texturas: Poly Haven (CC0) · Letras: SIL OFL · three.js (MIT) · Proyecto independiente, no oficial</div>
+    <div id="credits">Calles © colaboradores de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> (ODbL) · Edificios: fuente Dirección General del Catastro, consulta 10-10-2026, datos transformados · Relieve generado con información de Copernicus (Unión Europea), EU-DEM v1.1, adaptado · Texturas: Poly Haven (CC0) · Letras: SIL OFL · three.js (MIT) · Proyecto independiente, no oficial · La historia de miedo es ficción</div>
   </div>
 </div>
 <div id="pad"></div>
 <div id="vineta" hidden></div>
 <div class="hud" id="top"><div id="place"><b>Plaza Mayor</b><span>Langa del Castillo</span></div>
   <div id="botones">
+    <button class="redondo" id="bLinterna" type="button" aria-label="Linterna" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 3h8v4l-2 3v11h-4V10L8 7z"/><path d="M8 7h8"/></svg></button>
     <button class="redondo" id="bSonido" type="button" aria-label="Silenciar el sonido"><svg class="i" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="on" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/><path class="off" d="M16 9l6 6M22 9l-6 6" style="display:none"/></svg></button>
     <button class="redondo" id="bMenu" type="button" aria-label="Menú" aria-expanded="false"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   </div>
@@ -185,6 +212,12 @@ button:focus-visible{outline:2px solid var(--stone);outline-offset:2px}
 <div id="stick" hidden><div id="knob"></div></div>
 <div class="hud" id="hint"><span id="hintText">Mitad izquierda: andar (al borde, corres) · Mitad derecha: mirar</span></div>
 <div id="aviso" role="status" aria-live="polite"></div>
+<div id="objetivo" hidden><span class="fl" hidden><svg id="objFlecha" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l7 18-7-4-7 4z"/></svg><span id="objDist"></span></span><span id="objTexto"></span></div>
+<button id="accion" type="button" hidden></button>
+<div id="susto"></div>
+<div id="narra" aria-live="polite"></div>
+<div id="dialogo" hidden role="dialog" aria-live="polite"><div id="dlgQuien"></div><div id="dlgTexto"></div><div id="dlgOpciones"></div><div id="dlgSigue">Toca para seguir</div></div>
+<div id="cine" hidden><div id="cineTxt"></div><small>Toca para seguir</small></div>
 <div id="franja" hidden><span>Modo dueño</span><button type="button" id="franjaSalir">Bajar a pie</button></div>
 <div id="velo" hidden></div>
 <section id="panel" aria-label="Menú" aria-hidden="true"></section>
@@ -224,16 +257,19 @@ const step=(msg,frac)=>{ if(window.__fallo||window.__sinJuego) return new Promis
 const FICHAS={
   ayuda:['Cómo se juega',`<p><b>En el móvil:</b> pon el dedo en la mitad izquierda de la pantalla y arrástralo hacia donde quieras ir; si lo llevas hasta el borde, corres. En la mitad derecha, desliza para mirar. En Ajustes puedes cambiar de lado.</p>
 <p><b>En el ordenador:</b> WASD o las flechas para andar, Mayús para correr y arrastra con el ratón para mirar. M o Esc abren el menú.</p>
-<p><b>El menú</b> (arriba a la derecha) te lleva a cualquier sitio del pueblo y guarda los lugares con historia que vas descubriendo.</p>
-<p><b>Lugares con historia:</b> al pasar cerca de la iglesia, la fuente, el castillo… aparece un aviso abajo. Tócalo para leer su historia.</p>
+<p><b>La historia:</b> arriba tienes el objetivo y una flecha que apunta hacia él, con los metros que faltan. Cuando estés cerca de alguien o de algo, sale un botón abajo: «Hablar», «Coger», «Leer» o «Usar».</p>
+<p><b>La mochila</b> está en el menú (arriba a la derecha), con los recuerdos que encuentras y los logros. La partida se guarda sola.</p>
+<p><b>Las sombras:</b> cuando la niebla se espesa, salen. Enciende la linterna (el botón con la luz) y apúntales: se apartan. Si llevas la radio, crepita cuando están cerca. A la iglesia no entran: allí estás a salvo.</p>
+<p><b>Paseo libre:</b> desde el título puedes recorrer el pueblo sin miedo, con los lugares con historia y su aviso al pasar cerca.</p>
 <p>En el iPhone, «Compartir → Añadir a pantalla de inicio» lo abre como una app, a pantalla completa.</p>`,''],
   creditos:['Créditos y licencias',`<p><b>Langa del Castillo</b> · un juego de Atalaya Estudio. Proyecto independiente, sin relación con el Ayuntamiento de Langa del Castillo ni con las entidades citadas.</p>
 <p><b>Calles y sus nombres:</b> © colaboradores de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>, bajo la Open Database License (ODbL 1.0).</p>
 <p><b>Edificios</b> (planta y número de plantas) y <b>color de las fachadas:</b> fuente Dirección General del Catastro, información consultada el 10 de octubre de 2026 y transformada para este juego. No es cartografía ni información catastral oficial.</p>
 <p><b>Relieve:</b> generado con información del Servicio de Vigilancia Terrestre de Copernicus de la Unión Europea (EU-DEM v1.1), adaptado. La Unión Europea no respalda este proyecto.</p>
 <p><b>Texturas:</b> <a href="https://polyhaven.com" target="_blank" rel="noopener">Poly Haven</a> (CC0). <b>Letras:</b> IM Fell English SC y Atkinson Hyperlegible (SIL Open Font License). <b>Gráficos:</b> three.js (MIT). <b>Sonido:</b> síntesis propia.</p>
-<p><b>Historia:</b> SIPCA (Gobierno de Aragón), Inventario de Fortificaciones Aragonesas (castillosenaragon.es, ficha CD.34), Wikipedia y el Diccionario de Madoz (1847).</p>
-<p><b>Privacidad:</b> el juego no usa cookies ni recoge datos personales. Solo guarda en tu dispositivo tus ajustes, los lugares que descubres y una copia para jugar sin conexión. Las letras y la librería 3D se descargan de Google Fonts y jsDelivr, que reciben tu dirección IP.</p>
+<p><b><i>La niebla de Langa</i> es una obra de ficción.</b> La leyenda de «los que esperan», la niebla, la bodega bajo la muela y todos los personajes son inventados y no se refieren a ningún vecino ni a nada que haya pasado en el pueblo. Los datos históricos del cuaderno de Nora (el castillo-refugio, 1357, 1367, las bodegas, las ermitas y la iglesia de San Pedro) salen de las fuentes de abajo.</p>
+<p><b>Historia del pueblo</b> (paseo libre): SIPCA (Gobierno de Aragón), Inventario de Fortificaciones Aragonesas (castillosenaragon.es, ficha CD.34), Wikipedia y el Diccionario de Madoz (1847).</p>
+<p><b>Privacidad:</b> el juego no usa cookies ni recoge datos personales. Solo guarda en tu dispositivo tus ajustes, tu partida, los lugares que descubres y una copia para jugar sin conexión. Las letras y la librería 3D se descargan de Google Fonts y jsDelivr, que reciben tu dirección IP.</p>
 <p>Gracias a quien conoce el pueblo y nos ayudó a completarlo.</p>`,''],
 };
 const parrafos=t=>t.split('\n').map(x=>`<p>${x}</p>`).join('');
@@ -1940,7 +1976,7 @@ function placeName(x,z){
 }
 
 // Ajustes del jugador (se guardan en este navegador).
-const AJ={sens:1,invertir:false,fov:'normal',andar:'izq',balanceo:!matchMedia('(prefers-reduced-motion: reduce)').matches,letra:'normal'};
+const AJ={tiempo:'claro',sens:1,invertir:false,fov:'normal',andar:'izq',balanceo:!matchMedia('(prefers-reduced-motion: reduce)').matches,letra:'normal'};
 try{ Object.assign(AJ,JSON.parse(localStorage.getItem('langa-ajustes')||'{}')); }catch(e){}
 const guardarAjustes=()=>{ try{ localStorage.setItem('langa-ajustes',JSON.stringify(AJ)); }catch(e){} };
 const ponerLetra=()=>{ document.documentElement.style.fontSize=AJ.letra==='grande'?'118%':'100%'; }; ponerLetra();
@@ -2273,7 +2309,7 @@ const Sonido = (() => {
     z.iglesia = d(IGLESIA);
     if (!ctx) return;
     ir(bus.agua.gain, 2 * z.fuente, 0.8);
-    ir(bus.pajaros.gain, 1.2 * (1 - 0.4 * z.castillo), 1.5);
+    ir(bus.pajaros.gain, mOn ? 0 : 1.2 * (1 - 0.4 * z.castillo), 1.5);
   }
 
   function silenciar(si) {
@@ -2288,7 +2324,38 @@ const Sonido = (() => {
     if (ctx && !mudo) { fijar(); ir(master.gain, vol, 0.1); }
   }
 
-  return { iniciar, pasos, zona, silenciar, volumen, campanas, clic, silenciado: () => mudo };
+  // ---------- Modo miedo: zumbido grave que va y viene (sin pájaros), la radio que crepita cuando hay sombras cerca
+  // (como en Silent Hill) y un golpe seco cuando una te alcanza.
+  let mOn = false, mGain = null, rGain = null, rFiltro = null;
+  function miedo(on) {
+    mOn = !!on; if (!ctx) return;
+    if (!mGain) {
+      mGain = ctx.createGain(); mGain.gain.value = 0; mGain.connect(master);
+      const f = ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 700; f.connect(mGain);
+      for (const [fr, det] of [[110, -7], [110.6, 5], [164.8, 0], [233.1, 3]]) { const o = ctx.createOscillator(); o.type = 'sawtooth';
+        o.frequency.value = fr; o.detune.value = det; const g = ctx.createGain(); g.gain.value = 0.04; o.connect(g).connect(f); o.start(); }
+      const lfo = ctx.createOscillator(), lg = ctx.createGain(); lfo.frequency.value = 0.06; lg.gain.value = 300; lfo.connect(lg).connect(f.frequency); lfo.start();
+      rGain = ctx.createGain(); rGain.gain.value = 0; rGain.connect(master);
+      const sr = ctx.createBufferSource(); sr.buffer = ruido; sr.loop = true; sr.playbackRate.value = 1.3;
+      rFiltro = ctx.createBiquadFilter(); rFiltro.type = 'bandpass'; rFiltro.frequency.value = 1800; rFiltro.Q.value = 0.9;
+      sr.connect(rFiltro).connect(rGain); sr.start();
+    }
+    ir(mGain.gain, mOn ? 0.55 : 0, 2.5);
+    ir(bus.pajaros.gain, mOn ? 0 : 1.2, 2);
+  }
+  function radio(nivel) {
+    if (!ctx || !rGain) return; const n = Math.max(0, Math.min(1, nivel || 0));
+    ir(rGain.gain, mudo ? 0 : n * n * 0.4 * (0.6 + 0.4 * Math.random()), 0.08);
+    rFiltro.frequency.setTargetAtTime(900 + 2600 * Math.random(), ahora(), 0.04);
+  }
+  function golpe() {
+    if (!ctx || mudo) return; const t = ahora() + 0.01, o = ctx.createOscillator(); o.type = 'sine';
+    o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(42, t + 0.45);
+    o.connect(envolvente(t, 0.9, 0.004, 0.6, master)); o.start(t); o.stop(t + 0.7);
+    soplo(t, 0.5, 'bandpass', 900, 0.6, envolvente(t, 0.45, 0.004, 0.45, master), 0.7);
+  }
+
+  return { iniciar, pasos, zona, silenciar, volumen, campanas, clic, miedo, radio, golpe, silenciado: () => mudo };
 })();
 window.Sonido = Sonido;
 
@@ -2325,7 +2392,7 @@ function avisar(l){ const a=$('aviso'); avisoLugar=l;
   a.classList.add('ver'); $('hint').style.opacity=0; hintShown=false; clearTimeout(avisoT); avisoT=setTimeout(()=>a.classList.remove('ver'),8000); Sonido.clic(); }
 $('aviso').addEventListener('click',e=>{ e.stopPropagation(); if(avisoLugar) leerLugar(avisoLugar); $('aviso').classList.remove('ver'); });
 const leerLugar=l=>abrirFicha(l.nombre,parrafos(l.texto),'Fuente: '+l.fuente);
-function comprobarLugares(x,z){ if(aguila.h>3||!$('load').hidden) return; // solo andando y ya dentro del pueblo
+function comprobarLugares(x,z){ if(aguila.h>3||!$('load').hidden||visitadosOff) return; // solo andando y ya dentro del pueblo
   for(const l of LUGARES){ if(visitados.has(l.id)) continue;
     // (las ermitas se descubren lejos del pueblo; el resto, al acercarse)
     if((l.lejos?l.lejos-Math.hypot(x,z):Math.hypot(x-l.x,z-l.z)-l.r)<0){ visitados.add(l.id);
@@ -2350,24 +2417,31 @@ function svgI(n){ return `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">
 const seg=(et,k,ops,val)=>`<div class="ajuste"><span>${et}</span><span class="seg" role="group" aria-label="${et}">${ops.map(([v,t])=>`<button type="button" data-aj="${k}" data-v="${v}" aria-pressed="${v===val}">${t}</button>`).join('')}</span></div>`;
 function pintarPanel(){
   const p=$('panel'); if(!p.classList.contains('abierto')) return;
-  let h=`<div class="asa"></div><header><h2>Ir a</h2><button id="cerrar" type="button" aria-label="Cerrar">${svgI('cerrar')}</button></header>`;
+  let h=`<div class="asa"></div><header><h2>${HIST.on?'Historia':'Ir a'}</h2><button id="cerrar" type="button" aria-label="Cerrar">${svgI('cerrar')}</button></header>`;
+  if(HIST.on&&HIST.d) h+=panelHistoria(); else {
   let aqui=-1, dmin=25; PLACES.forEach(([,pos],i)=>{ const d=Math.hypot(player.x-pos[0],player.z-pos[1]); if(d<dmin){ dmin=d; aqui=i; } });
   PLACES.forEach(([n,pos,,ic],i)=>{ const cerca=i===aqui;
     h+=`<button class="lugar" type="button" data-ir="${i}"${cerca?' aria-current="true"':''}>${svgI(ic)}${n}${cerca?'<small>aquí</small>':''}</button>`; });
   h+=`<h2>Tu paseo · ${visitados.size} de ${LUGARES.length} lugares con historia</h2>`;
-  LUGARES.forEach((l,i)=>{ h+=visitados.has(l.id)?`<button class="lugar" type="button" data-leer="${i}">${svgI('libro')}${l.nombre}<small>leer</small></button>`:`<div class="lugar oculto">${svgI('libro')}Sin descubrir</div>`; });
-  h+='<h2>Ajustes</h2>'+seg('Gráficos','hq',[['0','Rápidos'],['1','Bonitos']],hq?'1':'0')+seg('Sonido','mudo',[['1','No'],['0','Sí']],Sonido.silenciado()?'1':'0')
+  LUGARES.forEach((l,i)=>{ h+=visitados.has(l.id)?`<button class="lugar" type="button" data-leer="${i}">${svgI('libro')}${l.nombre}<small>leer</small></button>`:`<div class="lugar oculto">${svgI('libro')}Sin descubrir</div>`; }); }
+  h+='<h2>Ajustes</h2>'+(HIST.on?'':seg('Tiempo','tiempo',[['claro','Despejado'],['niebla','Niebla']],AJ.tiempo))+seg('Gráficos','hq',[['0','Rápidos'],['1','Bonitos']],hq?'1':'0')+seg('Sonido','mudo',[['1','No'],['0','Sí']],Sonido.silenciado()?'1':'0')
     +`<div class="ajuste"><label for="ajSens">Sensibilidad de la vista</label><input id="ajSens" type="range" min="0.5" max="2" step="0.1" value="${AJ.sens}"></div>`
     +seg('Invertir arriba y abajo','invertir',[['0','No'],['1','Sí']],AJ.invertir?'1':'0')+seg('Campo de visión','fov',[['normal','Normal'],['amplio','Amplio']],AJ.fov)
     +(ESCRITORIO?'':seg('Andar con el dedo','andar',[['izq','Izquierdo'],['der','Derecho']],AJ.andar))
     +seg('Balanceo al andar','balanceo',[['0','No'],['1','Sí']],AJ.balanceo?'1':'0')+seg('Tamaño del texto','letra',[['normal','Normal'],['grande','Grande']],AJ.letra);
-  h+=`<h2>Más</h2><button class="lugar" type="button" data-ficha="ayuda">${svgI('ayuda')}Cómo se juega</button><button class="lugar" type="button" data-ficha="creditos">${svgI('info')}Créditos y licencias</button><button class="lugar" type="button" data-titulo="1">${svgI('inicio')}Volver al título</button>`;
+  h+=`<h2>Más</h2><button class="lugar" type="button" data-ficha="ayuda">${svgI('ayuda')}Cómo se juega</button><button class="lugar" type="button" data-ficha="creditos">${svgI('info')}Créditos y licencias</button><button class="lugar" type="button" data-titulo="1">${svgI('inicio')}Volver al título</button>`+(HIST.on?`<button class="lugar" type="button" data-reiniciar="1">${svgI('inicio')}Empezar el capítulo de nuevo</button>`:'');
   if(DUENO) h+=`<div class="dueno"><h2>Herramientas del dueño</h2><button class="lugar" type="button" data-dueno="volar">${svgI('volar')}${aguila.on&&!aguila.pajaro?'Bajar a pie':'Volar sobre el pueblo'}</button><button class="lugar" type="button" data-dueno="marcar">${svgI('marcar')}${aguila.pajaro?'Dejar de marcar':'Marcar edificios que faltan'}${marcas.length?`<small>${marcas.length} ${marcas.length===1?'marca':'marcas'}</small>`:''}</button></div>`;
   p.innerHTML=h;
 }
+function panelHistoria(){ const d=HIST.d, e=HIST.e, m=d.misiones[e.m]; let h='';
+  h+=`<div class="lugar" style="display:block;padding:10px 12px;line-height:1.35"><small style="display:block;margin:0 0 4px;color:var(--stone-deep);font-weight:400">${d.subtitulo||''}</small>${m?m.titulo+' · '+m.objetivo:'Capítulo terminado'}</div>`;
+  h+='<h2>Mochila</h2>'+(e.inv.length?e.inv.map(id=>{ const o=d.objetos[id]; return `<button class="lugar" type="button" data-obj="${id}">${iconoObj(o?.icono)}${o?o.nombre:id}${id==='linterna'?`<small>${e.linterna?'encendida':'apagada'}</small>`:''}</button>`; }).join(''):'<div class="lugar oculto">Vacía</div>');
+  h+=`<h2>Recuerdos · ${e.rec.length} de ${Object.keys(d.recuerdos).length}</h2>`+(e.rec.length?e.rec.map(id=>{ const r=d.recuerdos[id]; return `<button class="lugar" type="button" data-rec="${id}">${iconoObj(r?.tipo==='foto'?'foto':'nota')}${r?r.titulo:id}<small>leer</small></button>`; }).join(''):'<div class="lugar oculto">Todavía ninguno</div>');
+  h+=`<h2>Logros · ${e.logros.length} de ${Object.keys(d.logros).length}</h2>`+Object.entries(d.logros).map(([id,l])=>{ const ok=e.logros.includes(id); return `<div class="lugar${ok?'':' oculto'}" style="min-height:48px">${svgI('info')}<span>${ok?l.nombre:'¿?'}<small style="display:block;margin:2px 0 0;font-weight:400">${ok?l.descripcion:'Sin conseguir'}</small></span></div>`; }).join('');
+  return h; }
 function abrirPanel(v){ const p=$('panel'); p.classList.toggle('abierto',v); p.setAttribute('aria-hidden',v?'false':'true'); $('velo').hidden=!v; $('bMenu').setAttribute('aria-expanded',String(v)); if(v){ pintarPanel(); keys.clear(); } }
 function irA(i){ const [,pos,deg]=PLACES[i]; player.x=pos[0]; player.z=pos[1]; player.yaw=aguila.pajaro?0:deg*Math.PI/180; player.pitch=aguila.pajaro?-1.55:aguila.on?-0.75:0; player.y=0; nameTimer=0; }
-function volverTitulo(){ const l=$('load'); l.hidden=false; $('start').textContent='Seguir'; requestAnimationFrame(()=>l.classList.remove('fuera')); }
+function volverTitulo(){ const l=$('load'); l.hidden=false; $('start').textContent=partidaGuardada()?'Continuar la historia':'Empezar la historia'; requestAnimationFrame(()=>l.classList.remove('fuera')); }
 $('bMenu').addEventListener('click',e=>{ e.stopPropagation(); Sonido.clic(); abrirPanel(!$('panel').classList.contains('abierto')); });
 $('velo').addEventListener('click',()=>abrirPanel(false));
 $('panel').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; e.stopPropagation(); Sonido.clic(); const d=b.dataset;
@@ -2375,6 +2449,9 @@ $('panel').addEventListener('click',e=>{ const b=e.target.closest('button'); if(
   if(d.ir!==undefined){ irA(+d.ir); return abrirPanel(false); }
   if(d.leer!==undefined) return leerLugar(LUGARES[+d.leer]);
   if(d.ficha) return fichaFija(d.ficha);
+  if(d.obj){ const o=HIST.d.objetos[d.obj]; if(d.obj==='linterna'){ HIST.e.linterna=!HIST.e.linterna; pintarLinterna(); guardarHist(); return pintarPanel(); } return abrirFicha(o?o.nombre:d.obj,`<p>${o?o.descripcion:''}</p>`,''); }
+  if(d.rec) return leerRecuerdo(d.rec);
+  if(d.reiniciar){ if(b.dataset.seguro){ abrirPanel(false); return reiniciarHistoria(); } b.dataset.seguro='1'; b.innerHTML=svgI('inicio')+'¿Seguro? Se borra la partida. Pulsa otra vez'; return; }
   if(d.titulo){ abrirPanel(false); return volverTitulo(); }
   if(d.dueno==='volar'){ abrirPanel(false); if(aguila.on&&!aguila.pajaro) volar(false); else if(aguila.pajaro) ponerPajaro(false); else volar(true); return; }
   if(d.dueno==='marcar'){ abrirPanel(false); if(aguila.pajaro) volar(false); else marcarEdificios(); return; }
@@ -2383,8 +2460,21 @@ $('panel').addEventListener('click',e=>{ const b=e.target.closest('button'); if(
     else if(k==='mudo'){ Sonido.iniciar(); Sonido.silenciar(v==='1'); pintarSonido(); }
     else if(k==='invertir'||k==='balanceo') AJ[k]=v==='1';
     else AJ[k]=v;
-    if(k==='fov') ajustarCamara(); if(k==='letra') ponerLetra(); guardarAjustes(); pintarPanel(); } });
+    if(k==='fov') ajustarCamara(); if(k==='letra') ponerLetra(); if(k==='tiempo') ponerNiebla(v==='niebla'); guardarAjustes(); pintarPanel(); } });
 $('panel').addEventListener('input',e=>{ if(e.target.id==='ajSens'){ AJ.sens=+e.target.value; guardarAjustes(); } });
+
+// ---------- Tiempo: niebla espesa de otoño en la meseta (ajuste del menú) ----------
+// Se ve un centenar de metros; el cielo y las nubes se cambian por una cúpula del color de la niebla y la luz se vuelve
+// suave. La cúpula se crea solo al poner niebla: así el exportador a Unity, que copia todas las mallas, nunca la ve.
+const DIA={fog:scene.fog.color.clone(),dens:scene.fog.density,sol:sun.intensity}, hemiLuz=scene.children.find(o=>o.isHemisphereLight), hemiDia=hemiLuz?hemiLuz.intensity:0;
+const COLOR_NIEBLA=new THREE.Color(0xbcc2c4); let cupula=null;
+function ponerNiebla(v){
+  if(v&&!cupula){ cupula=new THREE.Mesh(new THREE.SphereGeometry(3000,24,12),new THREE.MeshBasicMaterial({color:COLOR_NIEBLA,side:THREE.BackSide,fog:false,depthWrite:false}));
+    cupula.renderOrder=-2; cupula.frustumCulled=false; scene.add(cupula); }
+  if(cupula) cupula.visible=v; sky.visible=!v; clouds.visible=!v;
+  scene.fog.color.copy(v?COLOR_NIEBLA:DIA.fog); scene.fog.density=v?0.017:DIA.dens;
+  sun.intensity=v?DIA.sol*0.35:DIA.sol; if(hemiLuz) hemiLuz.intensity=v?0.75:hemiDia; }
+ponerNiebla(AJ.tiempo==='niebla');
 
 // ---------- Botón de sonido ----------
 function pintarSonido(){ const m=Sonido.silenciado(), b=$('bSonido'); b.querySelector('.on').style.display=m?'none':''; b.querySelector('.off').style.display=m?'':'none'; b.setAttribute('aria-label',m?'Activar el sonido':'Silenciar el sonido'); }
@@ -2393,14 +2483,252 @@ pintarSonido();
 // Al volver a la pestaña o desbloquear el móvil, que la pantalla siga sin apagarse.
 document.addEventListener('visibilitychange',async()=>{ if(!document.hidden&&$('load').hidden){ try{ await navigator.wakeLock?.request('screen'); }catch(e){} } });
 
+
+// ================= MODO HISTORIA (miedo, al estilo de Silent Hill) =================
+// Lee la historia de data/historia/capitulo1.json (la escribe Guion): misiones con pasos (ir, hablar, coger, usar,
+// leer, evento), personajes, objetos de la mochila, recuerdos (notas y fotos) y logros. La partida se guarda en el
+// dispositivo. Las sombras salen en la niebla y se acercan; la linterna las aparta y la radio crepita si están cerca.
+// La iglesia es un refugio: allí no entran. Todo lo de miedo es ficción.
+const HIST={on:false,d:null,e:null,bloqueo:false,figuras:{},marca:null,sombras:[],t:0,tLuz:0}; window.__HIST=HIST;   // para las pruebas
+const promHist=fetch('data/historia/capitulo1.json').then(r=>r.ok?r.json():null).catch(()=>null);
+const REFUGIO=[-2,99], R_REFUGIO=17;   // delante de la portada de la iglesia y su parque
+const nuevoEstado=()=>({cap:1,m:0,p:0,inv:[],rec:[],logros:[],miedo:0,linterna:false,noche:false,sombras:false,inicio:false});
+function guardarHist(){ if(!HIST.e) return; if(HIST.on) HIST.e.pos=[+player.x.toFixed(1),+player.z.toFixed(1),+player.yaw.toFixed(2)]; try{ localStorage.setItem('langa-historia',JSON.stringify(HIST.e)); }catch(e){} }
+function partidaGuardada(){ try{ const s=JSON.parse(localStorage.getItem('langa-historia')||'null'); if(s&&typeof s.m==='number'&&!s.acabada) return s; }catch(e){} return null; }
+if(partidaGuardada()) $('start').textContent='Continuar la historia';
+
+// ---------- Figuras: personajes sin cara (maniquí con abrigo) y sombras ----------
+function hFigura(tipo,color,mat){
+  const g=new THREE.Group(), alto={nino:1.15,anciana:1.5,anciano:1.6,mujer:1.65,hombre:1.78,sombra:2.05}[tipo]||1.7;
+  const ropa=mat||new THREE.MeshStandardMaterial({color:new THREE.Color(color||'#5a4a3a').convertSRGBToLinear(),roughness:0.95});
+  const piel=mat||new THREE.MeshStandardMaterial({color:new THREE.Color('#b8a493').convertSRGBToLinear(),roughness:0.9});
+  const cuerpo=new THREE.Mesh(new THREE.CylinderGeometry(alto*0.11,alto*0.17,alto*0.62,10),ropa); cuerpo.position.y=alto*0.42; g.add(cuerpo);
+  const hombros=new THREE.Mesh(new THREE.SphereGeometry(alto*0.12,10,6),ropa); hombros.scale.set(1.25,0.6,0.9); hombros.position.y=alto*0.72; g.add(hombros);
+  const cabeza=new THREE.Mesh(new THREE.SphereGeometry(alto*0.075,12,10),piel); cabeza.scale.set(0.9,1.1,0.95); cabeza.position.y=alto*0.87; g.add(cabeza);
+  for(const s of [-1,1]){ const b=new THREE.Mesh(new THREE.CylinderGeometry(alto*0.03,alto*0.035,alto*0.38,6),ropa); b.position.set(s*alto*0.13,alto*0.55,0); b.rotation.z=s*0.12; g.add(b);
+    const p=new THREE.Mesh(new THREE.CylinderGeometry(alto*0.035,alto*0.03,alto*0.2,6),mat||new THREE.MeshStandardMaterial({color:0x1d1a17,roughness:0.9})); p.position.set(s*alto*0.05,alto*0.08,0); g.add(p); }
+  if(tipo==='anciana'||tipo==='anciano'){ g.children[0].rotation.x=0.12; g.children[2].position.z=alto*0.04; }
+  g.traverse(o=>{ if(o.isMesh){ o.castShadow=!mat; } });
+  return g; }
+const matSombra=new THREE.MeshBasicMaterial({color:0x040404,transparent:true,opacity:0.85,depthWrite:false});
+function ponerEn(g,x,z,gradosNorte){ g.position.set(...V(x,HT(x,z)+0.02,z)); g.rotation.y=-(gradosNorte||0)*Math.PI/180+Math.PI; }
+
+// ---------- Ruina sencilla para los sitios de fuera del pueblo (la ermita) ----------
+const ruinasHechas=new Set();
+function ruina(x,z){ const k=Math.round(x)+','+Math.round(z); if(ruinasHechas.has(k)) return; ruinasHechas.add(k);
+  const piedra=new THREE.MeshStandardMaterial({color:new THREE.Color('#8f877a').convertSRGBToLinear(),roughness:1}), y=HT(x,z);
+  const g=new THREE.Group(), muro=(lx,lz,ancho,largo,alto)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(ancho,alto,largo),piedra); m.position.set(lx,alto/2-0.2,lz); m.castShadow=m.receiveShadow=true; g.add(m); };
+  muro(-3,0,0.7,9,2.6); muro(3,0,0.7,9,1.4); muro(0,4.5,6.7,0.7,3.2); muro(-1.6,-4.5,3.4,0.7,2.2); muro(2.6,-4.5,1.5,0.7,0.9);
+  const arco=new THREE.Mesh(new THREE.TorusGeometry(1.3,0.28,6,10,Math.PI),piedra); arco.position.set(-1.2,2.4,-4.5); g.add(arco);
+  g.position.set(...V(x,y,z)); scene.add(g); }
+
+// ---------- Objetos que se ven en el mundo: un destello que late para encontrarlos en la niebla ----------
+const texBrillo=(()=>{ const c=document.createElement('canvas'); c.width=c.height=64; const x=c.getContext('2d'), gr=x.createRadialGradient(32,32,0,32,32,32);
+  gr.addColorStop(0,'rgba(255,240,200,1)'); gr.addColorStop(0.3,'rgba(255,220,150,.55)'); gr.addColorStop(1,'rgba(255,200,120,0)'); x.fillStyle=gr; x.fillRect(0,0,64,64); return new THREE.CanvasTexture(c); })();
+function marcaEn(x,z,tipo){ const g=new THREE.Group(), y=HT(x,z);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:texBrillo,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,fog:false}));
+  sp.scale.set(1.1,1.1,1); sp.position.y=0.45; g.add(sp);
+  if(tipo!=='usar'){ const o=new THREE.Mesh(new THREE.BoxGeometry(0.28,0.06,0.2),new THREE.MeshStandardMaterial({color:tipo==='leer'?0xe8dcc0:0x6b5a3e,roughness:0.8})); o.position.y=0.05; g.add(o); }
+  g.position.set(...V(x,y,z)); scene.add(g); return g; }
+
+// ---------- Interfaz: objetivo, acción, diálogos, pantallas negras, susto ----------
+const ICONO_OBJ={llave:'<path d="M14 10a4 4 0 1 1-1.2-2.8L21 15v3h-3v-2h-2v-2l-2.2-2.2"/><circle cx="8" cy="10" r="1"/>',linterna:'<path d="M8 3h8v4l-2 3v11h-4V10L8 7z"/><path d="M8 7h8"/>',
+  radio:'<rect x="3" y="8" width="18" height="12" rx="2"/><path d="M7 8l9-5M7 14h4M16 13v3"/>',nota:'<path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h4"/>',foto:'<rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 16 5-5 4 4 3-3 6 6"/>',
+  vela:'<path d="M10 10h4v11h-4zM12 3c1.5 2 1.5 4 0 5-1.5-1-1.5-3 0-5z"/>',cruz:'<path d="M12 3v18M7 8h10"/>',libro:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5"/>',caja:'<path d="M3 8l9-4 9 4v9l-9 4-9-4z"/><path d="M3 8l9 4 9-4M12 12v9"/>',
+  piedra:'<path d="M5 15l3-7 6-2 5 4 1 7-6 3-7-1z"/>',campana:'<path d="M6 17V11a6 6 0 0 1 12 0v6l2 2H4z"/><path d="M10 21h4"/>',anillo:'<circle cx="12" cy="14" r="6"/><path d="M10 6l2-3 2 3"/>',botella:'<path d="M10 3h4v4l2 3v11H8V10l2-3z"/>'};
+const iconoObj=n=>`<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${ICONO_OBJ[n]||ICONO_OBJ.caja}</svg>`;
+const flecha=$('objFlecha');
+function pasoActual(){ const d=HIST.d, e=HIST.e; if(!d||!e) return null; const m=d.misiones[e.m]; return m?m.pasos[e.p]||null:null; }
+function destino(p){ if(!p) return null; if(p.tipo==='hablar'){ const pj=HIST.d.personajes[p.personaje]; return pj?[pj.x,pj.z]:null; } return typeof p.x==='number'?[p.x,p.z]:null; }
+function textoPaso(p){ const d=HIST.d; if(!p) return '';
+  if(p.tipo==='hablar') return 'Habla con '+(d.personajes[p.personaje]?.nombre||'');
+  if(p.tipo==='coger') return 'Busca: '+(d.objetos[p.objeto]?.nombre||'').replace(/^./,c=>c.toLowerCase());
+  if(p.tipo==='leer') return d.recuerdos[p.recuerdo]?.tipo==='foto'?'Hay una foto cerca':'Hay algo escrito cerca';
+  if(p.tipo==='usar') return 'Usa: '+(d.objetos[p.objeto]?.nombre||'').replace(/^./,c=>c.toLowerCase());
+  return ''; }
+function pintarObjetivo(){ const m=HIST.d&&HIST.d.misiones[HIST.e.m]; $('objetivo').hidden=!HIST.on||!m; if(m) $('objTexto').textContent=textoPaso(pasoActual())||m.objetivo; }
+const COLA=[]; let colaT=0;
+function toast(etiqueta,titulo,al){ COLA.push([etiqueta,titulo,al]); if(!colaT) sigToast(); }
+function sigToast(){ const a=$('aviso'), it=COLA.shift(); if(!it){ colaT=0; return; } const [etiqueta,titulo,al]=it; avisoLugar=null;
+  a.innerHTML=`${svgI('libro')}<div><small>${etiqueta}</small><b>${titulo}</b>${al?' · toca para ver':''}</div>`;
+  a.onclick=al?(()=>{ al(); a.classList.remove('ver'); }):null; a.classList.add('ver'); $('hint').style.opacity=0; hintShown=false; clearTimeout(avisoT); avisoT=setTimeout(()=>a.classList.remove('ver'),6000); Sonido.clic();
+  colaT=setTimeout(()=>{ if(COLA.length){ a.classList.remove('ver'); colaT=setTimeout(sigToast,400); } else colaT=0; },3000); }
+// Subtítulos: lo que piensas o lo que pasa. Salen de uno en uno y duran según lo largos que son.
+const NARRA=[]; let narraT=0;
+function narrar(t){ if(!t) return; NARRA.push(t); if(!narraT) sigNarra(); }
+function sigNarra(){ const n=$('narra'), t=NARRA.shift(); if(t===undefined){ narraT=0; return; }
+  n.textContent=t; n.classList.add('ver'); narraT=setTimeout(()=>{ n.classList.remove('ver'); narraT=setTimeout(sigNarra,500); },Math.min(11000,Math.max(3500,1500+t.length*55))); }
+const narrando=()=>!!narraT;
+function callarNarra(){ NARRA.length=0; clearTimeout(narraT); narraT=0; $('narra').classList.remove('ver'); }
+// Pantalla negra con frases que aparecen una a una (intro y final).
+function cine(frases,fin){ const c=$('cine'), t=$('cineTxt'); HIST.bloqueo=true; c.hidden=false; let i=0;
+  const sig=()=>{ if(i>=frases.length){ c.hidden=true; c.onclick=null; HIST.bloqueo=false; fin&&fin(); return; } t.classList.remove('ver');
+    setTimeout(()=>{ const f=frases[i++]; if(f&&typeof f==='object'){ t.innerHTML=''; for(const [k,v] of [['ct',f.tit],['cs',f.sub]]) if(v){ const e=document.createElement('span'); e.className=k; e.textContent=v; t.appendChild(e); } } else t.textContent=f; t.classList.add('ver'); },250); };
+  c.onclick=sig; sig(); }
+// Diálogo: líneas con quién habla; al final, una elección opcional.
+function dialogo(lineas,eleccion,fin){ const D=$('dialogo'), quien=$('dlgQuien'), txt=$('dlgTexto'), ops=$('dlgOpciones'); HIST.bloqueo=true; D.hidden=false; let i=0, elegido=false;
+  const claro=c=>{ const k=new THREE.Color(c||'#cdbb92'), h={}; k.getHSL(h); k.setHSL(h.h,Math.min(h.s,0.55),0.72); return '#'+k.getHexString(); };
+  const nombre=id=>id==='yo'?'Tú':(HIST.d.personajes[id]?.nombre||id), color=id=>id==='yo'?'#efe4c8':claro(HIST.d.personajes[id]?.color);
+  const cerrar=()=>{ D.hidden=true; D.onclick=null; HIST.bloqueo=false; fin&&fin(); };
+  const sig=()=>{ ops.innerHTML='';
+    if(i<lineas.length){ const l=lineas[i++]; quien.textContent=nombre(l.quien); quien.style.color=color(l.quien); txt.textContent=l.texto; $('dlgSigue').hidden=false; Sonido.clic(); return; }
+    if(eleccion&&!elegido){ elegido=true; quien.textContent='Tú'; quien.style.color='#efe4c8'; txt.textContent=eleccion.pregunta||''; $('dlgSigue').hidden=true; D.onclick=null;
+      for(const o of eleccion.opciones||[]){ const b=document.createElement('button'); b.type='button'; b.textContent=o.texto;
+        b.onclick=ev=>{ ev.stopPropagation(); ops.innerHTML=''; const otro=lineas.find(l=>l.quien!=='yo')?.quien; lineas=[{quien:otro||'yo',texto:o.respuesta}]; i=0; D.onclick=sig; sig(); }; ops.appendChild(b); }
+      return; }
+    cerrar(); };
+  D.onclick=sig; sig(); }
+
+// ---------- Linterna ----------
+const luzLinterna=new THREE.SpotLight(0xfff0d0,0,40,Math.PI/7.5,0.5,1.4); luzLinterna.castShadow=false; scene.add(luzLinterna); scene.add(luzLinterna.target);
+function pintarLinterna(){ const tiene=HIST.on&&HIST.e&&HIST.e.inv.includes('linterna'); $('bLinterna').hidden=!tiene; $('bLinterna').classList.toggle('activo',!!(tiene&&HIST.e.linterna)); }
+$('bLinterna').addEventListener('click',e=>{ e.stopPropagation(); if(!HIST.e) return; HIST.e.linterna=!HIST.e.linterna; Sonido.clic(); pintarLinterna(); guardarHist(); });
+
+// ---------- Ambiente del modo historia: niebla espesa y gris; con el apagón, noche cerrada ----------
+function ambienteHistoria(){ const noche=HIST.e&&HIST.e.noche;
+  ponerNiebla(true); COLOR_NIEBLA.set(noche?0x07080a:0x9a9f9f); scene.fog.color.copy(COLOR_NIEBLA); scene.fog.density=noche?0.045:0.042;
+  if(cupula) cupula.material.color.copy(COLOR_NIEBLA); renderer.toneMappingExposure=noche?0.8:0.66;
+  sun.intensity=noche?0:DIA.sol*0.22; if(hemiLuz) hemiLuz.intensity=noche?0.05:0.55; Sonido.miedo(true); }
+function ambientePaseo(){ COLOR_NIEBLA.set(0xbcc2c4); renderer.toneMappingExposure=0.8; callarNarra(); for(const g of PROPS) g.visible=false; if(cupula) cupula.material.color.copy(COLOR_NIEBLA); ponerNiebla(AJ.tiempo==='niebla'); luzLinterna.intensity=0; Sonido.miedo(false); Sonido.radio(0); quitarSombras(); }
+
+// ---------- Cosas que el capítulo pone en el pueblo ----------
+const PROPS=[];
+function puertaBodega(x,z){ const y=HT(x,z), gx=HT(x+1.5,z)-HT(x-1.5,z), gz=HT(x,z+1.5)-HT(x,z-1.5);
+  let nx=-gx, nz=-gz, l=Math.hypot(nx,nz); if(l<0.02){ nx=-x; nz=-z; l=Math.hypot(nx,nz); } nx/=l; nz/=l;   // mira cuesta abajo
+  const piedra=new THREE.MeshStandardMaterial({color:new THREE.Color('#857c6c').convertSRGBToLinear(),roughness:1}), g=new THREE.Group();
+  const caja=(w,h,dd,px,py,pz,m)=>{ const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,dd),m); o.position.set(px,py,pz); o.castShadow=o.receiveShadow=true; g.add(o); return o; };
+  caja(4.2,3.2,3,0,1.0,-1.4,new THREE.MeshStandardMaterial({color:new THREE.Color('#6f6656').convertSRGBToLinear(),roughness:1}));   // la roca de la muela
+  caja(0.4,2.3,0.45,-0.82,1.0,0.2,piedra); caja(0.4,2.3,0.45,0.82,1.0,0.2,piedra); caja(2.05,0.4,0.5,0,2.3,0.2,piedra);
+  caja(1.24,2.05,0.08,0,0.95,0.12,new THREE.MeshStandardMaterial({color:new THREE.Color('#231912').convertSRGBToLinear(),roughness:0.9}));
+  for(const yy of [0.35,1.55]) caja(1.2,0.1,0.04,0,yy,0.18,new THREE.MeshStandardMaterial({color:0x2b2b2b,roughness:0.6,metalness:0.6}));
+  g.position.set(...V(x,y-0.2,z)); g.rotation.y=Math.atan2(nx,-nz); scene.add(g); return g; }
+function luzLejana(x,z,alto){ const g=new THREE.Group(), sp=new THREE.Sprite(new THREE.SpriteMaterial({map:texBrillo,color:0xffd9a0,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,fog:false}));
+  sp.scale.set(2.2,2.2,1); g.add(sp); g.position.set(...V(x,HT(x,z)+(alto||8),z)); scene.add(g); return g; }
+function ponerProps(){ const d=HIST.d, e=HIST.e;
+  if(!PROPS.length) for(const p of d.props||[]){ const g=p.tipo==='puerta_bodega'?puertaBodega(p.x,p.z):p.tipo==='luz'?luzLejana(p.x,p.z,p.alto):null; if(g){ g.userData.desde=p.desde||0; g.userData.hasta=p.hasta??99; PROPS.push(g); } }
+  for(const g of PROPS) g.visible=e.m>=g.userData.desde&&e.m<=g.userData.hasta; }
+
+// ---------- Personajes y la marca del paso actual ----------
+function pintarMundo(){ const d=HIST.d, e=HIST.e; ponerProps();
+  // Personajes: salen los de la misión actual y los de las anteriores (se quedan donde estaban).
+  const vistos=new Set(); d.misiones.forEach((m,i)=>{ if(i<=e.m) for(const p of m.pasos) if(p.tipo==='hablar') vistos.add(p.personaje); });
+  for(const [id,pj] of Object.entries(d.personajes)){ let g=HIST.figuras[id];
+    if(!g&&vistos.has(id)){ g=HIST.figuras[id]=hFigura(pj.tipo,pj.color); ponerEn(g,pj.x,pj.z,pj.mira); scene.add(g); }
+    if(g) g.visible=vistos.has(id); }
+  if(HIST.marca){ scene.remove(HIST.marca); HIST.marca=null; }
+  const p=pasoActual(); if(!p) return;
+  if(typeof p.x==='number'&&Math.hypot(p.x,p.z)>280) ruina(p.x,p.z);
+  if(p.tipo==='coger'||p.tipo==='leer'||p.tipo==='usar') HIST.marca=marcaEn(p.x,p.z,p.tipo); }
+
+// ---------- Avance: pasos, misiones, recompensas ----------
+function darObjeto(id){ if(!id||HIST.e.inv.includes(id)) return; HIST.e.inv.push(id); const o=HIST.d.objetos[id];
+  toast('Nuevo en la mochila',o?o.nombre:id,()=>abrirFicha(o?o.nombre:id,`<p>${o?o.descripcion:''}</p>`,'')); pintarLinterna(); }
+function darLogro(id){ if(!id||HIST.e.logros.includes(id)) return; HIST.e.logros.push(id); const l=HIST.d.logros[id]; setTimeout(()=>toast('Logro conseguido',l?l.nombre:id),1500); }
+function darRecuerdo(id){ if(!id||HIST.e.rec.includes(id)) return; HIST.e.rec.push(id); }
+function leerRecuerdo(id){ const r=HIST.d.recuerdos[id]; if(r) abrirFicha(r.titulo,parrafos(r.texto),r.tipo==='foto'?'Una foto':'Una nota'); }
+function pensar(t){ narrar(t); }
+function siguientePaso(){ const d=HIST.d, e=HIST.e, m=d.misiones[e.m];
+  HIST.pend=false; e.p++; if(e.p>=m.pasos.length){ const r=m.recompensa||{}; darObjeto(r.objeto); darLogro(r.logro); e.m++; e.p=0; }
+  guardarHist(); pintarObjetivo(); pintarMundo(); pintarPanel(); }
+function evento(p){ const e=HIST.e;
+  if(p.evento==='campanas') Sonido.campanas(12);
+  else if(p.evento==='radio'){ Sonido.radio(1); setTimeout(()=>Sonido.radio(0),1800); }
+  else if(p.evento==='sombras'){ e.sombras=true; }
+  else if(p.evento==='apagon'){ e.noche=true; ambienteHistoria(); }
+  else if(p.evento==='calma'){ e.sombras=false; quitarSombras(); }
+  else if(p.evento==='fin_capitulo'){ e.sombras=false; e.acabada=true; quitarSombras(); guardarHist();
+    setTimeout(()=>cine([...(HIST.d.final||[]),'Fin del capítulo 1',`Recuerdos: ${e.rec.length} de ${Object.keys(HIST.d.recuerdos).length} · Logros: ${e.logros.length} de ${Object.keys(HIST.d.logros).length}`,'Continuará…'],()=>{ volverTitulo(); }),1200); }
+  if(p.texto) pensar(p.texto); }
+// Lo que se puede hacer ahora (para el botón de acción).
+function accionPosible(){ const p=pasoActual(); if(!p||HIST.bloqueo) return null; const dist=(x,z)=>Math.hypot(player.x-x,player.z-z);
+  if(p.tipo==='hablar'){ const pj=HIST.d.personajes[p.personaje]; if(pj&&dist(pj.x,pj.z)<3) return {texto:'Hablar con '+pj.nombre,fn:()=>{ HIST.mirar=[pj.x,pj.z];
+    const g=HIST.figuras[p.personaje]; if(g) g.rotation.y=-Math.atan2(player.x-pj.x,player.z-pj.z)+Math.PI; dialogo(p.dialogo||[],p.eleccion,()=>{ HIST.mirar=null; siguientePaso(); }); }}; }
+  if(p.tipo==='coger'&&dist(p.x,p.z)<2.6){ const o=HIST.d.objetos[p.objeto]; return {texto:'Coger: '+(o?o.nombre:p.objeto),fn:()=>{ darObjeto(p.objeto); pensar(p.texto); siguientePaso(); }}; }
+  if(p.tipo==='leer'&&dist(p.x,p.z)<2.6){ const r=HIST.d.recuerdos[p.recuerdo]; return {texto:'Leer: '+(r?r.titulo:''),fn:()=>{ darRecuerdo(p.recuerdo); leerRecuerdo(p.recuerdo); siguientePaso(); }}; }
+  if(p.tipo==='usar'&&dist(p.x,p.z)<(p.r||3)){ const o=HIST.d.objetos[p.objeto], tiene=HIST.e.inv.includes(p.objeto);
+    return {texto:tiene?'Usar: '+(o?o.nombre:p.objeto):'Necesitas: '+(o?o.nombre:p.objeto),fn:tiene?()=>{ pensar(p.texto); siguientePaso(); }:null}; }
+  return null; }
+let accionAct=null;
+$('accion').addEventListener('click',e=>{ e.stopPropagation(); if(accionAct&&accionAct.fn){ const f=accionAct.fn; accionAct=null; $('accion').hidden=true; Sonido.clic(); f(); } });
+
+// ---------- Sombras ----------
+function quitarSombras(){ for(const s of HIST.sombras) scene.remove(s.g); HIST.sombras.length=0; $('susto').style.opacity=0; Sonido.radio(0); }
+function puntoDeCalle(cx,cz,dmin,dmax){ for(let k=0;k<40;k++){ const seg=SUELO[Math.floor(Math.random()*SUELO.length)], t=Math.random(), x=seg[0]+(seg[2]-seg[0])*t, z=seg[1]+(seg[3]-seg[1])*t, d=Math.hypot(x-cx,z-cz);
+  if(d>dmin&&d<dmax&&Math.hypot(x-REFUGIO[0],z-REFUGIO[1])>R_REFUGIO+4) return [x,z]; } return null; }
+function nuevaSombra(){ const p=puntoDeCalle(player.x,player.z,22,40); if(!p) return; const g=hFigura('sombra',null,matSombra.clone()); scene.add(g);
+  HIST.sombras.push({g,x:p[0],z:p[1],huye:0,op:0,fase:Math.random()*6}); }
+function atrapado(){ const e=HIST.e; Sonido.golpe(); e.miedo++; const s=$('susto'); s.style.transition='none'; s.style.opacity=1; setTimeout(()=>{ s.style.transition='opacity 1.2s'; s.style.opacity=0; },60);
+  quitarSombras();
+  if(e.miedo>=3){ e.miedo=0; HIST.bloqueo=true; cine(['Todo se vuelve negro.','…','Despiertas a la puerta de la iglesia. Aquí no entran.'],()=>{ player.x=-6; player.z=99; player.yaw=Math.PI/2; player.pitch=0; }); }
+  else { const fx=Math.sin(player.yaw), fz=Math.cos(player.yaw); [player.x,player.z]=collide(player.x-fx*3,player.z-fz*3); pensar(e.miedo===1?'Algo frío te ha rozado. Corre.':'Otra vez… No puedo dejar que me alcancen.'); }
+  guardarHist(); }
+function moverSombras(dt){ const e=HIST.e; if(!e.sombras){ if(HIST.sombras.length) quitarSombras(); return; }
+  while(HIST.sombras.length<3) nuevaSombra();
+  const fx=Math.sin(player.yaw), fz=Math.cos(player.yaw), enRefugio=Math.hypot(player.x-REFUGIO[0],player.z-REFUGIO[1])<R_REFUGIO;
+  let cerca=0;
+  for(let i=HIST.sombras.length-1;i>=0;i--){ const s=HIST.sombras[i]; s.fase+=dt;
+    const dx=player.x-s.x, dz=player.z-s.z, d=Math.hypot(dx,dz)||1;
+    // La linterna: si la tienes encendida y apuntas a una sombra cercana, se aparta y se deshace.
+    const ang=Math.acos(Math.max(-1,Math.min(1,(dx*-fx+dz*-fz)/d)));
+    if(e.linterna&&d<20&&ang<0.4){ if(!s.huye&&HIST.d.logro_linterna) darLogro(HIST.d.logro_linterna); s.huye=Math.min(1,s.huye+dt*1.5); }
+    if(s.huye>0){ s.op=Math.max(0,s.op-dt*0.9); s.x-=dx/d*3*dt; s.z-=dz/d*3*dt; if(s.op<=0.01){ scene.remove(s.g); HIST.sombras.splice(i,1); continue; } }
+    else { s.op=Math.min(0.88,s.op+dt*0.4);
+      const v=enRefugio&&d<R_REFUGIO+6?0:1.5; [s.x,s.z]=collide(s.x+dx/d*v*dt,s.z+dz/d*v*dt);
+      if(d<1.3&&!enRefugio){ atrapado(); return; } }
+    if(d>70){ scene.remove(s.g); HIST.sombras.splice(i,1); continue; }
+    s.g.position.set(...V(s.x,HT(s.x,s.z)+0.02+Math.sin(s.fase*2)*0.04,s.z)); s.g.rotation.y=Math.atan2(dx,-dz)+Math.PI;
+    s.g.traverse(o=>{ if(o.material) o.material.opacity=s.op*(0.85+0.15*Math.sin(s.fase*7)); });
+    cerca=Math.max(cerca,1-d/35); }
+  if(e.inv.includes('radio')) Sonido.radio(cerca); else Sonido.radio(0);
+  $('susto').style.opacity=Math.max(0,(cerca-0.55)*1.6).toFixed(2); }
+
+// ---------- Cada fotograma ----------
+function actualizarHistoria(dt){ const e=HIST.e, d=HIST.d; if(!e||!d) return;
+  // Linterna pegada a la cámara.
+  const fx=Math.sin(player.yaw), fz=Math.cos(player.yaw), cp=Math.cos(player.pitch);
+  luzLinterna.position.set(...V(player.x+fz*0.25,player.y-0.25,player.z-fx*0.25));
+  luzLinterna.target.position.set(...V(player.x+fx*cp*10,player.y+Math.sin(player.pitch)*10,player.z+fz*cp*10)); luzLinterna.target.updateMatrixWorld();
+  luzLinterna.intensity=e.linterna?(e.noche?180:70)*(0.97+0.03*Math.sin(performance.now()/90)):0;
+  if(HIST.marca){ const sp=HIST.marca.children[0]; const k=1+0.25*Math.sin(performance.now()/300); sp.scale.set(1.1*k,1.1*k,1); }
+  for(const g of Object.values(HIST.figuras)) if(g.visible) g.children[2].position.x=Math.sin(performance.now()/1400)*0.01;
+  if(HIST.mirar){ let a=Math.atan2(HIST.mirar[0]-player.x,HIST.mirar[1]-player.z)-player.yaw; a=Math.atan2(Math.sin(a),Math.cos(a)); const k=Math.min(1,dt*5); player.yaw+=a*k; player.pitch+=(-0.05-player.pitch)*k; }
+  if(HIST.bloqueo) return;
+  moverSombras(dt);
+  HIST.t-=dt; if(HIST.t>0) return; HIST.t=0.2; HIST.tLuz+=0.2; if(HIST.tLuz>5){ HIST.tLuz=0; guardarHist(); }
+  // Flecha del objetivo: hacia dónde queda y a cuántos metros.
+  const p=pasoActual(), dst=destino(p);
+  if(dst){ const dx=dst[0]-player.x, dz=dst[1]-player.z, dd=Math.hypot(dx,dz), a=Math.atan2(dx,dz)-player.yaw;
+    flecha.style.transform=`rotate(${a}rad)`; $('objDist').textContent=dd<4?'aquí':Math.round(dd)+' m'; $('objFlecha').parentElement.hidden=false; }
+  else $('objFlecha').parentElement.hidden=true;
+  // Pasos que se cumplen solos al llegar.
+  if(p&&(p.tipo==='ir'||p.tipo==='evento')&&Math.hypot(player.x-p.x,player.z-p.z)<(p.r||6)) HIST.pend=true;
+  if(p&&HIST.pend&&!narrando()){ if(p.tipo==='ir') pensar(p.texto); else evento(p); siguientePaso(); return; }
+  // Botón de acción.
+  const ac=accionPosible(); accionAct=ac; const b=$('accion'); b.hidden=!ac; if(ac){ b.textContent=ac.texto; b.disabled=!ac.fn; } }
+
+// ---------- Empezar: historia o paseo libre ----------
+async function empezarHistoria(){ HIST.on=true; HIST.d=await promHist;
+  if(!HIST.d){ HIST.on=false; toast('Aviso','No se ha podido cargar la historia'); return; }
+  const guardada=partidaGuardada(); HIST.e=guardada&&guardada.cap===1?guardada:nuevoEstado(); visitadosOff=true;
+  ambienteHistoria(); pintarObjetivo(); pintarMundo(); pintarLinterna(); pintarPanel(); $('place').lastElementChild.textContent=HIST.d.titulo;
+  if(!HIST.e.inicio){ HIST.e.inicio=true; player.x=-20; player.z=101; player.yaw=96*Math.PI/180; player.pitch=0; guardarHist();
+    cine([{tit:HIST.d.titulo,sub:HIST.d.subtitulo},...(HIST.d.intro||[])],()=>{ pensar(HIST.d.misiones[0]?.objetivo); }); }
+  else { if(HIST.e.pos){ [player.x,player.z,player.yaw]=HIST.e.pos; player.pitch=0; } const m=HIST.d.misiones[HIST.e.m]; if(m) pensar(m.objetivo); } }
+function empezarPaseo(){ HIST.on=false; visitadosOff=false; quitarSombras(); for(const g of Object.values(HIST.figuras)) g.visible=false; if(HIST.marca){ scene.remove(HIST.marca); HIST.marca=null; }
+  $('objetivo').hidden=true; $('accion').hidden=true; ambientePaseo(); pintarLinterna(); pintarCuenta(); pintarPanel(); }
+let visitadosOff=false;
+function reiniciarHistoria(){ try{ localStorage.removeItem('langa-historia'); }catch(e){} HIST.e=null; HIST.pend=false; HIST.mirar=null; callarNarra(); for(const g of Object.values(HIST.figuras)) scene.remove(g); HIST.figuras={}; empezarHistoria(); }
+
 // Recuperar la posición tras una actualización de la página.
 window.claude?.hot?.snapshot?.(()=>({x:player.x,z:player.z,yaw:player.yaw,pitch:player.pitch}));
 const restore=d=>{ if(d&&typeof d.x==='number'){Object.assign(player,{x:d.x,z:d.z,yaw:d.yaw,pitch:d.pitch,y:0});} };
 if(window.claude?.hot?.ready) window.claude.hot.ready(restore); else restore(window.claude?.hot?.data);
 
 let last=performance.now(), nameTimer=0, shownName='', bob=0, correr=0, velPasos=0, suelo='losas';
+const cineEl=$('cine');
 function frame(now){
   const dt=Math.min(0.05,(now-last)/1000); last=now;
+  if(HIST.bloqueo){ moveVec=[0,0]; keys.clear(); }
   // Joystick con zona muerta y velocidad continua; al borde (o con Mayús) se corre, acelerando sin saltos.
   const jm=Math.hypot(moveVec[0],moveVec[1]), jk=jm>0.15?Math.min(1,(jm-0.15)/0.75)/jm:0;
   let mx=moveVec[0]*jk, mz=moveVec[1]*jk;
@@ -2423,7 +2751,7 @@ function frame(now){
   player.y=player.y?player.y+(gy-player.y)*Math.min(1,dt*10):gy;
   // Balanceo suave al andar.
   const moving=aguila.h>1||!AJ.balanceo?0:Math.min(1.6,velPasos/2.8); bob+=dt*moving*7; const bobY=Math.sin(bob)*0.035*Math.min(1,moving);
-  cam.position.set(...V(player.x,player.y+bobY,player.z)); sky.position.copy(cam.position); clouds.position.set(cam.position.x,cam.position.y+700,cam.position.z); clouds.material.uniforms.uOff.value.x+=dt*0.0012;
+  cam.position.set(...V(player.x,player.y+bobY,player.z)); sky.position.copy(cam.position); if(cupula) cupula.position.copy(cam.position); clouds.position.set(cam.position.x,cam.position.y+700,cam.position.z); clouds.material.uniforms.uOff.value.x+=dt*0.0012;
   const cp=Math.cos(player.pitch);
   cam.lookAt(...V(player.x+fx*cp,player.y+Math.sin(player.pitch),player.z+fz*cp));
   cam.updateMatrixWorld(); NPC.update(dt,player.x,player.z,cam);
@@ -2435,6 +2763,8 @@ function frame(now){
   sun.target.position.copy(c); sun.position.copy(c).addScaledVector(SUN_DIR,300);
   nameTimer-=dt; if(nameTimer<=0){ nameTimer=0.5; for(const [im,cx,cz] of TILE_CELLS) im.visible=Math.hypot(cx-player.x,cz-player.z)<65; const n=placeName(player.x,player.z); if(n!==shownName){ shownName=n; $('place').firstElementChild.textContent=n; }
     comprobarLugares(player.x,player.z); suelo=sueloEn(player.x,player.z); Sonido.zona(player.x,player.z); }
+  if(HIST.on) actualizarHistoria(dt);
+  if(!cineEl.hidden){ requestAnimationFrame(frame); return; }   // pantalla negra delante: no hace falta pintar el pueblo
   renderer.info.autoReset=false; renderer.info.reset();
   if(hq) composer.render(); else renderer.render(scene,cam);
   requestAnimationFrame(frame);
@@ -2443,14 +2773,18 @@ function frame(now){
 await step('Cargando texturas…',0.98); await Promise.all(texWait);
 await step('Listo',1);
 $('status').textContent='Listo';
-$('start').hidden=false;
+$('start').hidden=false; $('paseo').hidden=false;
+promHist.then(d=>{ if(d&&d.titulo) $('lema').textContent=d.titulo+(d.subtitulo?' · '+d.subtitulo:''); });
 if(ESCRITORIO) $('start').focus(); // en el móvil, el foco pintaba un doble aro alrededor del botón
-$('start').addEventListener('click',async()=>{
+async function entrar(modo){
   Sonido.iniciar(); pintarSonido();
   const l=$('load'); l.classList.add('fuera'); setTimeout(()=>{ if(l.classList.contains('fuera')) l.hidden=true; },650);
   $('vineta').hidden=hq; hintShown=true; $('hint').style.opacity=1;
+  if(modo==='historia') empezarHistoria(); else empezarPaseo();
   try{ await navigator.wakeLock?.request('screen'); }catch(e){}
-});
+}
+$('start').addEventListener('click',()=>entrar('historia'));
+$('paseo').addEventListener('click',()=>entrar('paseo'));
 window.gameReady=true;
 requestAnimationFrame(t=>{last=t;frame(t);});
 </script>

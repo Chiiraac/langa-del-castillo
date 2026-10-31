@@ -1,0 +1,684 @@
+{
+ "titulo": "La niebla de Langa",
+ "subtitulo": "Capítulo 1 · Los que esperan",
+ "intro": [
+  "Hace dos días, tu hermana Nora vino a Langa del Castillo a hacer un trabajo sobre su castillo.",
+  "Anoche te llegó su último mensaje: «Ha bajado la niebla. Las campanas suenan solas. Ven. Trae luz.»",
+  "Desde entonces, no contesta.",
+  "Llegas al atardecer. La niebla se ha tragado la carretera, los campos y hasta el ruido.",
+  "En la Plaza Mayor no hay nadie."
+ ],
+ "final": [
+  "La puerta se abre hacia dentro. Una escalera tallada en la roca baja hacia la oscuridad.",
+  "La radio deja de crepitar. Por primera vez, la voz de Nora se oye clara, muy cerca:",
+  "«No te persiguen. Nunca te han perseguido. Te están llevando a refugio.»",
+  "Abajo, en el pueblo, la campana de San Pedro empieza a tocar. No es Simón: es un toque que nadie en Langa ha oído jamás.",
+  "Y desde el fondo de la bodega, despacio, muchos pasos empiezan a subir."
+ ],
+ "logro_linterna": "luz_de_petaca",
+ "props": [
+  {
+   "tipo": "puerta_bodega",
+   "x": -53,
+   "z": 225
+  },
+  {
+   "tipo": "luz",
+   "x": -58,
+   "z": 229,
+   "alto": 9,
+   "desde": 6
+  }
+ ],
+ "personajes": {
+  "orosia": {
+   "nombre": "Orosia",
+   "tipo": "anciana",
+   "color": "#4f5f3a",
+   "x": -5,
+   "z": 105,
+   "mira": 255
+  },
+  "severo": {
+   "nombre": "Severo",
+   "tipo": "hombre",
+   "color": "#7a2a24",
+   "x": -17.5,
+   "z": 53,
+   "mira": 20
+  },
+  "telmo": {
+   "nombre": "Telmo",
+   "tipo": "nino",
+   "color": "#e0b020",
+   "x": -11,
+   "z": -9,
+   "mira": 225
+  },
+  "simon": {
+   "nombre": "Simón",
+   "tipo": "hombre",
+   "color": "#2f4466",
+   "x": -1.5,
+   "z": 99,
+   "mira": 270
+  }
+ },
+ "objetos": {
+  "vela": {
+   "nombre": "Vela de cera",
+   "descripcion": "Regalo de Orosia. «Por si se acaban las pilas.»",
+   "icono": "vela"
+  },
+  "linterna": {
+   "nombre": "Linterna de petaca",
+   "descripcion": "Vieja, pesada y fiable. Su luz aparta a las sombras. Enciéndela con el botón.",
+   "icono": "linterna"
+  },
+  "badajo": {
+   "nombre": "Badajo de San Pedro",
+   "descripcion": "El badajo de la campana de la iglesia, envuelto en un trapo. Hay que llevárselo a Simón, el sacristán.",
+   "icono": "campana"
+  },
+  "radio": {
+   "nombre": "Radio de Nora",
+   "descripcion": "Un walkie con una pegatina: NORA. Crepita cuando hay sombras cerca. A veces, habla.",
+   "icono": "radio"
+  },
+  "cuaderno": {
+   "nombre": "Cuaderno de Nora",
+   "descripcion": "Su cuaderno del trabajo sobre el castillo. Húmedo y con hojas arrancadas.",
+   "icono": "libro"
+  },
+  "llave": {
+   "nombre": "Llave de la bodega",
+   "descripcion": "Grande, de hierro, con dos llaves cruzadas grabadas en el ojo, como las de San Pedro. Abre la bodega de la muela.",
+   "icono": "llave"
+  },
+  "cruz": {
+   "nombre": "Cruz de hierro",
+   "descripcion": "Pequeña, gastada y fría como el hielo. En el revés, alguien grabó: «Santa Eulalia guarde al campanero».",
+   "icono": "cruz"
+  }
+ },
+ "recuerdos": {
+  "nota_banco": {
+   "titulo": "Nota en el banco",
+   "tipo": "nota",
+   "texto": "Si lees esto, es que has venido. Gracias, y perdona el susto. Aquí a esta niebla la llaman «la niebla de la muela» y nadie quiere hablar de ella. Busca luz en la taberna, bajando por la Calle Ramón y Cajal. Yo voy a mirar las bodegas del castillo: creo que la historia de este pueblo está ahí abajo. No apagues nunca la linterna. —N."
+  },
+  "foto_nora": {
+   "titulo": "Foto: Nora en la torre-puerta",
+   "tipo": "foto",
+   "texto": "Una foto instantánea sujeta en el portón de la taberna. Nora sonríe delante de la torre-puerta del castillo, con su radio en la mano. Al fondo, la niebla empieza a bajar de la muela. Por detrás, a boli: «Día 1. Mañana, las bodegas.»"
+  },
+  "cuaderno_ermitas": {
+   "titulo": "Cuaderno de Nora: las ermitas",
+   "tipo": "nota",
+   "texto": "«Lo que es seguro (Madoz, 1847): Langa tenía 47 vecinos, 225 almas, iglesia de San Pedro Apóstol, una fuente y dos ermitas, Nuestra Señora de Tocón y Santa Eulalia, “sin culto por deterioro”. Lo que no es seguro: la señora del parque dice que a Santa Eulalia la dejaron caer a propósito, porque la niebla siempre sube desde allí. Tengo que ir.»"
+  },
+  "hoja_toque": {
+   "titulo": "La hoja del sacristán",
+   "tipo": "nota",
+   "texto": "Una hoja copiada a mano que se le ha caído a Simón: «Cuando venía la guerra, se tocaba a refugio y todo el lugar subía al castillo. Pasado el peligro, se tocaba a salida. Un año bajó una niebla de siete días. El campanero salió a ver si el peligro había pasado y no volvió. Nadie tocó a salida.» Debajo, en otra letra: «Es un cuento. Pero no toquéis en falso.»"
+  },
+  "cuaderno_castillo": {
+   "titulo": "Cuaderno de Nora: el castillo",
+   "tipo": "nota",
+   "texto": "Hoja arrancada: «Lo que es seguro (ficha ARCA CD.34 y Wikipedia): en 1357 Bernat de Cabrera, ministro de Pedro IV, recorría los Campos de Langa. De esa época sería el castillo, quizá el mayor castillo-refugio de las Comunidades: un óvalo de unos 120 × 60 m. En 1367 se reunió aquí la Comunidad de aldeas de Daroca. Bajo la muela hay bodegas excavadas. La ficha empieza: “La única noticia que se tiene de Langa…”. Casi nada escrito. El resto lo cuenta la niebla.»"
+  },
+  "tablilla": {
+   "titulo": "La tablilla de la saetera",
+   "tipo": "nota",
+   "texto": "Encajada en una saetera de la torre, una tablilla de madera negra con siete rayas, como quien cuenta días. Debajo, a punta de navaja, un nombre: TELMO. La madera es tan vieja que se deshace entre los dedos."
+  },
+  "foto_puerta": {
+   "titulo": "Foto: la puerta, desde dentro",
+   "tipo": "foto",
+   "texto": "Asoma por debajo de la puerta una foto instantánea, todavía revelándose. Es esta misma puerta, vista desde dentro de la bodega. Por la rendija entra la luz de una linterna. La tuya. Detrás, a boli: «Ya casi.»"
+  }
+ },
+ "logros": {
+  "sin_cobertura": {
+   "nombre": "Sin cobertura",
+   "descripcion": "Llega a Langa con la niebla y encuentra la nota de Nora."
+  },
+  "luz_de_petaca": {
+   "nombre": "Luz de petaca",
+   "descripcion": "Aparta a las sombras por primera vez."
+  },
+  "el_camino_vuelve": {
+   "nombre": "El camino vuelve",
+   "descripcion": "Intenta salir del pueblo por el camino de Torralbilla."
+  },
+  "a_la_sombra_de_san_pedro": {
+   "nombre": "A la sombra de San Pedro",
+   "descripcion": "Haz sonar la campana de San Pedro."
+  },
+  "vigia": {
+   "nombre": "Vigía de la muela",
+   "descripcion": "Llega a la torre del homenaje en plena niebla."
+  },
+  "los_que_esperan": {
+   "nombre": "Los que esperan",
+   "descripcion": "Abre la bodega de la muela y termina el Capítulo 1."
+  }
+ },
+ "misiones": [
+  {
+   "id": "m1",
+   "titulo": "Niebla en la plaza",
+   "objetivo": "Cruza al parque de la iglesia, frente a la plaza",
+   "pasos": [
+    {
+     "tipo": "ir",
+     "x": -11,
+     "z": 100,
+     "r": 5,
+     "texto": "Ni un alma. En un banco del parque hay un papel doblado, sujeto con una piedra."
+    },
+    {
+     "tipo": "leer",
+     "recuerdo": "nota_banco",
+     "x": -11,
+     "z": 100
+    },
+    {
+     "tipo": "hablar",
+     "personaje": "orosia",
+     "dialogo": [
+      {
+       "quien": "orosia",
+       "texto": "¿Tú también has venido por las campanas? Llevan dos noches sonando solas, desde que bajó la niebla."
+      },
+      {
+       "quien": "yo",
+       "texto": "Busco a mi hermana, Nora. Vino hace dos días con una radio."
+      },
+      {
+       "quien": "orosia",
+       "texto": "La chica de la radio. Me preguntó por las bodegas del castillo. Le dije que esas puertas no se abren."
+      },
+      {
+       "quien": "orosia",
+       "texto": "Mi abuela lo contaba: cuando la niebla tapa la muela, suben los que esperan."
+      },
+      {
+       "quien": "yo",
+       "texto": "¿Los que esperan?"
+      },
+      {
+       "quien": "orosia",
+       "texto": "Sombras, criatura. Sin cara. Dicen que no hacen daño, pero al que pillan sin luz se lo llevan a refugio."
+      },
+      {
+       "quien": "orosia",
+       "texto": "Aquí, a la vera de San Pedro, no se acercan. Tú necesitas luz: baja a la taberna, que Severo nunca apaga."
+      },
+      {
+       "quien": "orosia",
+       "texto": "Y toma esta vela. Por si se acaban las pilas."
+      }
+     ],
+     "eleccion": {
+      "pregunta": "¿Qué más le preguntas?",
+      "opciones": [
+       {
+        "texto": "¿Por qué no se va del pueblo?",
+        "respuesta": "¿Irme? Por el camino de Torralbilla la niebla te devuelve al mismo sitio. Lo he visto con estos ojos."
+       },
+       {
+        "texto": "¿Siempre se llamó Langa del Castillo?",
+        "respuesta": "Qué va. Era Langa, sin más. Lo del Castillo se lo pusieron en 1916. Como si alguien pudiera olvidarse de él."
+       }
+      ]
+     }
+    }
+   ],
+   "recompensa": {
+    "objeto": "vela",
+    "logro": "sin_cobertura"
+   }
+  },
+  {
+   "id": "m2",
+   "titulo": "Luz en la taberna",
+   "objetivo": "Baja a la taberna por la Calle Ramón y Cajal",
+   "pasos": [
+    {
+     "tipo": "ir",
+     "x": -16,
+     "z": 58,
+     "r": 7,
+     "texto": "La puerta de la taberna está abierta y dentro hay luz. Es lo único encendido en todo el pueblo."
+    },
+    {
+     "tipo": "hablar",
+     "personaje": "severo",
+     "dialogo": [
+      {
+       "quien": "severo",
+       "texto": "¡Alguien de fuera! Creía que con esta niebla no entraba ni salía nadie. ¿Vienes por la chica de la radio?"
+      },
+      {
+       "quien": "yo",
+       "texto": "Es mi hermana. ¿Sabe dónde está?"
+      },
+      {
+       "quien": "severo",
+       "texto": "Estuvo aquí anteayer. Me preguntó por las bodegas del castillo. Le dije la verdad: que están cerradas desde siempre."
+      },
+      {
+       "quien": "severo",
+       "texto": "Esa noche bajó la niebla y la campana de San Pedro tocó sola. Tres veces. Y sin badajo, que lo tengo yo."
+      },
+      {
+       "quien": "yo",
+       "texto": "¿Usted tiene el badajo de la campana?"
+      },
+      {
+       "quien": "severo",
+       "texto": "Me lo dio Simón, el sacristán, hace años. «Si vuelve la niebla, que alguien me lo traiga», dijo. Pues ese alguien vas a ser tú."
+      },
+      {
+       "quien": "severo",
+       "texto": "Coge también la linterna que hay junto a la puerta. Ahí fuera, sin luz, no duras ni una calle."
+      },
+      {
+       "quien": "severo",
+       "texto": "Tu hermana preguntó por la fuente. Decía que allí el agua se oye aunque no corra. Yo empezaría por ahí."
+      }
+     ],
+     "eleccion": {
+      "pregunta": "¿Qué le dices?",
+      "opciones": [
+       {
+        "texto": "Venga conmigo.",
+        "respuesta": "Yo me quedo. Si alguien vuelve, que encuentre una luz encendida."
+       },
+       {
+        "texto": "¿Qué hay en esas bodegas?",
+        "respuesta": "Las excavaron bajo la muela en tiempos del castillo, dicen. Mi padre contaba que, con niebla, ahí abajo se oye hablar bajito."
+       }
+      ]
+     }
+    },
+    {
+     "tipo": "coger",
+     "objeto": "linterna",
+     "x": -19.5,
+     "z": 52,
+     "texto": "Una linterna de petaca, de las de antes. Pesa. Funciona."
+    },
+    {
+     "tipo": "leer",
+     "recuerdo": "foto_nora",
+     "x": -15.5,
+     "z": 55
+    }
+   ],
+   "recompensa": {
+    "objeto": "badajo"
+   }
+  },
+  {
+   "id": "m3",
+   "titulo": "El agua que no corre",
+   "objetivo": "Ve a la fuente de la Calle la Fuente",
+   "pasos": [
+    {
+     "tipo": "ir",
+     "x": -15,
+     "z": -13,
+     "r": 8,
+     "texto": "La fuente. El caño está seco, pero se oye agua correr bajo las piedras. Un niño de amarillo la mira, de espaldas."
+    },
+    {
+     "tipo": "hablar",
+     "personaje": "telmo",
+     "dialogo": [
+      {
+       "quien": "telmo",
+       "texto": "Chist. Escucha. El agua corre por debajo, aunque el caño esté seco."
+      },
+      {
+       "quien": "yo",
+       "texto": "¿Qué haces aquí solo, con esta niebla? ¿Y tus padres?"
+      },
+      {
+       "quien": "telmo",
+       "texto": "Mi madre me dijo que no me moviera hasta oír la campana. La buena. La de estas noches no es la buena."
+      },
+      {
+       "quien": "telmo",
+       "texto": "La chica de la radio se sentó aquí. Llevaba dos radios. Una se le cayó."
+      },
+      {
+       "quien": "telmo",
+       "texto": "Habla sola, ¿sabes? Por las noches dice tu nombre."
+      },
+      {
+       "quien": "telmo",
+       "texto": "Cógela. Cuando chille, enciende la luz y apúntales. La luz les recuerda el día, y se apartan."
+      }
+     ],
+     "eleccion": {
+      "pregunta": "¿Qué le dices?",
+      "opciones": [
+       {
+        "texto": "Vente conmigo a la iglesia.",
+        "respuesta": "No puedo. Si me muevo, mi madre no me encontrará cuando suba."
+       },
+       {
+        "texto": "¿Quiénes son «ellos»?",
+        "respuesta": "Los que esperan. Como yo. Pero ellos ya se han cansado de esperar."
+       }
+      ]
+     }
+    },
+    {
+     "tipo": "coger",
+     "objeto": "radio",
+     "x": -13,
+     "z": -11,
+     "texto": "Un walkie con una pegatina: NORA. La lucecita roja parpadea."
+    },
+    {
+     "tipo": "evento",
+     "evento": "radio",
+     "x": -15,
+     "z": -13,
+     "r": 10,
+     "texto": "Ruido… y una voz: «¿Me oyes? Intenté salir por Torralbilla, pero el camino vuelve. Se me cayó el cuaderno junto al cartel…»"
+    },
+    {
+     "tipo": "evento",
+     "evento": "sombras",
+     "x": -15,
+     "z": -13,
+     "r": 12,
+     "texto": "La radio chilla. De la niebla salen figuras oscuras, sin cara. ¡Enciende la linterna y apúntales!"
+    }
+   ],
+   "recompensa": {}
+  },
+  {
+   "id": "m4",
+   "titulo": "El camino vuelve",
+   "objetivo": "Sube por la Calle Alta hasta el cartel de Torralbilla",
+   "pasos": [
+    {
+     "tipo": "ir",
+     "x": 40,
+     "z": -86,
+     "r": 8,
+     "texto": "El cartel de Torralbilla. Detrás, la niebla es una pared blanca. Das diez pasos… y el cartel vuelve a estar delante."
+    },
+    {
+     "tipo": "coger",
+     "objeto": "cuaderno",
+     "x": 37,
+     "z": -82,
+     "texto": "El cuaderno de Nora, al pie del cartel. Húmedo y con hojas arrancadas. Queda una suelta."
+    },
+    {
+     "tipo": "leer",
+     "recuerdo": "cuaderno_ermitas",
+     "x": 37.5,
+     "z": -81
+    },
+    {
+     "tipo": "evento",
+     "evento": "apagon",
+     "x": 40,
+     "z": -86,
+     "r": 12,
+     "texto": "De golpe, el atardecer se apaga como una vela. Es noche cerrada y no son ni las ocho. Enciende la linterna."
+    }
+   ],
+   "recompensa": {
+    "logro": "el_camino_vuelve"
+   }
+  },
+  {
+   "id": "m5",
+   "titulo": "A refugio",
+   "objetivo": "Vuelve a San Pedro por la Calle Ramón y Cajal",
+   "pasos": [
+    {
+     "tipo": "evento",
+     "evento": "radio",
+     "x": 5,
+     "z": -7,
+     "r": 14,
+     "texto": "En el cruce de la Calle Eras, la radio cambia de voz. Ya no es Nora: son muchas, muy bajito. «…a refugio… a refugio…»"
+    },
+    {
+     "tipo": "evento",
+     "evento": "sombras",
+     "x": -9,
+     "z": 31,
+     "r": 12,
+     "texto": "Pasos detrás de ti. Muchos. Se paran cuando te paras. ¡Luz sobre ellos, y a San Pedro!"
+    },
+    {
+     "tipo": "ir",
+     "x": -4,
+     "z": 99,
+     "r": 8,
+     "texto": "En el borde del parque, las sombras se detienen, como ante un muro. A la sombra de San Pedro no entran."
+    }
+   ],
+   "recompensa": {}
+  },
+  {
+   "id": "m6",
+   "titulo": "La campana de San Pedro",
+   "objetivo": "Habla con el sacristán en la puerta de San Pedro",
+   "pasos": [
+    {
+     "tipo": "hablar",
+     "personaje": "simon",
+     "dialogo": [
+      {
+       "quien": "simon",
+       "texto": "¡Aquí, a la sombra de San Pedro! Aquí no entran. Nunca han entrado."
+      },
+      {
+       "quien": "yo",
+       "texto": "Severo me ha dado esto para usted. El badajo."
+      },
+      {
+       "quien": "simon",
+       "texto": "Bendito Severo. Lo quité yo hace años, para que nadie tocara en falso. Y ahora la campana toca sola…"
+      },
+      {
+       "quien": "simon",
+       "texto": "¿Sabes lo que cuentan? Que en tiempos de la guerra con Castilla todo el lugar se refugió en el castillo. En las bodegas."
+      },
+      {
+       "quien": "simon",
+       "texto": "Bajó una niebla de siete días. El campanero salió a ver si el peligro había pasado, para tocar a salida. No volvió."
+      },
+      {
+       "quien": "simon",
+       "texto": "Nadie tocó a salida. Y dicen que algunos se quedaron abajo, esperando la campana. Los que esperan."
+      },
+      {
+       "quien": "simon",
+       "texto": "Cuentos de viejos, ¿eh? Pero esta campana es lo único que los calma. Subo a colgar el badajo y, cuando te avise, tiras de la soga."
+      }
+     ],
+     "eleccion": {
+      "pregunta": "¿Qué le preguntas?",
+      "opciones": [
+       {
+        "texto": "¿Ha visto a mi hermana?",
+        "respuesta": "Vino a pedirme la llave de las bodegas. No se la di. Pero esas bodegas tienen más de una boca, y no todas las conozco."
+       },
+       {
+        "texto": "¿Por qué no entran aquí?",
+        "respuesta": "Porque esperan esta campana. Y a lo que se espera, se le tiene respeto."
+       }
+      ]
+     }
+    },
+    {
+     "tipo": "leer",
+     "recuerdo": "hoja_toque",
+     "x": 0.5,
+     "z": 97
+    },
+    {
+     "tipo": "usar",
+     "objeto": "badajo",
+     "x": 2.3,
+     "z": 98.7,
+     "r": 5,
+     "texto": "Simón se lleva el badajo al campanario. Al poco, su voz baja desde lo alto: «¡Ahora! ¡Tira de la soga!»"
+    },
+    {
+     "tipo": "evento",
+     "evento": "campanas",
+     "x": 2.3,
+     "z": 98.7,
+     "r": 6,
+     "texto": "Tiras de la soga. La campana de San Pedro suena por encima de la niebla, y el pueblo entero parece contener el aliento."
+    },
+    {
+     "tipo": "evento",
+     "evento": "calma",
+     "x": 2.3,
+     "z": 98.7,
+     "r": 8,
+     "texto": "La niebla se abre un momento. Al noroeste, sobre la muela, se ve el castillo… y una lucecita en la torre-puerta."
+    }
+   ],
+   "recompensa": {
+    "objeto": "llave",
+    "logro": "a_la_sombra_de_san_pedro"
+   }
+  },
+  {
+   "id": "m7",
+   "titulo": "Hacia la muela",
+   "objetivo": "Sube a la Calle Castillo por la Calle los Poyos",
+   "pasos": [
+    {
+     "tipo": "ir",
+     "x": -58,
+     "z": 111,
+     "r": 10,
+     "texto": "Calle los Poyos. Ni una puerta abierta, ni una ventana con luz. Solo tus pasos… y, un poco detrás, otros."
+    },
+    {
+     "tipo": "ir",
+     "x": -86,
+     "z": 130,
+     "r": 8,
+     "texto": "El callejón sube hacia la Calle Castillo. Arriba, la niebla es más espesa. La radio empieza a chisporrotear."
+    },
+    {
+     "tipo": "evento",
+     "evento": "sombras",
+     "x": -105,
+     "z": 153,
+     "r": 12,
+     "texto": "Bajan de la muela, muchas, despacio. No corren: te rodean. Mantén la luz encima de ellas y sigue subiendo."
+    },
+    {
+     "tipo": "leer",
+     "recuerdo": "cuaderno_castillo",
+     "x": -125,
+     "z": 153
+    }
+   ],
+   "recompensa": {}
+  },
+  {
+   "id": "m8",
+   "titulo": "La torre del homenaje",
+   "objetivo": "Sube al castillo, a la torre del homenaje",
+   "pasos": [
+    {
+     "tipo": "ir",
+     "x": -131.5,
+     "z": 235,
+     "r": 7,
+     "texto": "La torre del homenaje, sola en mitad del recinto. Seis metros de piedra por lado y saeteras como ojos entornados."
+    },
+    {
+     "tipo": "evento",
+     "evento": "radio",
+     "x": -131.5,
+     "z": 235,
+     "r": 8,
+     "texto": "«¡Veo tu luz por un respiradero! Estoy bajo la muela. La puerta está junto a la torre-puerta. Solo se abre desde fuera.»"
+    },
+    {
+     "tipo": "leer",
+     "recuerdo": "tablilla",
+     "x": -130.5,
+     "z": 237.3
+    },
+    {
+     "tipo": "coger",
+     "objeto": "cruz",
+     "x": -136,
+     "z": 236.5,
+     "texto": "En la hierba, una cruz pequeña de hierro. Está helada."
+    }
+   ],
+   "recompensa": {
+    "logro": "vigia"
+   }
+  },
+  {
+   "id": "m9",
+   "titulo": "Los que esperan",
+   "objetivo": "Ve a la torre-puerta, en el extremo este del castillo",
+   "pasos": [
+    {
+     "tipo": "ir",
+     "x": -58,
+     "z": 229,
+     "r": 8,
+     "texto": "La torre-puerta. Fuera del recinto, al pie de la muela, una puerta de bodega de madera negra entre las zarzas."
+    },
+    {
+     "tipo": "leer",
+     "recuerdo": "foto_puerta",
+     "x": -53.5,
+     "z": 225.5
+    },
+    {
+     "tipo": "evento",
+     "evento": "radio",
+     "x": -53,
+     "z": 225,
+     "r": 6,
+     "texto": "«Abre. No tengas miedo de ellos.» Es Nora. Detrás de su voz, muchas otras respiran despacio."
+    },
+    {
+     "tipo": "usar",
+     "objeto": "llave",
+     "x": -53,
+     "z": 225,
+     "r": 4,
+     "texto": "La llave de Simón entra a la primera. Al girarla, alguien empuja suavemente desde el otro lado."
+    },
+    {
+     "tipo": "evento",
+     "evento": "fin_capitulo",
+     "x": -53,
+     "z": 225,
+     "r": 8,
+     "texto": "La puerta se abre."
+    }
+   ],
+   "recompensa": {
+    "logro": "los_que_esperan"
+   }
+  }
+ ]
+}

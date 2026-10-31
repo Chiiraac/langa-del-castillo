@@ -1,20 +1,31 @@
 # Langa del Castillo
 
-**Paseo en 3D por el pueblo** · un juego de Atalaya Estudio
+**La niebla de Langa** · Capítulo 1: *Los que esperan* · un juego de Atalaya Estudio
 
 **Jugar:** https://chiiraac.github.io/langa-del-castillo/
 
-Un pueblo real de Aragón, calle a calle: recorre a pie Langa del Castillo (Campo de Daroca, Zaragoza), sus casas,
-su iglesia barroca de San Pedro y su castillo medieval, y descubre la historia de sus lugares. Funciona en móviles,
-tablets y ordenadores, sin instalar nada.
+Tu hermana Nora vino a Langa del Castillo a estudiar su castillo y lleva dos días sin contestar. Su último mensaje:
+«Ha bajado la niebla. Las campanas suenan solas. Ven. Trae luz.» Llegas al atardecer y no hay nadie.
+
+Un juego de miedo en 3D en un pueblo real de Aragón (Campo de Daroca, Zaragoza), calle a calle: nueve misiones,
+cuatro personajes, una mochila con lo que encuentras, recuerdos que leer y logros. Miedo de ambiente, sin gore
+(para mayores de 12). Y, aparte, el **paseo libre** por el pueblo de siempre, con la historia de sus lugares.
+Funciona en móviles, tablets y ordenadores, sin instalar nada.
+
+**La historia es ficción**: sus personajes, nombres y sucesos son inventados y no se refieren a ningún vecino ni a
+nada que haya pasado en el pueblo.
 
 ## Cómo se juega
 
 - **Móvil y tablet:** pon el dedo en la mitad izquierda de la pantalla y arrástralo para andar (al borde, corres);
   desliza en la mitad derecha para mirar. En Ajustes puedes cambiar de lado.
 - **Ordenador:** WASD o flechas para andar, Mayús para correr y arrastra con el ratón para mirar. M o Esc abren el menú.
-- **El menú** (arriba a la derecha) te lleva a cualquier sitio del pueblo, guarda los lugares con historia que vas
-  descubriendo y tiene los ajustes: gráficos, sonido, sensibilidad, campo de visión y tamaño del texto.
+- **La historia:** arriba tienes el objetivo y una flecha con los metros que faltan. Cerca de alguien o de algo sale
+  un botón: «Hablar», «Coger», «Leer» o «Usar». La partida se guarda sola.
+- **Las sombras:** enciende la linterna (el botón de la luz) y apúntales. La radio crepita cuando están cerca. En la
+  iglesia de San Pedro no entran.
+- **El menú** (arriba a la derecha) tiene la mochila, los recuerdos, los logros y los ajustes: gráficos, sonido,
+  sensibilidad, campo de visión y tamaño del texto. En el paseo libre, te lleva a cualquier sitio del pueblo.
 
 ## Instalarlo como app
 
@@ -39,8 +50,10 @@ Después de la primera visita se puede jugar sin conexión.
   America), con licencia SIL Open Font License 1.1.
 - **Gráficos**: [three.js](https://threejs.org) r160 (© 2010-2023 three.js authors, licencia MIT).
 - **Sonido**: síntesis propia con Web Audio.
-- **Historia**: SIPCA (Gobierno de Aragón), Inventario de Fortificaciones Aragonesas (ficha CD.34,
-  castillosenaragon.es), Wikipedia y el Diccionario de Madoz (1847).
+- **Historia del pueblo** (paseo libre y cuaderno de Nora): SIPCA (Gobierno de Aragón), Inventario de
+  Fortificaciones Aragonesas (fichas CD.34 y CD.35, castillosenaragon.es), Wikipedia y el Diccionario de Madoz (1847).
+- **La niebla de Langa**: historia original de Atalaya Estudio. La leyenda de «los que esperan», sus personajes y la
+  bodega bajo la muela son inventados.
 
 Código, diseño y modelos: © 2026 Chiiraac, todos los derechos reservados (salvo lo indicado arriba).
 
@@ -50,7 +63,7 @@ entidades citadas.
 ## Privacidad
 
 El juego no usa cookies ni recoge datos personales, y no tiene cuentas ni anuncios. Solo guarda en tu dispositivo,
-para ti, tus ajustes, los lugares que descubres, las marcas que pongas en el mapa y una copia del juego para jugar sin
+para ti, tus ajustes, tu partida, los lugares que descubres, las marcas que pongas en el mapa y una copia del juego para jugar sin
 conexión. Puedes borrarlo en los ajustes del navegador (datos del sitio). Las letras y la librería 3D se descargan de
 Google Fonts y jsDelivr, que reciben tu dirección IP. La web la aloja GitHub Pages (GitHub, Inc.), que registra las
 visitas según su [declaración de privacidad](https://docs.github.com/es/site-policy/privacy-policies/github-general-privacy-statement).
