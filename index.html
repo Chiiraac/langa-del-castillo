@@ -2654,7 +2654,11 @@ $('accion').addEventListener('click',e=>{ e.stopPropagation(); if(accionAct&&acc
 // ---------- Sombras ----------
 function quitarSombras(){ for(const s of HIST.sombras) scene.remove(s.g); HIST.sombras.length=0; $('susto').style.opacity=0; Sonido.radio(0); }
 function puntoDeCalle(cx,cz,dmin,dmax){ for(let k=0;k<40;k++){ const seg=SUELO[Math.floor(Math.random()*SUELO.length)], t=Math.random(), x=seg[0]+(seg[2]-seg[0])*t, z=seg[1]+(seg[3]-seg[1])*t, d=Math.hypot(x-cx,z-cz);
-  if(d>dmin&&d<dmax&&Math.hypot(x-REFUGIO[0],z-REFUGIO[1])>R_REFUGIO+4) return [x,z]; } return null; }
+  if(d>dmin&&d<dmax&&Math.hypot(x-REFUGIO[0],z-REFUGIO[1])>R_REFUGIO+4) return [x,z]; }
+  // Lejos de las calles (el castillo, el campo): un punto cualquiera alrededor, fuera de las casas.
+  for(let k=0;k<20;k++){ const a=Math.random()*Math.PI*2, r=dmin+Math.random()*(dmax-dmin), [x,z]=collide(cx+Math.sin(a)*r,cz+Math.cos(a)*r);
+    if(Math.hypot(x-REFUGIO[0],z-REFUGIO[1])>R_REFUGIO+4) return [x,z]; }
+  return null; }
 function nuevaSombra(){ const p=puntoDeCalle(player.x,player.z,22,40); if(!p) return; const g=hFigura('sombra',null,matSombra.clone()); scene.add(g);
   HIST.sombras.push({g,x:p[0],z:p[1],huye:0,op:0,fase:Math.random()*6}); }
 function atrapado(){ const e=HIST.e; Sonido.golpe(); e.miedo++; const s=$('susto'); s.style.transition='none'; s.style.opacity=1; setTimeout(()=>{ s.style.transition='opacity 1.2s'; s.style.opacity=0; },60);
@@ -2663,7 +2667,7 @@ function atrapado(){ const e=HIST.e; Sonido.golpe(); e.miedo++; const s=$('susto
   else { const fx=Math.sin(player.yaw), fz=Math.cos(player.yaw); [player.x,player.z]=collide(player.x-fx*3,player.z-fz*3); pensar(e.miedo===1?'Algo frío te ha rozado. Corre.':'Otra vez… No puedo dejar que me alcancen.'); }
   guardarHist(); }
 function moverSombras(dt){ const e=HIST.e; if(!e.sombras){ if(HIST.sombras.length) quitarSombras(); return; }
-  while(HIST.sombras.length<3) nuevaSombra();
+  for(let k=0;k<3&&HIST.sombras.length<3;k++) nuevaSombra();   // sin bucles sin fin: si no hay sitio, ya saldrán
   const fx=Math.sin(player.yaw), fz=Math.cos(player.yaw), enRefugio=Math.hypot(player.x-REFUGIO[0],player.z-REFUGIO[1])<R_REFUGIO;
   let cerca=0;
   for(let i=HIST.sombras.length-1;i>=0;i--){ const s=HIST.sombras[i]; s.fase+=dt;
