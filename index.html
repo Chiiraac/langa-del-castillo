@@ -3,11 +3,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="La niebla de Langa: un juego de miedo en 3D en un pueblo real de Aragón. Tu hermana ha desaparecido en la niebla de Langa del Castillo (Zaragoza). Linterna, radio y sombras sin cara. También, paseo libre por el pueblo.">
-<meta name="author" content="Atalaya Estudio">
+<meta name="author" content="Cierzo Studios">
 <meta name="langa-sin-npc" content="1">
 <meta name="langa-publica" content="1">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Atalaya Estudio">
+<meta property="og:site_name" content="Cierzo Studios">
 <meta property="og:title" content="La niebla de Langa · Capítulo 1: Los que esperan">
 <meta property="og:description" content="Tu hermana ha desaparecido en la niebla de un pueblo real de Aragón. Juego de miedo en 3D, gratis, en el navegador y en el móvil. Ficción, sin gore.">
 <meta property="og:url" content="https://chiiraac.github.io/langa-del-castillo/">
@@ -184,8 +184,8 @@ button:focus-visible{outline:2px solid var(--stone);outline-offset:2px}
     <rect y="196" width="360" height="44" fill="url(#pf)"/>
   </svg>
   <div id="estudio">
-    <svg width="18" height="22" viewBox="0 0 32 40" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M10 38V13l-2-4h16l-2 4v25"/><path d="M8 9V4h3.5v2.5h3V4h3v2.5h3V4H24v5"/><path d="M16 17.5v5"/><path d="M2 38h28"/></svg>
-    <span>Atalaya <small>Estudio</small></span>
+    <svg width="22" height="20" viewBox="0 0 36 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 11h17a4.5 4.5 0 1 0-4.5-4.5"/><path d="M3 18h25a4.5 4.5 0 1 1-4.5 4.5"/><path d="M3 25h11"/></svg>
+    <span>Cierzo <small>Studios</small></span>
   </div>
   <div></div>
   <div class="card">
@@ -262,7 +262,7 @@ const FICHAS={
 <p><b>Las sombras:</b> cuando la niebla se espesa, salen. Enciende la linterna (el botón con la luz) y apúntales: se apartan. Si llevas la radio, crepita cuando están cerca. A la iglesia no entran: allí estás a salvo.</p>
 <p><b>Paseo libre:</b> desde el título puedes recorrer el pueblo sin miedo, con los lugares con historia y su aviso al pasar cerca.</p>
 <p>En el iPhone, «Compartir → Añadir a pantalla de inicio» lo abre como una app, a pantalla completa.</p>`,''],
-  creditos:['Créditos y licencias',`<p><b>Langa del Castillo</b> · un juego de Atalaya Estudio. Proyecto independiente, sin relación con el Ayuntamiento de Langa del Castillo ni con las entidades citadas.</p>
+  creditos:['Créditos y licencias',`<p><b>Langa del Castillo</b> · un juego de Cierzo Studios. Proyecto independiente, sin relación con el Ayuntamiento de Langa del Castillo ni con las entidades citadas.</p>
 <p><b>Calles y sus nombres:</b> © colaboradores de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>, bajo la Open Database License (ODbL 1.0).</p>
 <p><b>Edificios</b> (planta y número de plantas) y <b>color de las fachadas:</b> fuente Dirección General del Catastro, información consultada el 10 de octubre de 2026 y transformada para este juego. No es cartografía ni información catastral oficial.</p>
 <p><b>Relieve:</b> generado con información del Servicio de Vigilancia Terrestre de Copernicus de la Unión Europea (EU-DEM v1.1), adaptado. La Unión Europea no respalda este proyecto.</p>
@@ -2097,7 +2097,7 @@ $('mtCopiar').addEventListener('click',async()=>{ const a=$('marcasArea'), b=$('
 addEventListener('wheel',e=>{ if(!aguila.pajaro) return; aguila.alto=Math.min(450,Math.max(40,aguila.alto*(e.deltaY>0?1.15:1/1.15))); },{passive:true});
 addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight); composer.setSize(innerWidth,innerHeight); ajustarCamara();});
 
-// ---------- Sonido (Atalaya Estudio, departamento de Sonido) ----------
+// ---------- Sonido (Cierzo Studios, departamento de Sonido) ----------
 // Todo sale de síntesis con Web Audio: no hay que descargar ningún archivo y no hay licencias que cuidar.
 // Capas: viento (con ráfagas), pájaros según la zona, pasos según el suelo, agua de la fuente, campanas a las horas
 // en punto (hora de España) y un "toc" para los botones.

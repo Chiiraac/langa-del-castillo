@@ -1,6 +1,6 @@
 # Langa del Castillo
 
-**La niebla de Langa** · Capítulo 1: *Los que esperan* · un juego de Atalaya Estudio
+**La niebla de Langa** · Capítulo 1: *Los que esperan* · un juego de Cierzo Studios
 
 **Jugar:** https://chiiraac.github.io/langa-del-castillo/
 
@@ -52,7 +52,7 @@ Después de la primera visita se puede jugar sin conexión.
 - **Sonido**: síntesis propia con Web Audio.
 - **Historia del pueblo** (paseo libre y cuaderno de Nora): SIPCA (Gobierno de Aragón), Inventario de
   Fortificaciones Aragonesas (fichas CD.34 y CD.35, castillosenaragon.es), Wikipedia y el Diccionario de Madoz (1847).
-- **La niebla de Langa**: historia original de Atalaya Estudio. La leyenda de «los que esperan», sus personajes y la
+- **La niebla de Langa**: historia original de Cierzo Studios. La leyenda de «los que esperan», sus personajes y la
   bodega bajo la muela son inventados.
 
 Código, diseño y modelos: © 2026 Chiiraac, todos los derechos reservados (salvo lo indicado arriba).
