@@ -2472,7 +2472,7 @@ function ponerNiebla(v){
   if(v&&!cupula){ cupula=new THREE.Mesh(new THREE.SphereGeometry(3000,24,12),new THREE.MeshBasicMaterial({color:COLOR_NIEBLA,side:THREE.BackSide,fog:false,depthWrite:false}));
     cupula.renderOrder=-2; cupula.frustumCulled=false; scene.add(cupula); }
   if(cupula) cupula.visible=v; sky.visible=!v; clouds.visible=!v;
-  scene.fog.color.copy(v?COLOR_NIEBLA:DIA.fog); scene.fog.density=v?0.017:DIA.dens;
+  scene.fog.color.copy(v?COLOR_NIEBLA:DIA.fog); scene.fog.density=v?0.03:DIA.dens;
   sun.intensity=v?DIA.sol*0.35:DIA.sol; if(hemiLuz) hemiLuz.intensity=v?0.75:hemiDia; }
 ponerNiebla(AJ.tiempo==='niebla');
 
@@ -2586,7 +2586,7 @@ $('bLinterna').addEventListener('click',e=>{ e.stopPropagation(); if(!HIST.e) re
 
 // ---------- Ambiente del modo historia: niebla espesa y gris; con el apagón, noche cerrada ----------
 function ambienteHistoria(){ const noche=HIST.e&&HIST.e.noche;
-  ponerNiebla(true); COLOR_NIEBLA.set(noche?0x07080a:0x9a9f9f); scene.fog.color.copy(COLOR_NIEBLA); scene.fog.density=noche?0.045:0.042;
+  ponerNiebla(true); COLOR_NIEBLA.set(noche?0x07080a:0x9a9f9f); scene.fog.color.copy(COLOR_NIEBLA); scene.fog.density=noche?0.06:0.07;
   if(cupula) cupula.material.color.copy(COLOR_NIEBLA); renderer.toneMappingExposure=noche?0.8:0.66;
   sun.intensity=noche?0:DIA.sol*0.22; if(hemiLuz) hemiLuz.intensity=noche?0.05:0.55; Sonido.miedo(true); }
 function ambientePaseo(){ COLOR_NIEBLA.set(0xbcc2c4); renderer.toneMappingExposure=0.8; callarNarra(); for(const g of PROPS) g.visible=false; if(cupula) cupula.material.color.copy(COLOR_NIEBLA); ponerNiebla(AJ.tiempo==='niebla'); luzLinterna.intensity=0; Sonido.miedo(false); Sonido.radio(0); quitarSombras(); }
@@ -2644,7 +2644,7 @@ function accionPosible(){ const p=pasoActual(); if(!p||HIST.bloqueo) return null
   if(p.tipo==='hablar'){ const pj=HIST.d.personajes[p.personaje]; if(pj&&dist(pj.x,pj.z)<3) return {texto:'Hablar con '+pj.nombre,fn:()=>{ HIST.mirar=[pj.x,pj.z];
     const g=HIST.figuras[p.personaje]; if(g) g.rotation.y=-Math.atan2(player.x-pj.x,player.z-pj.z)+Math.PI; dialogo(p.dialogo||[],p.eleccion,()=>{ HIST.mirar=null; siguientePaso(); }); }}; }
   if(p.tipo==='coger'&&dist(p.x,p.z)<2.6){ const o=HIST.d.objetos[p.objeto]; return {texto:'Coger: '+(o?o.nombre:p.objeto),fn:()=>{ darObjeto(p.objeto); pensar(p.texto); siguientePaso(); }}; }
-  if(p.tipo==='leer'&&dist(p.x,p.z)<2.6){ const r=HIST.d.recuerdos[p.recuerdo]; return {texto:'Leer: '+(r?r.titulo:''),fn:()=>{ darRecuerdo(p.recuerdo); leerRecuerdo(p.recuerdo); siguientePaso(); }}; }
+  if(p.tipo==='leer'&&dist(p.x,p.z)<2.6){ const r=HIST.d.recuerdos[p.recuerdo]; return {texto:r&&r.tipo==='foto'?'Mirar la foto':'Leer «'+(r?r.titulo:'')+'»',fn:()=>{ darRecuerdo(p.recuerdo); leerRecuerdo(p.recuerdo); siguientePaso(); }}; }
   if(p.tipo==='usar'&&dist(p.x,p.z)<(p.r||3)){ const o=HIST.d.objetos[p.objeto], tiene=HIST.e.inv.includes(p.objeto);
     return {texto:tiene?'Usar: '+(o?o.nombre:p.objeto):'Necesitas: '+(o?o.nombre:p.objeto),fn:tiene?()=>{ pensar(p.texto); siguientePaso(); }:null}; }
   return null; }
