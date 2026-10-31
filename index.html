@@ -1903,9 +1903,12 @@ if(!SIN_NPC) solids.push([[-0.3,-0.3],[0.3,-0.3],[0.3,0.3],[-0.3,0.3]].map(([x,z
 { const k=[-131.5,241.5],a=-8*Math.PI/180,c=Math.cos(a),s=Math.sin(a),h=3.2;
   solids.push([[-h,-h],[h,-h],[h,h],[-h,h]].map(([x,z])=>[k[0]+x*c-z*s,k[1]+x*s+z*c])); }
 const CELL=20, grid=new Map();
-solids.forEach((f,i)=>{ const xs=f.map(p=>p[0]),zs=f.map(p=>p[1]);
+function enRejilla(f,i){ const xs=f.map(p=>p[0]),zs=f.map(p=>p[1]);
   for(let gx=Math.floor(Math.min(...xs)/CELL);gx<=Math.floor(Math.max(...xs)/CELL);gx++)
-    for(let gz=Math.floor(Math.min(...zs)/CELL);gz<=Math.floor(Math.max(...zs)/CELL);gz++){ const k=gx+','+gz; (grid.get(k)||grid.set(k,[]).get(k)).push(i);} });
+    for(let gz=Math.floor(Math.min(...zs)/CELL);gz<=Math.floor(Math.max(...zs)/CELL);gz++){ const k=gx+','+gz; (grid.get(k)||grid.set(k,[]).get(k)).push(i);} }
+solids.forEach(enRejilla);
+// Algo sólido que se pone más tarde (la puerta de la bodega del modo historia).
+function nuevoSolido(f){ solids.push(f); enRejilla(f,solids.length-1); }
 const RADIUS=0.35;
 function collide(x,z){
   for(let pass=0;pass<2;pass++){
@@ -2601,7 +2604,12 @@ function puertaBodega(x,z){ const y=HT(x,z), gx=HT(x+1.5,z)-HT(x-1.5,z), gz=HT(x
   caja(0.4,2.3,0.45,-0.82,1.0,0.2,piedra); caja(0.4,2.3,0.45,0.82,1.0,0.2,piedra); caja(2.05,0.4,0.5,0,2.3,0.2,piedra);
   caja(1.24,2.05,0.08,0,0.95,0.12,new THREE.MeshStandardMaterial({color:new THREE.Color('#231912').convertSRGBToLinear(),roughness:0.9}));
   for(const yy of [0.35,1.55]) caja(1.2,0.1,0.04,0,yy,0.18,new THREE.MeshStandardMaterial({color:0x2b2b2b,roughness:0.6,metalness:0.6}));
-  g.position.set(...V(x,y-0.2,z)); g.rotation.y=Math.atan2(nx,-nz); scene.add(g); return g; }
+  // Metida 2,2 m en la ladera: el punto de la historia queda delante de la puerta, no dentro.
+  const px=x-nx*2.2, pz=z-nz*2.2, ex=-nz, ez=nx;   // (ex,ez): de lado, a lo largo de la puerta
+  g.position.set(...V(px,HT(px,pz)-0.2,pz)); g.rotation.y=Math.atan2(nx,-nz); scene.add(g);
+  const esq=(a,b)=>[px+ex*a+nx*b,pz+ez*a+nz*b];
+  nuevoSolido([esq(-2.1,0.35),esq(2.1,0.35),esq(2.1,-2.9),esq(-2.1,-2.9)]);   // que no se pueda atravesar
+  return g; }
 function luzLejana(x,z,alto){ const g=new THREE.Group(), sp=new THREE.Sprite(new THREE.SpriteMaterial({map:texBrillo,color:0xffd9a0,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,fog:false}));
   sp.scale.set(2.2,2.2,1); g.add(sp); g.position.set(...V(x,HT(x,z)+(alto||8),z)); scene.add(g); return g; }
 function ponerProps(){ const d=HIST.d, e=HIST.e;
