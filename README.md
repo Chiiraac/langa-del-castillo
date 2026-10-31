@@ -47,8 +47,9 @@ Después de la primera visita se puede jugar sin conexión.
 - **Texturas**: [Poly Haven](https://polyhaven.com) (CC0): Rob Tuytel, Amal Kumar, Dario Barresi, Charlotte
   Baglioni y Dimitrios Savva.
 - **Tipografías**: IM Fell English SC (© 2010 Igino Marini) y Atkinson Hyperlegible (© 2020 Braille Institute of
-  America), con licencia SIL Open Font License 1.1.
-- **Gráficos**: [three.js](https://threejs.org) r160 (© 2010-2023 three.js authors, licencia MIT).
+  America), con licencia SIL Open Font License 1.1 (texto en `fuentes/OFL-*.txt`).
+- **Gráficos**: [three.js](https://threejs.org) r160 (© 2010-2023 three.js authors, licencia MIT; texto en
+  `lib/three@0.160.0/LICENSE`).
 - **Sonido**: síntesis propia con Web Audio.
 - **Historia del pueblo** (paseo libre y cuaderno de Nora): SIPCA (Gobierno de Aragón), Inventario de
   Fortificaciones Aragonesas (fichas CD.34 y CD.35, castillosenaragon.es), Wikipedia y el Diccionario de Madoz (1847).
@@ -62,10 +63,18 @@ entidades citadas.
 
 ## Privacidad
 
-El juego no usa cookies ni recoge datos personales, y no tiene cuentas ni anuncios. Solo guarda en tu dispositivo,
-para ti, tus ajustes, tu partida, los lugares que descubres, las marcas que pongas en el mapa y una copia del juego para jugar sin
-conexión. Puedes borrarlo en los ajustes del navegador (datos del sitio). Las letras y la librería 3D se descargan de
-Google Fonts y jsDelivr, que reciben tu dirección IP. La web la aloja GitHub Pages (GitHub, Inc.), que registra las
-visitas según su [declaración de privacidad](https://docs.github.com/es/site-policy/privacy-policies/github-general-privacy-statement).
+- **Sin cookies, sin analítica, sin anuncios y sin cuentas.** Cierzo Studios no recoge ni recibe datos de quien juega.
+- **Qué guarda el juego en tu dispositivo** (en el almacenamiento local del navegador, de donde no sale): tus ajustes
+  (gráficos, sonido, controles y tamaño del texto), tu partida (misión, mochila, recuerdos, logros y el punto del
+  pueblo donde te quedaste), los lugares del paseo libre que has descubierto y una copia del juego para jugar sin
+  conexión. Sirve solo para que el juego funcione y recuerde dónde lo dejaste.
+- **Cuánto dura:** hasta que lo borres, con «Borrar mis datos de este dispositivo» en el menú del juego o en los
+  ajustes del navegador (datos de sitios > chiiraac.github.io). En el iPhone y el iPad, Safari puede borrarlo si pasan
+  7 días sin abrir el juego; instalado en la pantalla de inicio, no.
+- **Quién más interviene:** solo GitHub Pages (GitHub, Inc.), que aloja la web. Como cualquier servidor, recibe tu
+  dirección IP y los datos técnicos de tu navegador al abrir la página, y GitHub la registra por seguridad según su
+  [declaración de privacidad](https://docs.github.com/es/site-policy/privacy-policies/github-general-privacy-statement).
+  GitHub está adherida al Marco de Privacidad de Datos UE-EE. UU. Las letras y la librería 3D se sirven desde esta
+  misma web.
 
 Este repositorio solo tiene la versión publicada; se genera a partir del proyecto principal.

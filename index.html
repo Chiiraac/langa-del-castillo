@@ -26,8 +26,7 @@
 <link rel="icon" type="image/png" href="icono-192.png">
 <link rel="apple-touch-icon" href="icono-180.png">
 <title>Langa del Castillo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="fuentes/fuentes.css">
 <style>
 /* Una sola pantalla de juego: el pueblo ocupa todo y los controles flotan encima, en tonos de piedra. */
 :root{
@@ -239,7 +238,7 @@ button:focus-visible{outline:2px solid var(--stone);outline-offset:2px}
     if(Date.now()-(window.__progreso||t0)>45000) window.__falloCarga('La carga se ha quedado parada. Comprueba la conexión y vuelve a intentarlo.'); },3000);
   $('reintentar').addEventListener('click',()=>location.reload()); })();
 </script>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="importmap">{"imports":{"three":"./lib/three@0.160.0/build/three.module.js","three/addons/":"./lib/three@0.160.0/examples/jsm/"}}</script>
 <script type="module">
 import * as THREE from 'three';
 import { Sky } from 'three/addons/objects/Sky.js';
@@ -258,7 +257,7 @@ const FICHAS={
   ayuda:['Cómo se juega',`<p><b>En el móvil:</b> pon el dedo en la mitad izquierda de la pantalla y arrástralo hacia donde quieras ir; si lo llevas hasta el borde, corres. En la mitad derecha, desliza para mirar. En Ajustes puedes cambiar de lado.</p>
 <p><b>En el ordenador:</b> WASD o las flechas para andar, Mayús para correr y arrastra con el ratón para mirar. M o Esc abren el menú.</p>
 <p><b>La historia:</b> arriba tienes el objetivo y una flecha que apunta hacia él, con los metros que faltan. Cuando estés cerca de alguien o de algo, sale un botón abajo: «Hablar», «Coger», «Leer» o «Usar».</p>
-<p><b>La mochila</b> está en el menú (arriba a la derecha), con los recuerdos que encuentras y los logros. La partida se guarda sola.</p>
+<p><b>La mochila</b> está en el menú (arriba a la derecha), con los recuerdos que encuentras y los logros. La partida se guarda sola, en este navegador: en otro móvil, o si borras los datos del sitio, empieza de cero. En el iPhone, añádelo a la pantalla de inicio para que Safari no la borre.</p>
 <p><b>Las sombras:</b> cuando la niebla se espesa, salen. Enciende la linterna (el botón con la luz) y apúntales: se apartan. Si llevas la radio, crepita cuando están cerca. A la iglesia no entran: allí estás a salvo.</p>
 <p><b>Paseo libre:</b> desde el título puedes recorrer el pueblo sin miedo, con los lugares con historia y su aviso al pasar cerca.</p>
 <p>En el iPhone, «Compartir → Añadir a pantalla de inicio» lo abre como una app, a pantalla completa.</p>`,''],
@@ -269,7 +268,7 @@ const FICHAS={
 <p><b>Texturas:</b> <a href="https://polyhaven.com" target="_blank" rel="noopener">Poly Haven</a> (CC0). <b>Letras:</b> IM Fell English SC y Atkinson Hyperlegible (SIL Open Font License). <b>Gráficos:</b> three.js (MIT). <b>Sonido:</b> síntesis propia.</p>
 <p><b><i>La niebla de Langa</i> es una obra de ficción.</b> La leyenda de «los que esperan», la niebla, la bodega bajo la muela y todos los personajes son inventados y no se refieren a ningún vecino ni a nada que haya pasado en el pueblo. Los datos históricos del cuaderno de Nora (el castillo-refugio, 1357, 1367, las bodegas, las ermitas y la iglesia de San Pedro) salen de las fuentes de abajo.</p>
 <p><b>Historia del pueblo</b> (paseo libre): SIPCA (Gobierno de Aragón), Inventario de Fortificaciones Aragonesas (castillosenaragon.es, ficha CD.34), Wikipedia y el Diccionario de Madoz (1847).</p>
-<p><b>Privacidad:</b> el juego no usa cookies ni recoge datos personales. Solo guarda en tu dispositivo tus ajustes, tu partida, los lugares que descubres y una copia para jugar sin conexión. Las letras y la librería 3D se descargan de Google Fonts y jsDelivr, que reciben tu dirección IP.</p>
+<p><b>Privacidad:</b> sin cookies, sin analítica, sin anuncios y sin cuentas: no sabemos quién juega. Para recordar dónde te quedaste, el juego guarda en tu navegador, y solo ahí, tus ajustes, tu partida, los lugares que descubres y una copia para jugar sin conexión. No se envía a ningún sitio. Se borra al borrar los datos de este sitio en el navegador, o con «Borrar mis datos» en el menú. La web la aloja GitHub Pages (GitHub, Inc.), que registra la dirección IP de cada visita por seguridad.</p>
 <p>Gracias a quien conoce el pueblo y nos ayudó a completarlo.</p>`,''],
 };
 const parrafos=t=>t.split('\n').map(x=>`<p>${x}</p>`).join('');
@@ -2432,7 +2431,7 @@ function pintarPanel(){
     +seg('Invertir arriba y abajo','invertir',[['0','No'],['1','Sí']],AJ.invertir?'1':'0')+seg('Campo de visión','fov',[['normal','Normal'],['amplio','Amplio']],AJ.fov)
     +(ESCRITORIO?'':seg('Andar con el dedo','andar',[['izq','Izquierdo'],['der','Derecho']],AJ.andar))
     +seg('Balanceo al andar','balanceo',[['0','No'],['1','Sí']],AJ.balanceo?'1':'0')+seg('Tamaño del texto','letra',[['normal','Normal'],['grande','Grande']],AJ.letra);
-  h+=`<h2>Más</h2><button class="lugar" type="button" data-ficha="ayuda">${svgI('ayuda')}Cómo se juega</button><button class="lugar" type="button" data-ficha="creditos">${svgI('info')}Créditos y licencias</button><button class="lugar" type="button" data-titulo="1">${svgI('inicio')}Volver al título</button>`+(HIST.on?`<button class="lugar" type="button" data-reiniciar="1">${svgI('inicio')}Empezar el capítulo de nuevo</button>`:'');
+  h+=`<h2>Más</h2><button class="lugar" type="button" data-ficha="ayuda">${svgI('ayuda')}Cómo se juega</button><button class="lugar" type="button" data-ficha="creditos">${svgI('info')}Créditos y licencias</button><button class="lugar" type="button" data-titulo="1">${svgI('inicio')}Volver al título</button>`+(HIST.on?`<button class="lugar" type="button" data-reiniciar="1">${svgI('inicio')}Empezar el capítulo de nuevo</button>`:'')+`<button class="lugar" type="button" data-borrar="1">${svgI('cerrar')}Borrar mis datos de este dispositivo</button>`;
   if(DUENO) h+=`<div class="dueno"><h2>Herramientas del dueño</h2><button class="lugar" type="button" data-dueno="volar">${svgI('volar')}${aguila.on&&!aguila.pajaro?'Bajar a pie':'Volar sobre el pueblo'}</button><button class="lugar" type="button" data-dueno="marcar">${svgI('marcar')}${aguila.pajaro?'Dejar de marcar':'Marcar edificios que faltan'}${marcas.length?`<small>${marcas.length} ${marcas.length===1?'marca':'marcas'}</small>`:''}</button></div>`;
   p.innerHTML=h;
 }
@@ -2444,6 +2443,12 @@ function panelHistoria(){ const d=HIST.d, e=HIST.e, m=d.misiones[e.m]; let h='';
   return h; }
 function abrirPanel(v){ const p=$('panel'); p.classList.toggle('abierto',v); p.setAttribute('aria-hidden',v?'false':'true'); $('velo').hidden=!v; $('bMenu').setAttribute('aria-expanded',String(v)); if(v){ pintarPanel(); keys.clear(); } }
 function irA(i){ const [,pos,deg]=PLACES[i]; player.x=pos[0]; player.z=pos[1]; player.yaw=aguila.pajaro?0:deg*Math.PI/180; player.pitch=aguila.pajaro?-1.55:aguila.on?-0.75:0; player.y=0; nameTimer=0; }
+// Borra todo lo que el juego guarda en este navegador (ajustes, partida, lugares, copia sin conexión) y vuelve a empezar.
+async function borrarMisDatos(){
+  try{ for(const st of [localStorage,sessionStorage]) for(const k of Object.keys(st)) if(k.startsWith('langa-')) st.removeItem(k); }catch(e){}
+  try{ if(window.caches) for(const k of await caches.keys()) if(k.startsWith('langa-')) await caches.delete(k); }catch(e){}
+  try{ if(navigator.serviceWorker) for(const r of await navigator.serviceWorker.getRegistrations()) await r.unregister(); }catch(e){}
+  location.reload(); }
 function volverTitulo(){ const l=$('load'); l.hidden=false; $('start').textContent=partidaGuardada()?'Continuar la historia':'Empezar la historia'; requestAnimationFrame(()=>l.classList.remove('fuera')); }
 $('bMenu').addEventListener('click',e=>{ e.stopPropagation(); Sonido.clic(); abrirPanel(!$('panel').classList.contains('abierto')); });
 $('velo').addEventListener('click',()=>abrirPanel(false));
@@ -2454,6 +2459,7 @@ $('panel').addEventListener('click',e=>{ const b=e.target.closest('button'); if(
   if(d.ficha) return fichaFija(d.ficha);
   if(d.obj){ const o=HIST.d.objetos[d.obj]; if(d.obj==='linterna'){ HIST.e.linterna=!HIST.e.linterna; pintarLinterna(); guardarHist(); return pintarPanel(); } return abrirFicha(o?o.nombre:d.obj,`<p>${o?o.descripcion:''}</p>`,''); }
   if(d.rec) return leerRecuerdo(d.rec);
+  if(d.borrar){ if(b.dataset.seguro) return borrarMisDatos(); b.dataset.seguro='1'; b.innerHTML=svgI('cerrar')+'¿Seguro? Se borran tus ajustes, tu partida y los lugares. Pulsa otra vez'; return; }
   if(d.reiniciar){ if(b.dataset.seguro){ abrirPanel(false); return reiniciarHistoria(); } b.dataset.seguro='1'; b.innerHTML=svgI('inicio')+'¿Seguro? Se borra la partida. Pulsa otra vez'; return; }
   if(d.titulo){ abrirPanel(false); return volverTitulo(); }
   if(d.dueno==='volar'){ abrirPanel(false); if(aguila.on&&!aguila.pajaro) volar(false); else if(aguila.pajaro) ponerPajaro(false); else volar(true); return; }
