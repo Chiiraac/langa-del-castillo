@@ -1,27 +1,31 @@
 # Langa del Castillo
 
-**La niebla de Langa** · Capítulo 1: *Los que esperan* · un juego de Cierzo Studios
+**La niebla de Langa** · *Fuera del mapa* · Capítulo 1: *La casa 201* · un juego de Cierzo Studios
 
 **Jugar:** https://chiiraac.github.io/langa-del-castillo/
 
-Tu hermana Nora vino a Langa del Castillo a estudiar su castillo y lleva dos días sin contestar. Su último mensaje:
-«Ha bajado la niebla. Las campanas suenan solas. Ven. Trae luz.» Llegas al atardecer y no hay nadie.
+Eres Dani Ferrer y haces mapas a pie, con una mochila que hace una foto cada pocos pasos. Esta noche cierras Langa
+del Castillo. Pero ha bajado la niebla, en la tableta aparece un edificio que no existe, el 201, y en la primera foto
+de la mochila sale alguien gris detrás de ti.
 
-Un juego de miedo en 3D en un pueblo real de Aragón (Campo de Daroca, Zaragoza), calle a calle: nueve misiones,
-cuatro personajes, una mochila con lo que encuentras, recuerdos que leer y logros. Miedo de ambiente, sin gore
+Un juego de miedo en 3D en un pueblo real de Aragón (Campo de Daroca, Zaragoza), calle a calle: nueve misiones, una
+mochila con objetos que se examinan, se combinan y **cambian solos**, fotos que hay que encuadrar en su sitio, un
+buzón con código, personajes sin cara y una voz en la radio que no es lo que parece. Miedo de ambiente, sin gore
 (para mayores de 12). Y, aparte, el **paseo libre** por el pueblo de siempre, con la historia de sus lugares.
 Funciona en móviles, tablets y ordenadores, sin instalar nada.
 
-**La historia es ficción**: sus personajes, nombres y sucesos son inventados y no se refieren a ningún vecino ni a
-nada que haya pasado en el pueblo.
+**La historia es ficción**: sus personajes, la empresa de mapas y el edificio 201 son inventados y no se refieren a
+ningún vecino ni a nada que haya pasado en el pueblo.
 
 ## Cómo se juega
 
 - **Móvil y tablet:** pon el dedo en la mitad izquierda de la pantalla y arrástralo para andar (al borde, corres);
   desliza en la mitad derecha para mirar. En Ajustes puedes cambiar de lado.
 - **Ordenador:** WASD o flechas para andar, Mayús para correr y arrastra con el ratón para mirar. M o Esc abren el menú.
-- **La historia:** arriba tienes el objetivo y una flecha con los metros que faltan. Cerca de alguien o de algo sale
-  un botón: «Hablar», «Coger», «Leer» o «Usar». La partida se guarda sola.
+- **La historia:** arriba tienes el objetivo y una flecha con los metros que faltan (tócalo y te da una pista). Cerca
+  de alguien o de algo sale un botón: «Hablar», «Coger», «Dar algo…», «Usar algo…». La partida se guarda sola.
+- **La mochila** (abajo, en el lado de mirar): toca un objeto para verlo; «Examinar» lo gira, le da la vuelta y, con
+  «Alumbrar», enseña lo que no se ve a simple vista. «Combinar» junta dos cosas. La linterna gasta pilas.
 - **Las sombras:** enciende la linterna (el botón de la luz) y apúntales. La radio crepita cuando están cerca. En la
   iglesia de San Pedro no entran.
 - **El menú** (arriba a la derecha) tiene la mochila, los recuerdos, los logros y los ajustes: gráficos, sonido,
@@ -51,10 +55,9 @@ Después de la primera visita se puede jugar sin conexión.
 - **Gráficos**: [three.js](https://threejs.org) r160 (© 2010-2023 three.js authors, licencia MIT; texto en
   `lib/three@0.160.0/LICENSE`).
 - **Sonido**: síntesis propia con Web Audio.
-- **Historia del pueblo** (paseo libre y cuaderno de Nora): SIPCA (Gobierno de Aragón), Inventario de
+- **Historia del pueblo** (paseo libre): SIPCA (Gobierno de Aragón), Inventario de
   Fortificaciones Aragonesas (fichas CD.34 y CD.35, castillosenaragon.es), Wikipedia y el Diccionario de Madoz (1847).
-- **La niebla de Langa**: historia original de Cierzo Studios. La leyenda de «los que esperan», sus personajes y la
-  bodega bajo la muela son inventados.
+- **La niebla de Langa · Fuera del mapa**: historia, dibujos de los objetos y sonidos originales de Cierzo Studios.
 
 Código, diseño y modelos: © 2026 Chiiraac, todos los derechos reservados (salvo lo indicado arriba).
 

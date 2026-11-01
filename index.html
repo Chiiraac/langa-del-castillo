@@ -2,14 +2,14 @@
 <html lang="es">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="La niebla de Langa: un juego de miedo en 3D en un pueblo real de Aragón. Tu hermana ha desaparecido en la niebla de Langa del Castillo (Zaragoza). Linterna, radio y sombras sin cara. También, paseo libre por el pueblo.">
+<meta name="description" content="La niebla de Langa · Fuera del mapa: un juego de miedo en 3D en un pueblo real de Aragón, Langa del Castillo (Zaragoza). Una mochila que hace fotos, una casa que no existe y una voz en la radio. También, paseo libre por el pueblo.">
 <meta name="author" content="Cierzo Studios">
 <meta name="langa-sin-npc" content="1">
 <meta name="langa-publica" content="1">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Cierzo Studios">
-<meta property="og:title" content="La niebla de Langa · Capítulo 1: Los que esperan">
-<meta property="og:description" content="Tu hermana ha desaparecido en la niebla de un pueblo real de Aragón. Juego de miedo en 3D, gratis, en el navegador y en el móvil. Ficción, sin gore.">
+<meta property="og:title" content="La niebla de Langa · Fuera del mapa">
+<meta property="og:description" content="Esta noche cierras el mapa de un pueblo real de Aragón. Falta una casa: la 201. Juego de miedo en 3D, gratis, en el navegador y en el móvil. Ficción, sin gore.">
 <meta property="og:url" content="https://chiiraac.github.io/langa-del-castillo/">
 <meta property="og:image" content="https://chiiraac.github.io/langa-del-castillo/compartir.jpg">
 <meta property="og:image:width" content="1200">
@@ -166,6 +166,192 @@ button:focus-visible{outline:2px solid var(--stone);outline-offset:2px}
 #marcasTxt .fila{display:flex;gap:8px;justify-content:flex-end}
 #marcasTxt #mtCopiar{background:var(--stone);color:var(--ink);border:0}
 @media (prefers-reduced-motion: reduce){#bar i,#hint,#load,#panel,#aviso{transition:none}}
+/* ---------- Mochila (modo historia) ---------- */
+#bMochila{position:fixed;z-index:3;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);width:56px;height:56px;border-radius:16px;border:1px solid rgba(239,228,200,.28);background:rgba(30,24,15,.82);color:var(--stone);display:grid;place-items:center;cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+#bMochila.izq{right:auto;left:16px}
+#bMochila svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+#bMochila .marca{position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;border-radius:11px;padding:0 6px;box-sizing:border-box;background:var(--tile);color:#fff;font:700 .75rem/22px var(--ui);text-align:center}
+#bMochila.traga{animation:traga .3s ease-out}
+@keyframes traga{40%{transform:scale(1.18)}100%{transform:none}}
+body.hist #aviso{right:88px;margin:0}
+body.hist #hint{right:88px}
+body.hist.zurdo #hint,body.hist.zurdo #aviso{left:88px;right:16px}
+#bLinterna{position:relative}
+#bLinterna .carga{position:absolute;left:8px;right:8px;bottom:5px;height:3px;border-radius:2px;background:rgba(239,228,200,.25);overflow:hidden}
+#bLinterna .carga i{display:block;height:100%;background:currentColor}
+#bLinterna.baja .carga i{background:#e0744f}
+#objetivo.toca{pointer-events:auto;cursor:pointer;min-height:36px}
+
+#mochila{position:fixed;inset:0;z-index:5;background:radial-gradient(ellipse at 50% 0%,#2a241c 0%,#14110c 70%);display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 12px) 16px calc(env(safe-area-inset-bottom,0px) + 12px);box-sizing:border-box;color:var(--stone)}
+#mochila header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#mochila h2{margin:0;font:400 1.7rem/1 var(--display);letter-spacing:.03em}
+#mochila .cerrar{width:48px;height:48px;border-radius:12px;border:1px solid rgba(239,228,200,.25);background:transparent;color:var(--stone);font:700 1.3rem var(--ui);cursor:pointer}
+#mochila .pide{margin:10px 0 0;padding:10px 12px;border-left:3px solid var(--tile);background:rgba(169,86,58,.12);font-size:.98rem}
+#mochila .pide button{margin-left:8px;min-height:48px;padding:0 14px;border-radius:999px;border:1px solid rgba(239,228,200,.4);background:transparent;color:var(--stone);font:700 .85rem var(--ui);cursor:pointer}
+#mochila .pestanas{display:flex;gap:6px;margin:12px 0 10px}
+#mochila .pestanas button{flex:1;min-height:48px;border-radius:10px;border:1px solid rgba(239,228,200,.22);background:transparent;color:var(--stone-deep);font:700 .88rem var(--ui);cursor:pointer}
+#mochila .pestanas button[aria-selected="true"]{background:rgba(239,228,200,.12);color:var(--stone);border-color:rgba(239,228,200,.5)}
+#mochila .cuerpo{flex:1;overflow:auto;min-height:0}
+#mochila .rejilla{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+#mochila .hueco{position:relative;aspect-ratio:1;border-radius:12px;border:1px solid rgba(239,228,200,.2);background:linear-gradient(160deg,rgba(239,228,200,.07),rgba(0,0,0,.15));display:grid;place-items:center;padding:8px;box-sizing:border-box;color:var(--stone);cursor:pointer;font:inherit}
+#mochila .hueco.vacio{border-style:dashed;border-color:rgba(239,228,200,.14);background:transparent;cursor:default}
+#mochila .hueco.sel{border:2px solid var(--stone);box-shadow:0 0 0 3px rgba(239,228,200,.12)}
+#mochila .hueco.elegido{border:3px solid var(--tile)}
+#mochila .hueco .dib{width:72%;height:72%;display:grid;place-items:center}
+#mochila .hueco .dib svg{width:100%;height:100%}
+#mochila .hueco small{position:absolute;left:6px;bottom:5px;font:700 .75rem var(--ui);letter-spacing:.04em;padding:1px 5px;border-radius:6px;background:rgba(0,0,0,.45)}
+#mochila .hueco .num{position:absolute;right:6px;top:5px;font:700 .8rem var(--ui)}
+#mochila .hueco.sacude{animation:sacude .35s}
+@keyframes sacude{20%{transform:translateX(-6px)}50%{transform:translateX(5px)}80%{transform:translateX(-3px)}}
+#mochila .lista{display:grid;gap:8px}
+#mochila .lista button{display:flex;align-items:center;gap:10px;min-height:52px;padding:6px 12px;border-radius:10px;border:1px solid rgba(239,228,200,.2);background:transparent;color:var(--stone);font:700 .95rem var(--ui);text-align:left;cursor:pointer}
+#mochila .lista .i{width:24px;height:24px;flex:0 0 24px}
+#mochila .ficha{margin-top:12px;border-top:1px solid rgba(239,228,200,.18);padding-top:12px;display:grid;grid-template-columns:96px 1fr;gap:4px 14px;align-items:start}
+#mochila .ficha .grande{grid-row:span 3;width:96px;height:96px;display:grid;place-items:center}
+#mochila .ficha .grande svg{width:100%;height:100%}
+#mochila .ficha h3{margin:0;font:400 1.35rem/1.1 var(--display)}
+#mochila .ficha .clase{font:700 .7rem var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--stone-deep)}
+#mochila .ficha p{margin:0;font-size:.95rem;line-height:1.45;color:var(--stone)}
+#mochila .ficha .botones{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+#mochila .ficha .botones button,#examen .botones button,#candado .botones button{flex:1;min-width:6.5rem;min-height:48px;border-radius:999px;border:1px solid rgba(239,228,200,.4);background:transparent;color:var(--stone);font:700 .92rem var(--ui);cursor:pointer}
+#mochila .ficha .botones button.prim,#candado .botones button.prim{background:var(--stone);color:var(--ink);border-color:var(--stone)}
+#mochila .pie{display:flex;align-items:center;gap:10px;margin-top:10px;font:700 .82rem var(--ui);color:var(--stone-deep)}
+#mochila .seg{display:flex;gap:3px}
+#mochila .seg i{width:16px;height:10px;border-radius:2px;background:rgba(239,228,200,.18)}
+#mochila .seg i.on{background:var(--stone)}
+#mochila .seg.baja i.on{background:#e0744f}
+#mochila .msg{min-height:1.4em;margin:8px 0 0;font-style:italic;color:var(--stone-deep)}
+
+#examen{position:fixed;inset:0;z-index:6;background:rgba(8,7,5,.94);display:flex;flex-direction:column;align-items:center;padding:calc(env(safe-area-inset-top,0px) + 14px) 16px calc(env(safe-area-inset-bottom,0px) + 14px);box-sizing:border-box;color:var(--stone)}
+#examen .cab{width:100%;max-width:26rem;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+#examen .cab b{font:400 1.5rem/1.1 var(--display)}
+#examen .cab span{font:700 .8rem var(--ui);color:var(--stone-deep)}
+#exEscena{flex:1;width:100%;display:grid;place-items:center;perspective:900px;touch-action:none;min-height:0}
+#exCarta{position:relative;width:min(72vw,320px,46vh);aspect-ratio:1;transform-style:preserve-3d;transition:transform .35s ease}
+#exCarta.arrastra{transition:none}
+#exCarta .cara{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:10px;overflow:hidden}
+#exCarta .cara.dorso{transform:rotateY(180deg)}
+#exCarta .cara .dib,#exCarta .cara .oculto{position:absolute;inset:0;display:grid;place-items:center}
+#exCarta .cara .dib svg,#exCarta .cara .oculto svg{width:100%;height:100%}
+#exCarta .cara .oculto{opacity:0;-webkit-mask-image:radial-gradient(circle 80px at var(--lx,50%) var(--ly,50%),#000 55%,transparent 100%);mask-image:radial-gradient(circle 80px at var(--lx,50%) var(--ly,50%),#000 55%,transparent 100%)}
+#examen.luz #exCarta .cara .oculto{opacity:1}
+#examen.luz #exCarta .cara::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle 90px at var(--lx,50%) var(--ly,50%),rgba(255,236,190,.28),transparent 70%)}
+#exCarta .cara .oculto .txt{font:italic 700 1.05rem/1.3 var(--ui);color:#3a2c1c;text-align:center;padding:18%}
+#exCarta .det{position:absolute;transform:translate(-50%,-50%);border-radius:50%;border:0;background:transparent;cursor:pointer;min-width:56px;min-height:56px}
+#exCarta .det.visto{box-shadow:0 0 0 2px rgba(239,228,200,.55) inset}
+#exCarta .det.pista{animation:brillo 4s infinite}
+@keyframes brillo{0%,80%,100%{box-shadow:none}88%{box-shadow:0 0 0 3px rgba(255,236,190,.55) inset,0 0 18px rgba(255,236,190,.5)}}
+#exTexto{width:100%;max-width:26rem;min-height:3.2em;margin:10px 0;font-size:1rem;line-height:1.45;text-align:center}
+#examen .botones,#candado .botones{width:100%;max-width:26rem;display:flex;gap:8px}
+#examen .botones button[aria-pressed="true"]{background:rgba(255,236,190,.18);border-color:#ffe6b0}
+
+#candado{position:fixed;inset:0;z-index:6;background:rgba(8,7,5,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:16px;box-sizing:border-box;color:var(--stone)}
+#candado h3{margin:0;font:400 1.5rem/1.1 var(--display);text-align:center}
+#cdRuedas{display:flex;gap:10px}
+#cdRuedas.sacude{animation:sacude .35s}
+#cdRuedas .rueda{width:64px;display:flex;flex-direction:column;align-items:center;gap:6px;border-radius:12px;background:linear-gradient(#3a3226,#1c1812 50%,#3a3226);border:1px solid rgba(239,228,200,.25);padding:6px 0;touch-action:none}
+#cdRuedas .rueda button{width:48px;height:48px;border-radius:10px;border:0;background:rgba(239,228,200,.08);color:var(--stone);font:700 1.1rem var(--ui);cursor:pointer}
+#cdRuedas .rueda b{font:700 2rem/1.2 var(--ui);font-variant-numeric:tabular-nums}
+#cdMsg{min-height:1.4em;margin:0;font-style:italic;color:var(--stone-deep);text-align:center}
+
+/* Sin «reducir movimiento», el vuelo lo anima mochila.js; con él, aparece y se va sin moverse. */
+#vuelo{position:fixed;z-index:4;left:50%;top:42%;width:150px;height:150px;margin:-75px 0 0 -75px;pointer-events:none;display:grid;place-items:center;filter:drop-shadow(0 8px 20px rgba(0,0,0,.6))}
+#vuelo svg{width:100%;height:100%}
+#vuelo .nom{position:absolute;top:100%;left:50%;transform:translateX(-50%);white-space:nowrap;font:400 1.3rem var(--display);text-shadow:0 1px 6px #000}
+#vuelo .imp{display:block;font:700 .7rem var(--ui);letter-spacing:.2em;text-transform:uppercase;color:#e3a668;text-align:center}
+
+#encuadre{position:fixed;inset:12% 8% 24%;z-index:2;pointer-events:none;border:2px solid rgba(239,228,200,.75);border-radius:6px;box-shadow:0 0 0 100vmax rgba(0,0,0,.28)}
+#encuadre .foto{position:absolute;inset:0;opacity:.32;display:grid;place-items:center}
+#encuadre .foto svg{width:100%;height:100%}
+#encuadre p{position:absolute;left:0;right:0;bottom:-2.4em;margin:0;text-align:center;font:700 .9rem var(--ui);text-shadow:0 1px 4px #000}
+#encuadre.ok{border-color:#fff;border-width:4px;box-shadow:0 0 0 100vmax rgba(0,0,0,.28),0 0 24px rgba(255,255,255,.6) inset;transition:box-shadow .2s}
+/* ===== Piel de la mochila · Dirección de arte (1-11-2026) =====
+   Pegar al final del <style> de web/index.html (después del bloque «Mochila (modo historia)»).
+   Solo aspecto: usa las clases que ya existen (#bMochila, #mochila, .hueco, .ficha, #examen, #exCarta, #vuelo).
+   Los dibujos nuevos llevan <svg class="obj" viewBox="0 0 48 48"> (ver iconos.md); los iconos viejos no cambian. */
+:root{--luz:#e3a668;--lona:#2a2620;--lona-osc:#1c1915;--costura:rgba(205,187,146,.30);--cuero:#46301f;--cuero-osc:#2b1d13;
+  --papel:#d6c9a6;--boli:#34405e;--trazo:#16110c;--haz:243,217,166}
+
+/* Botón: marca ámbar con número; teja con «!» si algo cambió (pide añadir la clase .cambio, l. 2853). */
+#bMochila{background:var(--veil);box-shadow:0 6px 18px rgba(0,0,0,.45)}
+#bMochila .marca{background:var(--luz);color:var(--ink);box-shadow:0 0 0 2px #1e180f,0 0 12px rgba(227,166,104,.6)}
+#bMochila .marca.cambio{background:#8e4329;color:#fbeee0}
+
+/* Dibujos de 48: en el bolsillo, tinta clara y «masa»; en la mano, material y contorno oscuro. */
+svg.obj{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+svg.obj *{vector-effect:non-scaling-stroke}
+#mochila .hueco svg.obj{stroke-width:2}
+#mochila .hueco svg.obj [fill]:not([fill=none]){fill:currentColor;fill-opacity:.14}
+#mochila .hueco svg.obj .k{fill-opacity:.42}
+#mochila .hueco svg.obj .d{display:none}
+#mochila .ficha svg.obj,#exCarta .dib svg.obj,#vuelo svg.obj{stroke:var(--trazo);stroke-width:2.25}
+#mochila .ficha svg.obj .d,#exCarta svg.obj .d,#vuelo svg.obj .d{stroke-width:1.1}
+#mochila .ficha svg.obj .boli,#exCarta svg.obj .boli,#vuelo svg.obj .boli{stroke:var(--boli)}
+#exCarta .oculto svg.obj{stroke:#1f2a48;stroke-width:2.6}
+
+/* Solapa de cuero (cabecera + pestañas) y cremallera. */
+#mochila{background:#14110c}
+#mochila header{position:relative;margin:calc(-12px - env(safe-area-inset-top,0px)) -16px 0;padding:calc(env(safe-area-inset-top,0px) + 10px) 8px 6px 18px;background:linear-gradient(180deg,var(--cuero),#3a281b)}
+#mochila h2{font-size:1.625rem;color:#ecd9b4;text-shadow:0 -1px 0 rgba(0,0,0,.75),0 1px 0 rgba(255,225,180,.12)}
+#mochila .cerrar{border:0}
+#mochila .pestanas{position:relative;z-index:1;gap:0;margin:0 -16px;padding:0 8px 10px;background:linear-gradient(180deg,#3a281b,var(--cuero-osc));box-shadow:0 12px 0 -10px #000}
+#mochila .pestanas::before{content:"";position:absolute;left:12px;right:12px;bottom:5px;border-top:1.5px dashed rgba(227,166,104,.34)}
+#mochila .pestanas::after{content:"";position:absolute;left:0;right:0;top:100%;height:12px;background:linear-gradient(#0e0c09,#0e0c09) 0 5px/100% 2px no-repeat,repeating-linear-gradient(90deg,#7c776c 0 3px,transparent 3px 6px) 0 1px/100% 4px no-repeat,repeating-linear-gradient(90deg,transparent 0 3px,#6a665c 3px 6px) 0 7px/100% 4px no-repeat,#15130f}
+#mochila .pestanas button{flex:0 1 auto;border:0;border-bottom:3px solid transparent;border-radius:0;padding:0 10px;background:transparent}
+#mochila .pestanas button[aria-selected="true"]{background:transparent;border-bottom-color:var(--tile);color:var(--stone)}
+
+/* Dentro de la bolsa: lona. La ficha va arriba (order:-1) para que el elegido se lea sin desplazar. */
+#mochila .cuerpo{display:flex;flex-direction:column;margin:0 -16px;padding:24px 16px 12px;background-color:var(--lona-osc);background-image:repeating-linear-gradient(0deg,rgba(255,240,210,.03) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px);box-shadow:inset 0 18px 18px -12px rgba(0,0,0,.85)}
+#mochila .rejilla{grid-template-columns:repeat(4,1fr)}
+#mochila .hueco{border:0;border-radius:10px;padding:0;color:var(--stone-deep);background:linear-gradient(180deg,rgba(0,0,0,.3),rgba(0,0,0,.06) 35%,rgba(255,240,210,.035)),var(--lona);box-shadow:inset 0 3px 7px rgba(0,0,0,.6),inset 0 -1px 0 rgba(239,228,200,.07)}
+#mochila .hueco::before{content:"";position:absolute;inset:5px;border:1.5px dashed var(--costura);border-radius:7px;pointer-events:none}
+#mochila .hueco .dib{width:58%;height:58%;transition:transform .2s}
+#mochila .hueco.vacio{border:0;background:linear-gradient(180deg,rgba(0,0,0,.4),rgba(0,0,0,.15)),var(--lona-osc);box-shadow:inset 0 3px 8px rgba(0,0,0,.7)}
+#mochila .hueco.vacio::before{border-color:rgba(205,187,146,.13)}
+#mochila .hueco.sel{border:0;color:var(--stone);background:radial-gradient(circle at 50% 45%,rgba(var(--haz),.34),rgba(var(--haz),.1) 55%,transparent 78%),var(--lona);box-shadow:inset 0 3px 7px rgba(0,0,0,.45),0 0 26px rgba(var(--haz),.14)}
+#mochila .hueco.sel::before{border-style:solid;border-color:rgba(227,166,104,.8)}
+#mochila .hueco.sel::after{content:"";position:absolute;top:0;left:50%;width:24px;margin-left:-12px;height:3px;background:var(--tile);border-radius:0 0 2px 2px}
+#mochila .hueco.sel .dib{transform:translateY(-2px) scale(1.08)}
+#mochila .hueco.elegido{border:0}
+#mochila .hueco.elegido::before{border:3px solid var(--luz)}
+#mochila .hueco small{z-index:1;left:5px;bottom:5px;font:700 .5625rem/1 var(--ui);letter-spacing:.08em;text-transform:uppercase;padding:4px 5px 3px;border-radius:3px;background:var(--luz);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.5)}
+#mochila .hueco small.cambio{background:#8e4329;color:#fbeee0}
+#mochila .hueco:has(small) .dib{margin-top:-10px}
+#mochila .hueco .num{z-index:1;top:5px;right:5px;font:700 .8125rem/1 var(--ui);font-variant-numeric:tabular-nums;color:var(--ink);background:var(--papel);border-radius:3px;padding:3px 5px 2px;box-shadow:0 1px 2px rgba(0,0,0,.5)}
+#mochila .ficha{order:-1;margin:-12px -16px 14px;padding:12px 16px 16px 12px;border-top:0;border-bottom:1px solid rgba(0,0,0,.6);grid-template-columns:120px 1fr;gap:4px 14px;background:var(--lona) repeating-linear-gradient(0deg,rgba(255,240,210,.035) 0 1px,transparent 1px 3px)}
+#mochila .ficha .grande{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 50% 46%,rgba(var(--haz),.46),rgba(var(--haz),.14) 48%,transparent 70%)}
+#mochila .ficha .grande svg{width:100px;height:100px}
+#mochila .ficha .grande svg.obj{filter:drop-shadow(0 8px 8px rgba(0,0,0,.6))}
+#mochila .ficha h3{font-size:1.4rem}
+#mochila .ficha .botones button{border-radius:12px;min-height:52px;border-color:rgba(239,228,200,.32);background:rgba(239,228,200,.06)}
+#mochila .ficha .botones button.prim{background:var(--stone);border-color:transparent}
+#mochila .seg i{width:7px;height:12px;border-radius:1px}
+#mochila .seg i.on{background:var(--luz)}
+
+/* Examinar: negro cálido, el objeto con sombra, y con «Alumbrar» todo se apaga menos el círculo de luz. */
+#examen{background:radial-gradient(ellipse 85% 50% at 50% 42%,#2b2219 0,#130f0b 55%,#070605 100%)}
+#examen .cab,#exTexto,#examen .botones{position:relative;z-index:2}
+#exCarta .cara{overflow:visible;border-radius:0}
+#exCarta .dib svg.obj{filter:drop-shadow(0 8px 8px rgba(0,0,0,.6))}
+#examen.luz #exCarta .cara::after{inset:-100vmax;background:radial-gradient(circle 96px at calc(100vmax + var(--lx,50%)) calc(100vmax + var(--ly,50%)),rgba(var(--haz),.26),transparent 70%),radial-gradient(circle at calc(100vmax + var(--lx,50%)) calc(100vmax + var(--ly,50%)),transparent 52px,rgba(5,4,3,.7) 132px)}
+#exCarta .det.visto{border-radius:50%;box-shadow:0 0 0 2px rgba(227,166,104,.9) inset,0 0 14px rgba(227,166,104,.35)}
+#exTexto{margin:10px 16px;padding:12px 14px;max-width:24rem;box-sizing:border-box;background:rgba(30,24,15,.94);border:1px solid rgba(239,228,200,.2);border-left:3px solid var(--tile);border-radius:12px;text-align:left}
+#exTexto:empty{visibility:hidden}
+#examen .botones button{border-radius:12px;min-height:56px}
+#examen .botones button[aria-pressed="true"]{background:var(--stone);color:var(--ink);border-color:transparent}
+
+/* Al coger: el objeto sale en un charco de luz. */
+#vuelo{filter:none}
+#vuelo::before{content:"";position:absolute;inset:-26px;z-index:-1;border-radius:50%;background:radial-gradient(circle at 50% 46%,rgba(var(--haz),.5),rgba(var(--haz),.16) 46%,transparent 70%)}
+#vuelo svg.obj{transform:rotate(-6deg);filter:drop-shadow(0 8px 10px rgba(0,0,0,.6))}
+#vuelo .nom{margin-top:10px;font-size:1.9rem;text-shadow:0 2px 14px rgba(0,0,0,.9)}
+#vuelo .imp{width:max-content;margin:8px auto 0;padding:4px 6px;border:1px solid rgba(205,187,146,.38);border-radius:4px;background:rgba(30,24,15,.7);color:var(--stone-deep);letter-spacing:.14em}
+
+@media (prefers-reduced-motion:reduce){#mochila .hueco .dib{transition:none}}
+
+#exCarta svg.obj.espejo{opacity:.55}
+@media (prefers-reduced-motion:reduce){#exCarta{transition:none}#bMochila.traga,#mochila .hueco.sacude,#cdRuedas.sacude{animation:none}}
+#bLinterna[data-pct]:not([data-pct=""])::before{content:attr(data-pct);position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:3px;font:700 .7rem var(--ui);color:#e0744f;text-shadow:0 1px 3px #000}
 </style>
 <div id="load">
   <svg class="portada" viewBox="0 0 360 240" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
@@ -203,7 +389,7 @@ button:focus-visible{outline:2px solid var(--stone);outline-offset:2px}
 <div id="vineta" hidden></div>
 <div class="hud" id="top"><div id="place"><b>Plaza Mayor</b><span>Langa del Castillo</span></div>
   <div id="botones">
-    <button class="redondo" id="bLinterna" type="button" aria-label="Linterna" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 3h8v4l-2 3v11h-4V10L8 7z"/><path d="M8 7h8"/></svg></button>
+    <button class="redondo" id="bLinterna" type="button" aria-label="Linterna" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 3h8v4l-2 3v11h-4V10L8 7z"/><path d="M8 7h8"/></svg><span class="carga" hidden><i></i></span></button>
     <button class="redondo" id="bSonido" type="button" aria-label="Silenciar el sonido"><svg class="i" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="on" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/><path class="off" d="M16 9l6 6M22 9l-6 6" style="display:none"/></svg></button>
     <button class="redondo" id="bMenu" type="button" aria-label="Menú" aria-expanded="false"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   </div>
@@ -215,6 +401,12 @@ button:focus-visible{outline:2px solid var(--stone);outline-offset:2px}
 <button id="accion" type="button" hidden></button>
 <div id="susto"></div>
 <div id="narra" aria-live="polite"></div>
+<button id="bMochila" type="button" hidden aria-label="Mochila"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7V5a4 4 0 0 1 8 0v2"/><path d="M5 9a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M9 13h6v3H9z"/></svg><span class="marca" hidden></span></button>
+<section id="mochila" hidden aria-label="Mochila"></section>
+<section id="examen" hidden aria-label="Examinar"><div class="cab"><b id="exNombre"></b><span id="exDet"></span></div><div id="exEscena"><div id="exCarta"><div class="cara frente"></div><div class="cara dorso"></div></div></div><p id="exTexto" aria-live="polite"></p><div class="botones"><button type="button" id="exVuelta">Darle la vuelta</button><button type="button" id="exLuz" aria-pressed="false">Alumbrar</button><button type="button" id="exCerrar">Cerrar</button></div></section>
+<section id="candado" hidden aria-label="Candado"><h3 id="cdTitulo"></h3><div id="cdRuedas"></div><p id="cdMsg" aria-live="polite"></p><div class="botones"><button type="button" id="cdCerrar">Dejarlo</button><button type="button" class="prim" id="cdProbar">Probar</button></div></section>
+<div id="vuelo" hidden aria-hidden="true"></div>
+<div id="encuadre" hidden><div class="foto"></div><p></p></div>
 <div id="dialogo" hidden role="dialog" aria-live="polite"><div id="dlgQuien"></div><div id="dlgTexto"></div><div id="dlgOpciones"></div><div id="dlgSigue">Toca para seguir</div></div>
 <div id="cine" hidden><div id="cineTxt"></div><small>Toca para seguir</small></div>
 <div id="franja" hidden><span>Modo dueño</span><button type="button" id="franjaSalir">Bajar a pie</button></div>
@@ -266,7 +458,7 @@ const FICHAS={
 <p><b>Edificios</b> (planta y número de plantas) y <b>color de las fachadas:</b> fuente Dirección General del Catastro, información consultada el 10 de octubre de 2026 y transformada para este juego. No es cartografía ni información catastral oficial.</p>
 <p><b>Relieve:</b> generado con información del Servicio de Vigilancia Terrestre de Copernicus de la Unión Europea (EU-DEM v1.1), adaptado. La Unión Europea no respalda este proyecto.</p>
 <p><b>Texturas:</b> <a href="https://polyhaven.com" target="_blank" rel="noopener">Poly Haven</a> (CC0). <b>Letras:</b> IM Fell English SC y Atkinson Hyperlegible (SIL Open Font License). <b>Gráficos:</b> three.js (MIT). <b>Sonido:</b> síntesis propia.</p>
-<p><b><i>La niebla de Langa</i> es una obra de ficción.</b> La leyenda de «los que esperan», la niebla, la bodega bajo la muela y todos los personajes son inventados y no se refieren a ningún vecino ni a nada que haya pasado en el pueblo. Los datos históricos del cuaderno de Nora (el castillo-refugio, 1357, 1367, las bodegas, las ermitas y la iglesia de San Pedro) salen de las fuentes de abajo.</p>
+<p><b><i>La niebla de Langa · Fuera del mapa</i> es una obra de ficción.</b> Dani Ferrer, Marta, Leo, Remedios, el Andarín, el Gris, la empresa de mapas y el edificio 201 son inventados y no se refieren a ningún vecino, empresa ni a nada que haya pasado en el pueblo. El pueblo es el escenario, no el tema: sus calles, casas, iglesia y castillo son reales.</p>
 <p><b>Historia del pueblo</b> (paseo libre): SIPCA (Gobierno de Aragón), Inventario de Fortificaciones Aragonesas (castillosenaragon.es, ficha CD.34), Wikipedia y el Diccionario de Madoz (1847).</p>
 <p><b>Privacidad:</b> sin cookies, sin analítica, sin anuncios y sin cuentas: no sabemos quién juega. Para recordar dónde te quedaste, el juego guarda en tu navegador, y solo ahí, tus ajustes, tu partida, los lugares que descubres y una copia para jugar sin conexión. No se envía a ningún sitio. Se borra al borrar los datos de este sitio en el navegador, o con «Borrar mis datos» en el menú. La web la aloja GitHub Pages (GitHub, Inc.), que registra la dirección IP de cada visita por seguridad.</p>
 <p>Gracias a quien conoce el pueblo y nos ayudó a completarlo.</p>`,''],
@@ -2007,7 +2199,7 @@ const release=e=>{ if(e.pointerId===moveId){moveId=null;moveVec=[0,0];stick.hidd
   if(e.pointerId===lookId){ lookId=null; if(aguila.pajaro&&toque&&e.type==='pointerup'&&Math.hypot(e.clientX-toque.x,e.clientY-toque.y)<10&&performance.now()-toque.t<500) marcar(e.clientX,e.clientY); toque=null; } };
 pad.addEventListener('pointerup',release); pad.addEventListener('pointercancel',release);
 const keys=new Set();
-addEventListener('keydown',e=>{ if(e.code==='Escape'||e.code==='KeyM'){ if(!$('ficha').hidden) cerrarFicha(); else if(window.gameReady&&$('load').hidden) abrirPanel(!$('panel').classList.contains('abierto')); return; }
+addEventListener('keydown',e=>{ if(e.code==='Escape'||e.code==='KeyM'){ if(!$('ficha').hidden) cerrarFicha(); else if(!$('mochila').hidden||!$('examen').hidden||!$('candado').hidden) return; else if(window.gameReady&&$('load').hidden) abrirPanel(!$('panel').classList.contains('abierto')); return; }
   keys.add(e.code); if(e.code.startsWith('Arrow')||e.code==='Space') e.preventDefault(); hideHint();});
 addEventListener('keyup',e=>keys.delete(e.code));
 addEventListener('blur',()=>keys.clear());
@@ -2130,7 +2322,7 @@ const Sonido = (() => {
 
   // Envolvente rápida: sube en "ataque" segundos y cae en "caida" segundos. Devuelve el nodo de volumen.
   function envolvente(t, pico, ataque, caida, destino) {
-    const g = ctx.createGain(); g.gain.setValueAtTime(0.0001, t);
+    const g = ctx.createGain(); g.gain.value = 0; g.gain.setValueAtTime(0.0001, t);
     g.gain.exponentialRampToValueAtTime(pico, t + ataque);
     g.gain.exponentialRampToValueAtTime(0.0001, t + ataque + caida);
     g.connect(destino); return g;
@@ -2270,7 +2462,7 @@ const Sonido = (() => {
     if (t > proxRafaga) rafaga();
     if (t > proxPajaro) pajaro();
     if (z.fuente > 0.02) gotas(t + 0.05, t + 0.3);
-    horaEnPunto();
+    horaEnPunto(); ticMiedo();
   }
 
   function iniciar() {
@@ -2353,11 +2545,584 @@ const Sonido = (() => {
   function golpe() {
     if (!ctx || mudo) return; const t = ahora() + 0.01, o = ctx.createOscillator(); o.type = 'sine';
     o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(42, t + 0.45);
-    o.connect(envolvente(t, 0.9, 0.004, 0.6, master)); o.start(t); o.stop(t + 0.7);
-    soplo(t, 0.5, 'bandpass', 900, 0.6, envolvente(t, 0.45, 0.004, 0.45, master), 0.7);
+    o.connect(envolvente(t, 0.45, 0.004, 0.6, master)); o.start(t); o.stop(t + 0.7);
+    soplo(t, 0.5, 'bandpass', 900, 0.6, envolvente(t, 0.25, 0.004, 0.45, master), 0.7);
   }
 
-  return { iniciar, pasos, zona, silenciar, volumen, campanas, clic, miedo, radio, golpe, silenciado: () => mudo };
+  // ==================================================================================================================
+  // Sonido v2 · mochila, miedo y radio (Cierzo Studios, departamento de Sonido). Todo síntesis con Web Audio: sin
+  // archivos y sin licencias que cuidar.
+  //
+  // DÓNDE SE PEGA: dentro de `const Sonido = (() => { ... })();` de web/index.html, justo ANTES de la línea
+  // `return { iniciar, pasos, zona, ... }`. Después, dos cambios de una línea en el módulo (al final de este archivo).
+  //
+  // QUÉ USA DEL MÓDULO ACTUAL (ya existen, no hay que crear nada):
+  //   variables: ctx, master, bus, ruido, mudo, mOn, SUELOS
+  //   ayudas:    azar, suave, ahora, ir, lado, soplo
+  // Crea sus volúmenes colgados de `master` la primera vez que suenan: bus.mochila, bus.tension, bus.voz, bus.musica.
+  // Por eso el botón de silenciar y el volumen general valen para todo. Además, cada función calla si `mudo`.
+  // ==================================================================================================================
+
+  // ---------- Ayudas nuevas ----------
+  const NIVEL_NUEVO = { mochila: 1, tension: 1, voz: 1, musica: 1 };
+  function canal(n) { // volumen propio de cada familia nueva, colgado del general
+    if (!bus[n]) { bus[n] = ctx.createGain(); bus[n].gain.value = NIVEL_NUEVO[n] ?? 1; bus[n].connect(master); }
+    return bus[n];
+  }
+  const puedo = () => !!ctx && !mudo;                 // sin un toque del jugador no hay ctx: no suena nada
+  // Como envolvente(), pero callada también ANTES de empezar. Un GainNode nuevo vale 1 y, en Chrome, si el sonido se
+  // programa con algo de adelanto, a veces se cuela la primera muestra a volumen 1 (medido: chasquidos de hasta -1 dBFS).
+  function env(t, pico, ataque, caida, destino) {
+    const g = ctx.createGain(); g.gain.value = 0; g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(pico, t + ataque); g.gain.exponentialRampToValueAtTime(0.0001, t + ataque + caida);
+    g.connect(destino); return g;
+  }
+  const piso = (v) => Math.max(0.0002, v);            // las rampas exponenciales no admiten el cero
+
+  // Golpe de metal o de cristal: parciales que no son armónicos y se apagan a ritmos distintos. lista: [razón, fuerza, caída s]
+  function parciales(t, base, lista, fuerza, destino) {
+    for (const [r, a, d] of lista) { const o = ctx.createOscillator(); o.frequency.value = base * r * azar(0.996, 1.004);
+      o.connect(env(t, piso(fuerza * a), 0.002, d, destino)); o.start(t); o.stop(t + d + 0.05); }
+  }
+  // Soplo de ruido con el filtro en movimiento (roce, deslizar, el "fsss" de acercar algo a la cara). dur <= 0,9 s.
+  function barrido(t, dur, tipo, f0, f1, q, fuerza, ataque, destino, velocidad = 1) {
+    const s = ctx.createBufferSource(); s.buffer = ruido; s.playbackRate.value = velocidad;
+    const f = ctx.createBiquadFilter(); f.type = tipo; f.Q.value = q;
+    f.frequency.setValueAtTime(f0, t); f.frequency.exponentialRampToValueAtTime(f1, t + dur);
+    s.connect(f).connect(env(t, piso(fuerza), ataque, Math.max(0.01, dur - ataque), destino));
+    s.start(t, azar(0, 3)); s.stop(t + dur + 0.05);
+  }
+  // Muchos golpecitos seguidos con UNA sola fuente de ruido (dientes de cremallera, trinquete, cerilla): barato en el móvil.
+  // ritmo(x): golpes por segundo según el avance x (0..1); fuerzaDe(x): fuerza de cada golpecito.
+  function tren(t, dur, ritmo, fuerzaDe, f0, f1, q, destino) {
+    const s = ctx.createBufferSource(); s.buffer = ruido; s.loop = true; s.playbackRate.value = azar(0.9, 1.1);
+    const f = ctx.createBiquadFilter(); f.type = 'bandpass'; f.Q.value = q;
+    f.frequency.setValueAtTime(f0, t); f.frequency.linearRampToValueAtTime(f1, t + dur);
+    const g = ctx.createGain(); g.gain.value = 0; s.connect(f).connect(g).connect(destino);
+    for (let ti = t, n = 0; ti < t + dur && n < 200; n++) { const x = (ti - t) / dur;
+      g.gain.setValueAtTime(fuerzaDe(x) * azar(0.5, 1), ti); g.gain.setTargetAtTime(0, ti + 0.0008, 0.0022);
+      ti += azar(0.7, 1.3) / ritmo(x); }
+    s.start(t, azar(0, 3)); s.stop(t + dur + 0.05);
+  }
+
+  // ---------- Materiales: cómo suena cada cosa al cogerla, al meterla en la mochila o al chocar con otra ----------
+  // Mejor que cada objeto del JSON lleve "material"; si no, se busca aquí por su id (objetos del capítulo 1).
+  const MATERIAL_DE = { vela: 'cera', linterna: 'metal', badajo: 'hierro', radio: 'plastico', cuaderno: 'papel',
+    llave: 'hierro', cruz: 'hierro', pilas: 'pilas', foto: 'papel', nota: 'papel', tableta: 'plastico' };
+  const ROCE = { // al girarlo en la mano: filtro, frecuencia, Q
+    hierro: ['bandpass', 1200, 3], metal: ['bandpass', 3200, 5], pilas: ['bandpass', 3000, 4], cristal: ['bandpass', 4800, 7],
+    papel: ['highpass', 2500, 0.7], tela: ['lowpass', 900, 0.7], madera: ['bandpass', 800, 2], plastico: ['bandpass', 2000, 2],
+    cera: ['lowpass', 1400, 0.7], carton: ['bandpass', 1200, 1.2] };
+  const mat = (m) => (ROCE[m] ? m : MATERIAL_DE[m] || 'tela');
+  // k: 1 = cogerlo con decisión; 0,2 = rozarlo al girarlo. d: destino.
+  function material(m, t, k, d) {
+    switch (mat(m)) {
+      case 'hierro':   // llave, cruz, badajo, candado: grave y largo, con un golpe sordo
+        parciales(t, azar(380, 470), [[1, 1, 0.5], [2.76, 0.55, 0.3], [5.4, 0.3, 0.16], [8.93, 0.12, 0.08]], 0.06 * k, d);
+        soplo(t, 0.05, 'lowpass', 900, 0.8, env(t, piso(0.25 * k), 0.002, 0.05, d)); break;
+      case 'metal':    // linterna de petaca, chapa: más agudo y corto
+        parciales(t, azar(1050, 1400), [[1, 1, 0.3], [2.76, 0.5, 0.16], [5.4, 0.25, 0.08]], 0.045 * k, d);
+        soplo(t, 0.02, 'highpass', 3000, 0.7, env(t, piso(0.12 * k), 0.001, 0.02, d)); break;
+      case 'pilas':    // dos pilas que chocan: "tic-tic"
+        for (const dt of [0, azar(0.04, 0.07)]) parciales(t + dt, azar(2300, 2800), [[1, 1, 0.07], [2.4, 0.4, 0.04]], 0.055 * k, d);
+        break;
+      case 'cristal':  // "tin" agudo con un rebote
+        for (const [dt, kk] of [[0, 1], [azar(0.06, 0.1), 0.35]])
+          parciales(t + dt, azar(2200, 2800), [[1, 1, 0.45], [2.32, 0.4, 0.22], [4.25, 0.2, 0.1]], 0.042 * k * kk, d);
+        break;
+      case 'papel':    // foto, nota, cuaderno: frufrú de roces pequeños
+        for (let i = 0, n = 5 + Math.floor(azar(0, 5)); i < n; i++) { const ti = t + azar(0, 0.22);
+          soplo(ti, 0.03, 'bandpass', azar(2500, 6000), azar(0.8, 1.6), env(ti, piso(azar(0.1, 0.26) * k), 0.002, azar(0.015, 0.04), d)); }
+        barrido(t, 0.22, 'highpass', 1500, 3000, 0.7, 0.05 * k, 0.05, d); break;
+      case 'tela':     // trapo, la propia mochila: "fump" sordo
+        barrido(t, 0.2, 'bandpass', 500, 900, 0.6, 0.22 * k, 0.04, d, 0.8); break;
+      case 'madera': { // "toc" hueco
+        const o = ctx.createOscillator(); o.frequency.setValueAtTime(azar(260, 330), t); o.frequency.exponentialRampToValueAtTime(200, t + 0.08);
+        o.connect(env(t, piso(0.06 * k), 0.002, 0.08, d)); o.start(t); o.stop(t + 0.12);
+        soplo(t, 0.04, 'bandpass', azar(800, 1000), 3, env(t, piso(0.3 * k), 0.001, 0.04, d)); break; }
+      case 'plastico': // radio, tableta, escáner: clic seco con un pequeño traqueteo
+        for (const [dt, kk] of [[0, 1], [azar(0.025, 0.045), 0.45]])
+          soplo(t + dt, 0.02, 'bandpass', azar(1800, 2400), 2, env(t + dt, piso(0.5 * k * kk), 0.001, 0.02, d));
+        break;
+      case 'cera':     // vela: blando y apagado
+        soplo(t, 0.05, 'lowpass', 700, 0.7, env(t, piso(0.45 * k), 0.003, 0.05, d)); break;
+      case 'carton':   // caja, paquete: hueco y seco
+        soplo(t, 0.08, 'bandpass', azar(350, 500), 1.2, env(t, piso(0.35 * k), 0.002, 0.08, d));
+        soplo(t, 0.03, 'bandpass', 2500, 1, env(t, piso(0.08 * k), 0.001, 0.03, d)); break;
+    }
+  }
+
+  // ---------- Mochila ----------
+  // mochila(true, contenido): cremallera que sube de tono, la solapa y, flojito, dos de las cosas que llevas moviéndose
+  // dentro (contenido: ids u materiales, p. ej. ['llave','foto']). mochila(false): solapa, cremallera que baja y hebilla.
+  function dientes(t, dur, abre, k, d) {
+    tren(t, dur, (x) => 45 + 110 * Math.sin(Math.PI * Math.min(1, x * 1.1)), (x) => k * 0.22 * (0.35 + 0.65 * Math.sin(Math.PI * x)),
+      abre ? 2600 : 4400, abre ? 4400 : 2400, 3.5, d);
+    barrido(t, dur, 'bandpass', abre ? 2000 : 3200, abre ? 3400 : 1800, 0.8, 0.06 * k, dur * 0.4, d); // el roce de fondo
+  }
+  function hebilla(t, k, d) {
+    parciales(t, azar(1700, 1900), [[1, 1, 0.08], [2.4, 0.5, 0.05], [3.9, 0.3, 0.03]], 0.04 * k, d);
+    soplo(t, 0.012, 'highpass', 2500, 0.7, env(t, piso(0.14 * k), 0.001, 0.012, d));
+    parciales(t + azar(0.035, 0.05), azar(1500, 1650), [[1, 1, 0.05], [2.4, 0.4, 0.03]], 0.02 * k, d);
+  }
+  let mochilaAntes = [-1, null];
+  function mochila(abrir, contenido = []) {
+    if (!puedo()) return; const t = ahora() + 0.01, d = canal('mochila');
+    if (t - mochilaAntes[0] < 0.25 && mochilaAntes[1] === !!abrir) return; mochilaAntes = [t, !!abrir]; // doble toque
+    if (abrir) { const dur = azar(0.32, 0.42); dientes(t, dur, true, 1, d); material('tela', t + dur, 0.6, d);
+      const cosas = contenido.slice().sort(() => Math.random() - 0.5).slice(0, 2);
+      cosas.forEach((m, i) => material(m, t + dur + 0.06 + i * azar(0.07, 0.14), 0.22, lado(d, azar(-0.3, 0.3))));
+    } else { material('tela', t, 0.5, d); const dur = azar(0.24, 0.3); dientes(t + 0.08, dur, false, 0.85, d); hebilla(t + 0.12 + dur, 1, d); }
+  }
+  // cremallera(): la corta, cuando un objeto entra volando en la mochila (el botón "traga").
+  function cremallera() {
+    if (!puedo()) return; const t = ahora() + 0.01, d = canal('mochila'), dur = azar(0.14, 0.2);
+    dientes(t, dur, Math.random() < 0.5, 0.8, d); material('tela', t + dur, 0.35, d);
+  }
+  // seleccion(i, n): al mover la selección por los huecos. Un "tic" de cartón, algo más agudo y a la derecha cuanto más
+  // avanzas. Si se llama muy seguido (barrido rápido con el dedo) se salta los que sobran.
+  let selAntes = -1;
+  function seleccion(i, n = 12) {
+    if (!puedo()) return; const t = ahora() + 0.005; if (t - selAntes < 0.04) return; selAntes = t;
+    const x = typeof i !== 'number' ? azar(0.2, 0.8) : n > 1 ? Math.max(0, Math.min(1, i / (n - 1))) : 0.5, d = lado(canal('mochila'), -0.3 + 0.6 * x), o = ctx.createOscillator();
+    o.frequency.setValueAtTime((1350 + 450 * x) * azar(0.97, 1.03), t); o.frequency.exponentialRampToValueAtTime(1000 + 300 * x, t + 0.02);
+    o.connect(env(t, 0.06, 0.002, 0.025, d)); o.start(t); o.stop(t + 0.04);
+    soplo(t, 0.01, 'highpass', 4000, 0.7, env(t, 0.14, 0.001, 0.01, d));
+  }
+  // coger(m): coger algo del mundo y meterlo en la mochila: su material y, enseguida, el "fump" de la tela.
+  function coger(m) {
+    if (!puedo()) return; const t = ahora() + 0.01, d = lado(canal('mochila'), azar(-0.2, 0.2));
+    material(m, t, 1, d); material('tela', t + azar(0.18, 0.26), 0.5, d);
+  }
+  // examinar(m, true): el objeto se acerca a la cara ("fsss" que sube) y su material, flojo. examinar(m, false): se aparta.
+  function examinar(m, acercar = true) {
+    if (!puedo()) return; const t = ahora() + 0.01, d = canal('mochila');
+    barrido(t, 0.24, 'bandpass', acercar ? 500 : 1800, acercar ? 1800 : 500, 0.9, 0.12, 0.1, d);
+    if (acercar) material(m, t + 0.16, 0.4, d);
+  }
+  // girar(vel, m): en cada fotograma mientras se arrastra el objeto (vel en radianes/s; 0 al soltar). Un roce muy bajo que
+  // sigue la velocidad y, cada unos 60° de giro, el material rozando los dedos. Si se deja de llamar, se calla solo.
+  // girar(m), con un material y nada más: darle LA VUELTA al objeto (350 ms): un "fsss" y el material al caer del otro lado.
+  function voltear(m) {
+    if (!puedo()) return; const t = ahora() + 0.01, d = canal('mochila');
+    barrido(t, 0.2, 'bandpass', 900, 2200, 1, 0.09, 0.06, d); material(m, t + 0.2, 0.35, d);
+  }
+  let sRoce = null, gRoce = null, fRoce = null, giroAng = 0, giroAntes = 0;
+  function girar(vel, m) {
+    if (typeof vel === 'string') return voltear(vel);
+    if (!ctx) return; const tr = performance.now() / 1000, dt = Math.min(0.1, tr - giroAntes); giroAntes = tr;
+    const v = mudo ? 0 : Math.min(1, Math.abs(vel || 0) / 8);
+    if (v > 0 && !gRoce) { sRoce = ctx.createBufferSource(); sRoce.buffer = ruido; sRoce.loop = true; sRoce.playbackRate.value = 0.8;
+      fRoce = ctx.createBiquadFilter(); gRoce = ctx.createGain(); gRoce.gain.value = 0;
+      sRoce.connect(fRoce).connect(gRoce).connect(canal('mochila')); sRoce.start(0, azar(0, 3)); }
+    if (!gRoce) return;
+    if (v === 0) { ir(gRoce.gain, 0, 0.04); sRoce.stop(ahora() + 0.3); sRoce = gRoce = fRoce = null; return; }
+    const [tipo, f, q] = ROCE[mat(m)]; fRoce.type = tipo; fRoce.frequency.value = f * (0.9 + 0.2 * v); fRoce.Q.value = q;
+    ir(gRoce.gain, 0.05 * v, 0.05);
+    giroAng += Math.abs(vel) * dt;
+    if (giroAng > 1.05) { giroAng = azar(-0.2, 0.2); material(m, ahora() + 0.01, 0.12 + 0.1 * v, canal('mochila')); }
+  }
+
+  // ---------- Combinar ----------
+  // combinar(true, a, b): se tocan, encajan con un "clic-clac" y queda un acorde muy suave (Mi y Si, el color del motivo).
+  // combinar(false, a, b): se tocan dos veces, sordas, y no pasa nada. Sin zumbido de error: no es un castigo.
+  function combinar(bien, a = 'madera', b = 'metal') {
+    if (!puedo()) return; const t = ahora() + 0.01, d = canal('mochila');
+    material(a, t, 0.5, lado(d, -0.25)); material(b, t + 0.09, 0.55, lado(d, 0.25));
+    if (bien) {
+      tren(t + 0.17, 0.07, () => 45, () => 0.16, 2600, 3000, 4, d);
+      const o = ctx.createOscillator(); o.frequency.setValueAtTime(230, t + 0.2); o.frequency.exponentialRampToValueAtTime(140, t + 0.28);
+      o.connect(env(t + 0.2, 0.05, 0.003, 0.09, d)); o.start(t + 0.2); o.stop(t + 0.32);
+      const f = ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 1800; f.connect(canal('musica'));
+      for (const fr of [329.63, 493.88]) { const n = ctx.createOscillator(); n.type = 'triangle'; n.frequency.value = fr;
+        n.connect(env(t + 0.32, 0.025, 0.05, 1.1, f)); n.start(t + 0.32); n.stop(t + 1.5); }
+    } else {
+      soplo(t + 0.09, 0.06, 'lowpass', 500, 0.7, env(t + 0.09, 0.18, 0.003, 0.06, d));
+      material(a, t + 0.3, 0.35, lado(d, -0.25)); material(b, t + 0.36, 0.3, lado(d, 0.25));
+    }
+  }
+  const combinarBien = (a, b) => combinar(true, a, b), combinarMal = (a, b) => combinar(false, a, b);
+  // cambiarPilas(): la receta pilas + linterna (o radio). Tapa que se desliza, una pila, otra, el muelle, la tapa y el botón.
+  function cambiarPilas() {
+    if (!puedo()) return 0; const t = ahora() + 0.01, d = canal('mochila');
+    barrido(t, 0.12, 'bandpass', 1500, 2400, 2, 0.07, 0.02, d);
+    material('pilas', t + 0.2, 0.9, d); material('pilas', t + 0.45, 0.8, d);
+    soplo(t + 0.5, 0.08, 'bandpass', 1400, 12, env(t + 0.5, 0.06, 0.004, 0.08, d)); // "boing" pequeñito
+    material('plastico', t + 0.7, 0.9, d); interruptor(true, 0.95);
+    return 1.05;
+  }
+  const pilas = () => cambiarPilas();
+
+  // ---------- Candado de cifras ----------
+  // rueda(i): cada muesca al girar la rueda i (0..3). Cada rueda suena un pelo distinta, como en uno de verdad.
+  let ruedaAntes = -1;
+  function rueda(i = 0) {
+    if (!puedo()) return; const t = ahora() + 0.005; if (t - ruedaAntes < 0.03) return; ruedaAntes = t;
+    const d = lado(canal('mochila'), -0.3 + 0.2 * i), k = 1 - 0.05 * i;
+    soplo(t, 0.012, 'bandpass', 4200 * k * azar(0.97, 1.03), 5, env(t, 0.45, 0.001, 0.01, d));
+    parciales(t, 2900 * k * azar(0.98, 1.02), [[1, 1, 0.035], [2.7, 0.3, 0.015]], 0.05, d);
+  }
+  // candado(false): tiras y no cede (la argolla golpea dos veces y traquetea). candado(true): trinquete, el "chac" del
+  // muelle, la argolla que sale y el candado que queda colgando.
+  function candado(abre) {
+    if (!puedo()) return; const t = ahora() + 0.01, d = canal('mochila');
+    if (!abre) {
+      for (const [dt, k] of [[0, 1], [azar(0.08, 0.11), 0.55]]) { material('hierro', t + dt, 0.55 * k, d);
+        soplo(t + dt, 0.04, 'bandpass', 1300, 1.2, env(t + dt, piso(0.2 * k), 0.002, 0.04, d)); }
+      tren(t + 0.15, 0.14, () => 30, (x) => 0.08 * (1 - x), 2200, 1800, 3, d);
+    } else {
+      tren(t, 0.06, () => 50, () => 0.13, 3000, 3300, 4, d);
+      parciales(t + 0.08, azar(650, 720), [[1, 1, 0.28], [2.76, 0.6, 0.16], [5.4, 0.3, 0.08], [8.93, 0.15, 0.04]], 0.07, d);
+      soplo(t + 0.08, 0.05, 'bandpass', 1500, 1, env(t + 0.08, 0.22, 0.001, 0.05, d));
+      barrido(t + 0.12, 0.16, 'bandpass', 2600, 1200, 1.5, 0.05, 0.02, d);
+      material('hierro', t + 0.34, 0.4, d);
+    }
+  }
+
+  // abrir(): un candado, una puerta o un buzón que ceden con lo que has usado: el mecanismo y, después, el motivo entero.
+  function abrir() { if (!puedo()) return; candado(true); descubrir(true, 0.45); }
+  const cerrado = () => candado(false);
+
+  // ---------- Linterna y vela ----------
+  // interruptor(on): el botón de la petaca (en vez del "toc" de la interfaz). Encender suena un pelo más agudo.
+  function interruptor(on, dentro = 0) {
+    if (!puedo()) return; const t = ahora() + 0.005 + dentro, d = canal('mochila'), k = on ? 1 : 0.85;
+    soplo(t, 0.012, 'bandpass', 2600 * k, 3, env(t, 0.45, 0.001, 0.012, d));
+    parciales(t, 1900 * k, [[1, 1, 0.04], [2.6, 0.4, 0.02]], 0.06, d);
+  }
+  const linterna = (on) => interruptor(on); // el nombre que usa la mochila nueva (bLinterna)
+  // parpadeo(): cada vez que el haz se corta por falta de pila. Chisporroteo del contacto y un zumbido cortito.
+  function parpadeo(dentro = 0) {
+    if (!puedo()) return; const t = ahora() + 0.005 + dentro, d = canal('mochila');
+    for (let i = 0, n = 1 + Math.floor(azar(0, 3)); i < n; i++) { const ti = t + azar(0, 0.04);
+      soplo(ti, 0.008, 'highpass', azar(3500, 6000), 0.7, env(ti, azar(0.08, 0.16), 0.001, 0.008, d)); }
+    const o = ctx.createOscillator(), f = ctx.createBiquadFilter(); o.type = 'sawtooth'; o.frequency.value = azar(110, 125);
+    f.type = 'bandpass'; f.frequency.value = 1800; f.Q.value = 1.5;
+    o.connect(f).connect(env(t, 0.035, 0.003, azar(0.03, 0.06), d)); o.start(t); o.stop(t + 0.1);
+  }
+  // pilasFuera(): la pila se acaba del todo (queda la luz de reserva). Tres chisporroteos que se espacian y el botón en vano.
+  function pilasFuera() {
+    if (!puedo()) return; parpadeo(0); parpadeo(0.2); parpadeo(0.55); interruptor(false, 1.1); interruptor(true, 1.45);
+  }
+  // vela(): encender la vela con una cerilla. Raspado, la llama que prende y dos chasquidos.
+  function vela() {
+    if (!puedo()) return; const t = ahora() + 0.01, d = canal('mochila');
+    tren(t, 0.13, () => 160, (x) => 0.1 * (0.5 + x), 3200, 2200, 1.5, d);
+    barrido(t + 0.1, 0.4, 'lowpass', 500, 1800, 0.7, 0.14, 0.05, d, 0.7);
+    for (const dt of [azar(0.25, 0.35), azar(0.45, 0.6)]) soplo(t + dt, 0.006, 'highpass', 3000, 0.7, env(t + dt, 0.07, 0.001, 0.006, d));
+  }
+
+  // ---------- Tensión: latido y pasos detrás de ti ----------
+  // tension(cerca, suelo, vel): en cada fotograma mientras haya sombras. cerca 0..1 (el "cerca" de moverSombras: 1 = encima),
+  // suelo y vel, los del jugador. Lo programa ticMiedo() cada cuarto de segundo con el reloj del audio (no se desfasa).
+  let tensObj = 0, tens = 0, tensT = 0, proxLatido = 0, ultL = 0, sueloJ = 'piedra', velJ = 0, proxAcecho = 0, acecho = null;
+  function tension(cerca, suelo, vel) {
+    tensObj = Math.max(0, Math.min(1, +cerca || 0)); if (suelo) sueloJ = suelo; velJ = +vel || 0; tensT = performance.now() / 1000;
+  }
+  // Un latido "pum-pum": golpe grave (auriculares) + un diente de sierra filtrado a 150 Hz, que el altavoz del móvil sí da.
+  function latido(t, l) {
+    const d = canal('tension'), a = 0.3 + 0.7 * l;
+    for (const [dt, k] of [[0, 1], [0.13 - 0.03 * l, 0.6]]) { const ti = t + dt;
+      const o = ctx.createOscillator(); o.frequency.setValueAtTime(75, ti); o.frequency.exponentialRampToValueAtTime(42, ti + 0.12);
+      o.connect(env(ti, piso(0.17 * a * k), 0.008, 0.14, d)); o.start(ti); o.stop(ti + 0.2);
+      const h = ctx.createOscillator(), f = ctx.createBiquadFilter(); h.type = 'sawtooth'; f.type = 'lowpass'; f.frequency.value = 550;
+      h.frequency.setValueAtTime(150, ti); h.frequency.exponentialRampToValueAtTime(95, ti + 0.08);
+      h.connect(f).connect(env(ti, piso(0.18 * a * k), 0.006, 0.09, d)); h.start(ti); h.stop(ti + 0.14); }
+  }
+  function pisada(t, suelo, k, d) { // como paso() del módulo, pero a la hora t y hacia el destino d
+    const [tipo, frec, q, dur, grave] = SUELOS[suelo] || SUELOS.piedra;
+    for (const [dt, kk] of [[0, 1], [azar(0.05, 0.08), 0.45]])
+      soplo(t + dt, dur + 0.02, tipo, frec * azar(0.85, 1.1), q, env(t + dt, piso(0.22 * k * kk * azar(0.8, 1.1)), 0.004, dur, d), azar(0.85, 1));
+    const o = ctx.createOscillator(); o.frequency.setValueAtTime(100, t); o.frequency.exponentialRampToValueAtTime(50, t + 0.07);
+    o.connect(env(t, piso(0.25 * grave * k), 0.003, 0.08, d)); o.start(t); o.stop(t + 0.12);
+  }
+  // pasosDetras(n, suelo): unos pasos que no son tuyos, apagados, a un lado y con eco, que se acercan un poco. Si te paras,
+  // dan uno más y se paran también. Los lanza ticMiedo solo (rara vez) o el guion cuando quiera.
+  function pasosDetras(n = 5, suelo) {
+    if (!puedo() || acecho) return;
+    const f = ctx.createBiquadFilter(), eco = ctx.createDelay(0.3), fb = ctx.createGain();
+    const sal = lado(canal('tension'), (Math.random() < 0.5 ? -1 : 1) * azar(0.35, 0.65));
+    f.type = 'lowpass'; f.Q.value = 0.7; f.frequency.value = 900; eco.delayTime.value = azar(0.07, 0.11); fb.gain.value = 0.22;
+    f.connect(sal); f.connect(eco); eco.connect(fb).connect(eco); fb.connect(sal);
+    acecho = { t: ahora() + 0.3, n, i: 0, f, eco, fb, suelo: suelo || sueloJ, ritmo: azar(0.52, 0.62), parado: false };
+  }
+  function ticAcecho(t) {
+    const a = acecho; if (!a) return; const sigue = performance.now() / 1000 - tensT < 1; // ¿nos dan la velocidad?
+    while (a.t < t + 0.3) {
+      if (a.i >= a.n) { acecho = null; setTimeout(() => { a.f.disconnect(); a.eco.disconnect(); a.fb.disconnect(); }, 2000); return; }
+      const x = a.i / Math.max(1, a.n - 1);                 // 0 -> 1: se acercan (más fuerte y menos apagados)
+      a.f.frequency.setTargetAtTime(900 + 1100 * x, a.t, 0.1); pisada(a.t, a.suelo, 0.5 + 0.45 * x, a.f);
+      a.i++; a.t += a.ritmo * azar(0.95, 1.05);
+      if (sigue && velJ < 0.3 && !a.parado) { a.parado = true; a.n = Math.min(a.n, a.i + 1); } // te paras: uno más y nada
+    }
+  }
+  // Llamar desde tic() (cada cuarto de segundo): latidos y pasos programados un poco por delante; además, cuando el latido
+  // sube, el viento baja (el mundo se encoge). Vigila también que el roce de girar no se quede sonando.
+  function ticMiedo() {
+    if (!ctx || mudo) return; const t = ahora(), vivo = performance.now() / 1000 - tensT < 1;
+    if (!mOn || !vivo) tensObj = 0;
+    tens += (tensObj - tens) * 0.3;
+    const l = suave(0.4, 0.95, tens);                       // empieza con la sombra a ~20 m; a tope a menos de 2 m
+    if (l > 0.02) { if (proxLatido < t) proxLatido = t + 0.05;
+      while (proxLatido < t + 0.3) { latido(proxLatido, l); proxLatido += 60 / (62 + 56 * l); } } // 62 -> 118 pulsaciones
+    if (!quieto && (Math.abs(l - ultL) > 0.02 || (l <= 0.02 && ultL > 0))) { ultL = l > 0.02 ? l : 0; ir(bus.viento.gain, 1.3 * (1 - 0.45 * ultL), 1); }
+    if (mOn && vivo && !acecho && tens < 0.2 && velJ > 0.8 && t > proxAcecho) { // nadie cerca y tú andando: a veces, pasos
+      if (proxAcecho) pasosDetras(3 + Math.floor(azar(0, 4)));
+      proxAcecho = t + azar(50, 110);                       // la primera vez solo pone el reloj: nunca en el primer minuto
+    }
+    ticAcecho(t);
+    if (gRoce && performance.now() / 1000 - giroAntes > 0.3) girar(0);
+  }
+
+  // ---------- Voz por la radio (sin grabaciones) ----------
+  // vozRadio(texto, quien): el texto que sale en pantalla marca el ritmo. Cada vocal pone sus formantes (a, e, i, o, u del
+  // español), las s/z/j/f soplan, las p/t/k cortan y las m/n/l/r zumban; todo por la banda estrecha de un walkie, algo
+  // saturado, con cortes y el "chsss" al apretar y al soltar. No se entiende, pero "suena a esa frase".
+  // quien: 'mujer' (Marta, «Central»), 'nino' (Leo), 'susurro' (Dani de hace diez años: sin tono, no marca género),
+  // 'hombre'. sucia 0..1: 0 = limpia (Marta), 1 = cruzada y rota (el Gris); por defecto 0,3.
+  // Devuelve cuánto dura (s), para el subtítulo. Si ya hay una frase sonando, la corta (el jugador ha pasado
+  // de línea). callarVoz(): la corta sin más (al cerrar el diálogo).
+  const VOCAL = { a: [750, 1250, 2600], e: [470, 1950, 2600], i: [300, 2300, 3000], o: [500, 880, 2500], u: [330, 750, 2400] };
+  const VOZ = { mujer: [205, 1.12, 0.35, 1], hombre: [105, 1, 0.3, 1], nino: [290, 1.22, 0.3, 0.75], susurro: [0, 1.06, 1, 0.8] }; // tono (Hz), formantes, aire, volumen
+  function silabas(texto) { // "No vengas." -> {c:'n',v:'o'} {p} {c:'v',v:'e',coda:'n'} {c:'g',v:'a',coda:'s'} {p}
+    const s = String(texto || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''), out = [];
+    const ultima = () => out[out.length - 1]; let c = '';
+    for (let i = 0; i < s.length; i++) {
+      let ch = s[i]; const sig = s[i + 1] || '';
+      if (ch === 'u' && 'qg'.includes(s[i - 1] || '-') && 'ei'.includes(sig || '-')) { c += ch; continue; } // que, guiso
+      if (ch === 'y' && !'aeiou'.includes(sig || '-')) ch = 'i';                                     // "y", "muy"
+      if ('aeiou'.includes(ch)) { const u = ultima();
+        if (c.length >= 2 && u && u.v && !/^(ch|ll|rr|qu|gu)$/.test(c) && !/^[pbtdkgcf][lr]$/.test(c)) { u.coda = c[0]; c = c.slice(1); }
+        out.push({ c, v: ch }); c = '';
+      } else if (/[a-z]/.test(ch)) c += ch;
+      else { const u = ultima(); if (c && u && u.v) u.coda = (u.coda || '') + c; c = '';
+        const p = /[.!?…]/.test(ch) ? 0.42 : /[,;:—-]/.test(ch) ? 0.24 : /\s/.test(ch) ? 0.05 : 0;
+        if (p && u) { if (u.p) u.p = Math.max(u.p, p); else out.push({ p }); } }
+    }
+    const u = ultima(); if (c && u && u.v) u.coda = (u.coda || '') + c;
+    return out;
+  }
+  function ataque(c, v) { // '' vocal sola · 'f' soplo (s, z, ce, ci, f, ch) · 'j' soplo grave · 'p' corte · 'n' zumbido
+    if (/ch$/.test(c)) return 'f'; const x = c.replace(/h/g, ''); if (!x) return '';
+    const a = x[0], b = x[x.length - 1];
+    if (b === 'j' || (b === 'g' && 'ei'.includes(v))) return 'j';
+    if ('szfx'.includes(b) || (b === 'c' && 'ei'.includes(v))) return 'f';
+    if ('ptkcqbdgv'.includes(a)) return 'p';
+    return 'n';
+  }
+  let vozActual = null; const CURVAS = {};
+  function callarVoz() {
+    const v = vozActual; if (!v || !ctx) return; vozActual = null;
+    v.vol.gain.cancelScheduledValues(ahora()); v.vol.gain.setTargetAtTime(0, ahora(), 0.015);
+    for (const s of v.fuentes) try { s.stop(ahora() + 0.1); } catch (e) {}
+  }
+  function vozRadio(texto, quien = 'mujer', sucia = 0.3) {
+    if (!puedo()) return 0; const sil = silabas(texto); if (!sil.some((s) => s.v)) return 0;
+    callarVoz();
+    const [f0, esc, aire, gv] = VOZ[quien] || VOZ.mujer, pregunta = /\?\s*$/.test(String(texto));
+    const t0 = ahora() + 0.05, su = Math.max(0, Math.min(1, +sucia || 0)), N = 0.17 * gv * (1.48 - 1.6 * su + 0.63 * su * su), // ~-27 dBFS, limpia o sucia
+      dr = Math.round((1.5 + 3 * su) * 2) / 2; // saturación
+    if (!CURVAS[dr]) { const c = CURVAS[dr] = new Float32Array(1025); for (let i = 0; i < 1025; i++) c[i] = Math.tanh(dr * (i / 512 - 1)) / Math.tanh(dr); }
+    // La radio: banda estrecha (300-3400 Hz limpia, 550-2400 Hz sucia), saturación y un volumen para los cortes.
+    const hp = ctx.createBiquadFilter(), lp = ctx.createBiquadFilter(), sat = ctx.createWaveShaper(), vol = ctx.createGain();
+    hp.type = 'highpass'; hp.frequency.value = 300 + 250 * su; lp.type = 'lowpass'; lp.frequency.value = 3400 - 1000 * su; sat.curve = CURVAS[dr]; vol.gain.value = 0;
+    hp.connect(lp).connect(sat).connect(vol).connect(canal('voz'));
+    // La boca: tono + aire -> tres formantes en paralelo.
+    const boca = ctx.createGain(); boca.gain.value = 0; const fuentes = [];
+    const F = [[6, 1], [9, 0.55], [11, 0.3]].map(([q, a]) => { const b = ctx.createBiquadFilter(), g = ctx.createGain();
+      b.type = 'bandpass'; b.Q.value = q; g.gain.value = a; boca.connect(b).connect(g).connect(hp); return b; });
+    const ruidoEn = (destino, vel) => { const s = ctx.createBufferSource(); s.buffer = ruido; s.loop = true;
+      s.playbackRate.value = vel; s.connect(destino); fuentes.push(s); };
+    const ga = ctx.createGain(); ga.gain.value = aire * 2; ga.connect(boca); ruidoEn(ga, 1);
+    let tono = null;
+    if (f0) { tono = ctx.createOscillator(); tono.type = 'sawtooth'; tono.frequency.value = f0; const gt = ctx.createGain();
+      gt.gain.value = 1 - aire; tono.connect(gt).connect(boca); fuentes.push(tono);
+      const vib = ctx.createOscillator(), vg = ctx.createGain(); vib.frequency.value = quien === 'hombre' ? 0.3 : 5.5;
+      vg.gain.value = f0 * 0.015; vib.connect(vg).connect(tono.frequency); fuentes.push(vib); }
+    // Las consonantes que soplan (y el golpe de las que cortan).
+    const fs = ctx.createBiquadFilter(), gs = ctx.createGain(); fs.type = 'bandpass'; fs.Q.value = 1.5; gs.gain.value = 0;
+    fs.connect(gs).connect(hp); ruidoEn(fs, 1.2);
+    // El crepitar de fondo, y el "chsss" al apretar el botón del walkie.
+    const fc = ctx.createBiquadFilter(), gc = ctx.createGain(); fc.type = 'bandpass'; fc.frequency.value = 1900; fc.Q.value = 0.7; gc.gain.value = 0;
+    fc.connect(gc).connect(hp); ruidoEn(fc, 0.9);
+    const base = 0.02 + 0.13 * su; gc.gain.setValueAtTime(0, t0); gc.gain.linearRampToValueAtTime(0.5, t0 + 0.02); gc.gain.setTargetAtTime(base, t0 + 0.1, 0.03);
+    // La frase, sílaba a sílaba.
+    const forma = (fr, cuando, tau) => F.forEach((b, k) => b.frequency.setTargetAtTime(fr[k] * esc * azar(0.95, 1.05), cuando, tau));
+    let t = t0 + 0.22; const n = sil.length;
+    for (let i = 0; i < n && t < t0 + 9; i++) { const s = sil[i];
+      if (s.p) { boca.gain.setTargetAtTime(0, t, 0.02); t += s.p * azar(0.85, 1.2); continue; }
+      const antes = sil[i - 1], liga = !s.c && antes && antes.v && !antes.coda, tipo = ataque(s.c, s.v);
+      if (tipo === 'f' || tipo === 'j') {
+        boca.gain.setTargetAtTime(0, t, 0.012); fs.frequency.setValueAtTime(tipo === 'j' ? 1400 : 2700, t);
+        gs.gain.setTargetAtTime(tipo === 'j' ? 0.5 : 0.7, t, 0.012); t += azar(0.06, 0.09); gs.gain.setTargetAtTime(0, t, 0.012);
+      } else if (tipo === 'p') {
+        boca.gain.setTargetAtTime(0, t, 0.006); t += azar(0.03, 0.05);
+        fs.frequency.setValueAtTime(1800, t); gs.gain.setValueAtTime(0.9, t); gs.gain.setTargetAtTime(0, t + 0.004, 0.006); t += 0.012;
+      } else if (tipo === 'n') { forma([280, 1300, 2500], t, 0.012); boca.gain.setTargetAtTime(0.3, t, 0.012); t += azar(0.045, 0.07); }
+      const finFrase = !sil[i + 1] || sil[i + 1].p >= 0.24;
+      forma(VOCAL[s.v], t, liga ? 0.03 : 0.012); boca.gain.setTargetAtTime(azar(0.75, 1), t, 0.015);
+      if (tono) tono.frequency.setTargetAtTime(f0 * (1.08 - 0.22 * i / n) * azar(0.96, 1.04) * (pregunta && i >= n - 3 ? 1.25 : 1), t, 0.04);
+      t += liga ? azar(0.06, 0.08) : azar(0.09, 0.15) * (finFrase ? 1.6 : 1);
+      if (s.coda) { const k = s.coda.replace(/h/g, '').slice(-1);
+        if ('szjx'.includes(k)) { boca.gain.setTargetAtTime(0, t, 0.012); fs.frequency.setValueAtTime(2700, t);
+          gs.gain.setTargetAtTime(0.6, t, 0.012); t += 0.06; gs.gain.setTargetAtTime(0, t, 0.012); }
+        else if ('nmlr'.includes(k)) { forma([300, 1400, 2500], t, 0.015); boca.gain.setTargetAtTime(0.35, t, 0.015); t += 0.045; }
+        else if (k) { boca.gain.setTargetAtTime(0, t, 0.006); t += 0.02; } }
+    }
+    const fin = t + 0.05; boca.gain.setTargetAtTime(0, t, 0.03);
+    // Cortes: la señal se va un momento, una o dos veces, y sube el crepitar. Al soltar el botón, otro "chsss".
+    vol.gain.setValueAtTime(0, t0); vol.gain.linearRampToValueAtTime(N, t0 + 0.05);
+    const largo = fin - t0;
+    const cortes = su < 0.15 || largo < 1.2 ? [] : su > 0.7 ? [0.2, 0.42, 0.63, 0.82] : largo > 2.5 ? [0.35, 0.7] : [0.55];
+    for (const x of cortes) { const tc = t0 + largo * x * azar(0.94, 1.06), dc = azar(0.06, 0.1 + 0.1 * su);
+      vol.gain.setTargetAtTime(N * 0.15, tc, 0.01); vol.gain.setTargetAtTime(N, tc + dc, 0.02);
+      gc.gain.setTargetAtTime(0.35, tc, 0.01); gc.gain.setTargetAtTime(base, tc + dc, 0.03); }
+    gc.gain.setTargetAtTime(0.5, fin, 0.008); gc.gain.setTargetAtTime(0, fin + 0.15, 0.03);
+    vol.gain.setTargetAtTime(0, fin + 0.3, 0.03);
+    const para = fin + 0.5;
+    for (const s of fuentes) { if (s.buffer) s.start(t0, azar(0, 3)); else s.start(t0); s.stop(para); }
+    vozActual = { vol, fuentes }; return para - ahora();
+  }
+
+  // chillido(): "la radio chilla" con el primer borrón. Silbido de interferencia que se retuerce; corto y no muy alto.
+  function chillido() {
+    if (!puedo()) return; const t = ahora() + 0.01, d = canal('voz'), dur = azar(0.7, 0.9);
+    const o = ctx.createOscillator(), m = ctx.createOscillator(), mg = ctx.createGain(), f = ctx.createBiquadFilter();
+    o.frequency.setValueAtTime(azar(1800, 2200), t); o.frequency.exponentialRampToValueAtTime(azar(2800, 3300), t + dur * 0.6);
+    o.frequency.exponentialRampToValueAtTime(1500, t + dur); m.frequency.value = azar(6, 9); mg.gain.value = 120; m.connect(mg).connect(o.frequency);
+    f.type = 'bandpass'; f.frequency.value = 2400; f.Q.value = 0.8;
+    o.connect(f).connect(env(t, 0.03, 0.08, dur, d)); o.start(t); m.start(t); o.stop(t + dur + 0.15); m.stop(t + dur + 0.15);
+    barrido(t, dur, 'bandpass', 1500, 2600, 0.8, 0.25, 0.05, d);
+  }
+  // respiracion(veces): "en el canal 5, alguien respira". Coger y soltar aire, por la banda de la radio. Devuelve cuánto dura.
+  function respiracion(veces = 3) {
+    if (!puedo()) return 0; const hp = ctx.createBiquadFilter(), lp = ctx.createBiquadFilter();
+    hp.type = 'highpass'; hp.frequency.value = 380; lp.type = 'lowpass'; lp.frequency.value = 3000; hp.connect(lp).connect(canal('voz'));
+    let t = ahora() + 0.05;
+    for (let i = 0; i < veces; i++) {
+      barrido(t, 0.9, 'bandpass', 1100, 1700, 1.2, 0.22, 0.6, hp, 0.9); t += azar(1.0, 1.2);   // dentro
+      barrido(t, 0.9, 'bandpass', 1000, 600, 1, 0.26, 0.15, hp, 0.8); t += azar(1.3, 1.9); }  // fuera
+    setTimeout(() => hp.disconnect(), (t - ahora() + 1) * 1000);
+    return t - ahora();
+  }
+
+  // ---------- Motivo de descubrir: Mi · Sol · Si · La# (como una caja de música vieja) ----------
+  // Menor, y la última nota queda a un tritono del Mi y se hunde un poco: "has encontrado algo… y no es bueno".
+  // descubrir(): un detalle (solo tres notas, flojo). descubrir(true): algo importante (foto entera, candado abierto, la
+  // verdad de Marta). Como mucho una vez cada 12 s: si se pide antes, no suena (que no se gaste).
+  const MOTIVO = [[329.63, 0], [392.0, 0.32], [493.88, 0.64], [466.16, 1.02]];
+  let espacio = null, motivoAntes = -99;
+  function sala() { // eco corto con dos retardos que se realimentan: barato y da "habitación"
+    if (espacio) return espacio; const ent = ctx.createGain(), lp = ctx.createBiquadFilter(), sal = canal('musica');
+    lp.type = 'lowpass'; lp.frequency.value = 2200; ent.gain.value = 0.6; ent.connect(lp);
+    for (const [dt, fbk] of [[0.137, 0.42], [0.211, 0.38]]) { const d = ctx.createDelay(0.5), g = ctx.createGain();
+      d.delayTime.value = dt; g.gain.value = fbk; lp.connect(d); d.connect(g).connect(d); g.connect(sal); }
+    return (espacio = ent);
+  }
+  function nota(t, f, dur, k, d, wow, cae) {
+    for (const [r, a, dd] of [[1, 1, dur], [2, 0.22, dur * 0.5], [3.01, 0.1, dur * 0.3], [4.17, 0.05, dur * 0.15]]) {
+      const o = ctx.createOscillator(); o.frequency.value = f * r; wow.connect(o.detune);
+      if (cae) { o.detune.setValueAtTime(0, t + 0.3); o.detune.linearRampToValueAtTime(-35, t + dur); }
+      o.connect(env(t, piso(k * a), 0.004, dd, d)); o.start(t); o.stop(t + dd + 0.05); }
+    soplo(t, 0.006, 'highpass', 3000, 0.7, env(t, piso(0.8 * k), 0.001, 0.006, d)); // el "tic" del martillo
+  }
+  function descubrir(fuerte = false, dentro = 0) {
+    if (!puedo()) return; const t = ahora() + 0.05 + dentro; if (t - motivoAntes < 12) return; motivoAntes = t;
+    const d = ctx.createGain(); d.connect(canal('musica')); d.connect(sala());
+    const wow = ctx.createOscillator(), wg = ctx.createGain(); wow.frequency.value = azar(0.5, 0.9); wg.gain.value = 7; // cinta vieja
+    wow.connect(wg); wow.start(t); wow.stop(t + 4);
+    const notas = fuerte ? MOTIVO : MOTIVO.slice(0, 3), k = fuerte ? 0.05 : 0.032;
+    notas.forEach(([f, dt], i) => { const ult = i === notas.length - 1;
+      nota(t + dt * azar(0.97, 1.04), f, ult ? 2.4 : 1.4, k, d, wg, ult && fuerte); });
+    if (fuerte) { const f = ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 900; f.connect(d); // fondo Mi-Si
+      for (const fr of [164.81, 246.94]) { const o = ctx.createOscillator(); o.type = 'triangle'; o.frequency.value = fr;
+        o.connect(env(t, 0.02, 0.6, 2.6, f)); o.start(t); o.stop(t + 3.3); } }
+  }
+  // cambio(): "Algo ha cambiado en tu mochila". Un soplo al revés que crece y se corta de golpe, con un La# que baja a La.
+  function cambio() {
+    if (!puedo()) return; const t = ahora() + 0.02, dur = 0.9, d = canal('musica');
+    const s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain(), o = ctx.createOscillator(), go = ctx.createGain();
+    s.buffer = ruido; s.playbackRate.value = 0.7; f.type = 'bandpass'; f.Q.value = 2;
+    f.frequency.setValueAtTime(600, t); f.frequency.exponentialRampToValueAtTime(2400, t + dur);
+    o.frequency.setValueAtTime(466.16, t); o.frequency.exponentialRampToValueAtTime(440, t + dur);
+    for (const [p, v] of [[g.gain, 0.12], [go.gain, 0.03]]) { p.value = 0; p.setValueAtTime(0.0001, t); p.exponentialRampToValueAtTime(v, t + dur); p.setTargetAtTime(0, t + dur, 0.015); }
+    s.connect(f).connect(g).connect(d); o.connect(go).connect(d);
+    s.start(t, azar(0, 2)); s.stop(t + dur + 0.15); o.start(t); o.stop(t + dur + 0.15);
+  }
+  // apagon(): se va la luz del pueblo. El "clonc" del transformador, un golpe sordo y el zumbido de la red que se hunde.
+  function apagon() {
+    if (!puedo()) return; const t = ahora() + 0.02, d = canal('tension');
+    material('hierro', t, 1, d); soplo(t, 0.3, 'lowpass', 400, 0.8, env(t, 0.3, 0.004, 0.3, d), 0.6);
+    const o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    o.type = 'sawtooth'; f.type = 'bandpass'; f.frequency.value = 500; f.Q.value = 1;
+    o.frequency.setValueAtTime(100, t); o.frequency.exponentialRampToValueAtTime(22, t + 1.8);
+    g.gain.value = 0; g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.05, t + 0.05); g.gain.exponentialRampToValueAtTime(0.0001, t + 1.8);
+    o.connect(f).connect(g).connect(d); o.start(t); o.stop(t + 1.9);
+  }
+
+  // golpesPuerta(n): alguien llama a una puerta de madera (final B). Golpes sordos con la madera resonando; el último, más
+  // flojo. Devuelve cuánto dura.
+  function golpesPuerta(n = 3) {
+    if (!puedo()) return 0; const d = canal('tension'); let t = ahora() + 0.02;
+    for (let i = 0; i < n; i++) { const k = (i === n - 1 ? 0.75 : 1) * azar(0.85, 1);
+      const o = ctx.createOscillator(); o.frequency.setValueAtTime(110, t); o.frequency.exponentialRampToValueAtTime(65, t + 0.1);
+      o.connect(env(t, piso(0.2 * k), 0.003, 0.12, d)); o.start(t); o.stop(t + 0.16);
+      soplo(t, 0.09, 'bandpass', azar(420, 520), 2.5, env(t, piso(0.9 * k), 0.002, 0.09, d));  // la madera
+      soplo(t, 0.02, 'bandpass', 1800, 1, env(t, piso(0.2 * k), 0.001, 0.02, d));              // los nudillos
+      t += azar(0.32, 0.42); }
+    return t - ahora();
+  }
+  // silencio(true): el final A, "la mochila deja de hacer clic": el mundo se calla poco a poco (viento, zumbido, latido,
+  // pasos y radio). No toca el botón de silenciar ni el volumen. silencio(false) lo devuelve.
+  let quieto = false;
+  function silencio(on) {
+    quieto = !!on; if (!ctx) return;
+    ir(bus.viento.gain, quieto ? 0.03 : 1.3, 2); ir(bus.pajaros.gain, 0, 2); canal('tension'); ir(bus.tension.gain, quieto ? 0 : 1, 1);
+    if (mGain) ir(mGain.gain, quieto ? 0 : mOn ? 0.55 : 0, 2); if (rGain) ir(rGain.gain, 0, 1);
+  }
+
+  // ---------- La mochila-cámara (idea A, la elegida) y el escáner (idea C) ----------
+  // obturador(motor): la mochila-cámara de «Fuera del mapa». "Cli-clac" mecánico; con motor, el "zzt" del arrastre. Cada vez un poco
+  // distinto. Ojo: si salta "cada pocos pasos", que sea cada 25-40 m y no siempre igual, o cansará.
+  // obturador(true, 1.2): el "clic largo" de la foto de cierre: abre, exposición larga con un pitido finísimo, cierra.
+  function obturador(motor = false, exposicion = 0) {
+    if (!puedo()) return 0; const t = ahora() + 0.01, d = canal('mochila'), k = azar(0.95, 1.05), t2 = t + (exposicion || azar(0.05, 0.08));
+    if (exposicion > 0.3) { const o = ctx.createOscillator(); o.frequency.value = azar(3000, 3300);
+      o.connect(env(t + 0.05, 0.006, exposicion * 0.4, exposicion * 0.6, d)); o.start(t); o.stop(t2 + 0.1); }
+    soplo(t, 0.015, 'bandpass', 1900 * k, 1.5, env(t, 0.35, 0.001, 0.014, d));
+    soplo(t + 0.004, 0.008, 'highpass', 3500, 0.7, env(t + 0.004, 0.16, 0.001, 0.008, d));
+    soplo(t2, 0.02, 'bandpass', 1500 * k, 1.5, env(t2, 0.3, 0.001, 0.02, d));
+    if (motor) { const o = ctx.createOscillator(), f = ctx.createBiquadFilter(); o.type = 'sawtooth'; o.frequency.value = azar(150, 175);
+      f.type = 'bandpass'; f.frequency.value = 2200; f.Q.value = 2;
+      o.connect(f).connect(env(t2 + 0.05, 0.045, 0.02, 0.2, d)); o.start(t2 + 0.05); o.stop(t2 + 0.3); }
+    return t2 + 0.3 - ahora();
+  }
+  const fotoCierre = () => obturador(true, 1.2);
+  const foto = () => obturador(true); // encuadrar una foto en su sitio (refotografía)
+  // pitido(bien): idea C, el escáner (solo si se elige). Un pitido corto; si no es para ti, dos más graves.
+  function pitido(bien = true) {
+    if (!puedo()) return; const t = ahora() + 0.01, d = canal('mochila');
+    for (const [f, dt] of (bien ? [[2600, 0]] : [[1300, 0], [1300, 0.16]])) { const o = ctx.createOscillator(), lp = ctx.createBiquadFilter(), g = ctx.createGain();
+      o.type = 'square'; o.frequency.value = f; lp.type = 'lowpass'; lp.frequency.value = 4000;
+      g.gain.value = 0; g.gain.setValueAtTime(0, t + dt); g.gain.linearRampToValueAtTime(0.014, t + dt + 0.005);
+      g.gain.setValueAtTime(0.014, t + dt + 0.08); g.gain.linearRampToValueAtTime(0, t + dt + 0.09);
+      o.connect(lp).connect(g).connect(d); o.start(t + dt); o.stop(t + dt + 0.1); }
+  }
+
+  // ==================================================================================================================
+  // LOS DOS CAMBIOS EN EL MÓDULO (Programación):
+  // 1) En tic(), después de `horaEnPunto();`, añadir:  ticMiedo();
+  // 2) Cambiar la línea `return { iniciar, ... }` por:
+  //    return { iniciar, pasos, zona, silenciar, volumen, campanas, clic, miedo, radio, golpe, silenciado: () => mudo,
+  //      mochila, cremallera, seleccion, coger, examinar, girar, combinar, combinarBien, combinarMal, cambiarPilas, pilas,
+  //      rueda, candado, abrir, cerrado, interruptor, linterna, parpadeo, pilasFuera, vela, tension, pasosDetras, vozRadio, chillido,
+  //      respiracion, callarVoz, descubrir, cambio, apagon, golpesPuerta, silencio, obturador, foto, fotoCierre, pitido };
+  // ==================================================================================================================
+
+  return { iniciar, pasos, zona, silenciar, volumen, campanas, clic, miedo, radio, golpe, silenciado: () => mudo,
+    mochila, cremallera, seleccion, coger, examinar, girar, combinar, combinarBien, combinarMal, cambiarPilas, pilas,
+    rueda, candado, abrir, cerrado, interruptor, linterna, parpadeo, pilasFuera, vela, tension, pasosDetras, vozRadio, chillido,
+    respiracion, callarVoz, descubrir, cambio, apagon, golpesPuerta, silencio, obturador, foto, fotoCierre, pitido };
 })();
 window.Sonido = Sonido;
 
@@ -2437,8 +3202,9 @@ function pintarPanel(){
 }
 function panelHistoria(){ const d=HIST.d, e=HIST.e, m=d.misiones[e.m]; let h='';
   h+=`<div class="lugar" style="display:block;padding:10px 12px;line-height:1.35"><small style="display:block;margin:0 0 4px;color:var(--stone-deep);font-weight:400">${d.subtitulo||''}</small>${m?m.titulo+' · '+m.objetivo:'Capítulo terminado'}</div>`;
-  h+='<h2>Mochila</h2>'+(e.inv.length?e.inv.map(id=>{ const o=d.objetos[id]; return `<button class="lugar" type="button" data-obj="${id}">${iconoObj(o?.icono)}${o?o.nombre:id}${id==='linterna'?`<small>${e.linterna?'encendida':'apagada'}</small>`:''}</button>`; }).join(''):'<div class="lugar oculto">Vacía</div>');
-  h+=`<h2>Recuerdos · ${e.rec.length} de ${Object.keys(d.recuerdos).length}</h2>`+(e.rec.length?e.rec.map(id=>{ const r=d.recuerdos[id]; return `<button class="lugar" type="button" data-rec="${id}">${iconoObj(r?.tipo==='foto'?'foto':'nota')}${r?r.titulo:id}<small>leer</small></button>`; }).join(''):'<div class="lugar oculto">Todavía ninguno</div>');
+  h+=`<button class="lugar" type="button" data-mochila="1">${iconoObj('caja')}Abrir la mochila<small>${e.inv.length} ${e.inv.length===1?'objeto':'objetos'}</small></button>`;
+  if(false) h+='<h2>Mochila</h2>'+(e.inv.length?e.inv.map(id=>{ const o=d.objetos[id]; return `<button class="lugar" type="button" data-obj="${id}">${iconoObj(o?.icono)}${o?o.nombre:id}${id==='linterna'?`<small>${e.linterna?'encendida':'apagada'}</small>`:''}</button>`; }).join(''):'<div class="lugar oculto">Vacía</div>');
+  if(false) h+=`<h2>Recuerdos · ${e.rec.length} de ${Object.keys(d.recuerdos).length}</h2>`+(e.rec.length?e.rec.map(id=>{ const r=d.recuerdos[id]; return `<button class="lugar" type="button" data-rec="${id}">${iconoObj(r?.tipo==='foto'?'foto':'nota')}${r?r.titulo:id}<small>leer</small></button>`; }).join(''):'<div class="lugar oculto">Todavía ninguno</div>');
   h+=`<h2>Logros · ${e.logros.length} de ${Object.keys(d.logros).length}</h2>`+Object.entries(d.logros).map(([id,l])=>{ const ok=e.logros.includes(id); return `<div class="lugar${ok?'':' oculto'}" style="min-height:48px">${svgI('info')}<span>${ok?l.nombre:'¿?'}<small style="display:block;margin:2px 0 0;font-weight:400">${ok?l.descripcion:'Sin conseguir'}</small></span></div>`; }).join('');
   return h; }
 function abrirPanel(v){ const p=$('panel'); p.classList.toggle('abierto',v); p.setAttribute('aria-hidden',v?'false':'true'); $('velo').hidden=!v; $('bMenu').setAttribute('aria-expanded',String(v)); if(v){ pintarPanel(); keys.clear(); } }
@@ -2459,6 +3225,7 @@ $('panel').addEventListener('click',e=>{ const b=e.target.closest('button'); if(
   if(d.ficha) return fichaFija(d.ficha);
   if(d.obj){ const o=HIST.d.objetos[d.obj]; if(d.obj==='linterna'){ HIST.e.linterna=!HIST.e.linterna; pintarLinterna(); guardarHist(); return pintarPanel(); } return abrirFicha(o?o.nombre:d.obj,`<p>${o?o.descripcion:''}</p>`,''); }
   if(d.rec) return leerRecuerdo(d.rec);
+  if(d.mochila){ abrirPanel(false); return abrirMochila(); }
   if(d.borrar){ if(b.dataset.seguro) return borrarMisDatos(); b.dataset.seguro='1'; b.innerHTML=svgI('cerrar')+'¿Seguro? Se borran tus ajustes, tu partida y los lugares. Pulsa otra vez'; return; }
   if(d.reiniciar){ if(b.dataset.seguro){ abrirPanel(false); return reiniciarHistoria(); } b.dataset.seguro='1'; b.innerHTML=svgI('inicio')+'¿Seguro? Se borra la partida. Pulsa otra vez'; return; }
   if(d.titulo){ abrirPanel(false); return volverTitulo(); }
@@ -2541,21 +3308,28 @@ function marcaEn(x,z,tipo){ const g=new THREE.Group(), y=HT(x,z);
   g.position.set(...V(x,y,z)); scene.add(g); return g; }
 
 // ---------- Interfaz: objetivo, acción, diálogos, pantallas negras, susto ----------
-const ICONO_OBJ={llave:'<path d="M14 10a4 4 0 1 1-1.2-2.8L21 15v3h-3v-2h-2v-2l-2.2-2.2"/><circle cx="8" cy="10" r="1"/>',linterna:'<path d="M8 3h8v4l-2 3v11h-4V10L8 7z"/><path d="M8 7h8"/>',
+const ICONO_OBJ={pila:'<rect x="7" y="4" width="10" height="17" rx="2"/><path d="M10 2h4M10 11h4M12 9v4"/>',camara:'<rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8 7l1.5-3h5L16 7"/>',tarjeta:'<rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="8.5" cy="12" r="2"/><path d="M13 10h5M13 14h4"/>',azulejo:'<rect x="5" y="5" width="14" height="14"/><path d="M5 12h14M12 5v14"/>',mapa:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',llave:'<path d="M14 10a4 4 0 1 1-1.2-2.8L21 15v3h-3v-2h-2v-2l-2.2-2.2"/><circle cx="8" cy="10" r="1"/>',linterna:'<path d="M8 3h8v4l-2 3v11h-4V10L8 7z"/><path d="M8 7h8"/>',
   radio:'<rect x="3" y="8" width="18" height="12" rx="2"/><path d="M7 8l9-5M7 14h4M16 13v3"/>',nota:'<path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h4"/>',foto:'<rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 16 5-5 4 4 3-3 6 6"/>',
   vela:'<path d="M10 10h4v11h-4zM12 3c1.5 2 1.5 4 0 5-1.5-1-1.5-3 0-5z"/>',cruz:'<path d="M12 3v18M7 8h10"/>',libro:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5"/>',caja:'<path d="M3 8l9-4 9 4v9l-9 4-9-4z"/><path d="M3 8l9 4 9-4M12 12v9"/>',
   piedra:'<path d="M5 15l3-7 6-2 5 4 1 7-6 3-7-1z"/>',campana:'<path d="M6 17V11a6 6 0 0 1 12 0v6l2 2H4z"/><path d="M10 21h4"/>',anillo:'<circle cx="12" cy="14" r="6"/><path d="M10 6l2-3 2 3"/>',botella:'<path d="M10 3h4v4l2 3v11H8V10l2-3z"/>'};
 const iconoObj=n=>`<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${ICONO_OBJ[n]||ICONO_OBJ.caja}</svg>`;
 const flecha=$('objFlecha');
 function pasoActual(){ const d=HIST.d, e=HIST.e; if(!d||!e) return null; const m=d.misiones[e.m]; return m?m.pasos[e.p]||null:null; }
-function destino(p){ if(!p) return null; if(p.tipo==='hablar'){ const pj=HIST.d.personajes[p.personaje]; return pj?[pj.x,pj.z]:null; } return typeof p.x==='number'?[p.x,p.z]:null; }
+function destino(p){ if(!p) return null; if(p.tipo==='hablar'||p.tipo==='entregar'){ const pj=HIST.d.personajes[p.personaje]; return pj?[pj.x,pj.z]:null; }
+  if(p.tipo==='encuadrar'&&(HIST.e.pistaN[p.id||(HIST.e.m+'.'+HIST.e.p)]||0)<2) return null;   // la foto es la pista: la flecha solo con la segunda ayuda
+  return typeof p.x==='number'?[p.x,p.z]:null; }
 function textoPaso(p){ const d=HIST.d; if(!p) return '';
   if(p.tipo==='hablar') return 'Habla con '+(d.personajes[p.personaje]?.nombre||'');
   if(p.tipo==='coger') return 'Busca: '+(d.objetos[p.objeto]?.nombre||'').replace(/^./,c=>c.toLowerCase());
   if(p.tipo==='leer') return d.recuerdos[p.recuerdo]?.tipo==='foto'?'Hay una foto cerca':'Hay algo escrito cerca';
-  if(p.tipo==='usar') return 'Usa: '+(d.objetos[p.objeto]?.nombre||'').replace(/^./,c=>c.toLowerCase());
+  if(p.tipo==='usar') return p.objetivo||(p.elegir?'Algo de la mochila sirve aquí':'Usa: '+(d.objetos[p.objeto]?.nombre||'').replace(/^./,c=>c.toLowerCase()));
+  if(p.tipo==='examinar') return p.objetivo||'Examina: '+(d.objetos[p.objeto]?.nombre||'').replace(/^./,c=>c.toLowerCase());
+  if(p.tipo==='combinar') return p.objetivo||'Algo de la mochila encaja con otra cosa';
+  if(p.tipo==='codigo') return p.objetivo||'Abre: '+(p.titulo||'el candado').replace(/^./,c=>c.toLowerCase());
+  if(p.tipo==='entregar') return p.objetivo||'Dale algo a '+(d.personajes[p.personaje]?.nombre||'');
+  if(p.tipo==='encuadrar') return p.objetivo||'Busca el sitio de la foto';
   return ''; }
-function pintarObjetivo(){ const m=HIST.d&&HIST.d.misiones[HIST.e.m]; $('objetivo').hidden=!HIST.on||!m; if(m) $('objTexto').textContent=textoPaso(pasoActual())||m.objetivo; }
+function pintarObjetivo(){ const m=HIST.d&&HIST.d.misiones[HIST.e.m]; $('objetivo').hidden=!HIST.on||!m; $('objetivo').classList.toggle('toca',HIST.on); $('objetivo').setAttribute('aria-label','Objetivo. Toca para una pista'); if(m) $('objTexto').textContent=textoPaso(pasoActual())||m.objetivo; }
 const COLA=[]; let colaT=0;
 function toast(etiqueta,titulo,al){ COLA.push([etiqueta,titulo,al]); if(!colaT) sigToast(); }
 function sigToast(){ const a=$('aviso'), it=COLA.shift(); if(!it){ colaT=0; return; } const [etiqueta,titulo,al]=it; avisoLugar=null;
@@ -2590,8 +3364,10 @@ function dialogo(lineas,eleccion,fin){ const D=$('dialogo'), quien=$('dlgQuien')
 
 // ---------- Linterna ----------
 const luzLinterna=new THREE.SpotLight(0xfff0d0,0,40,Math.PI/7.5,0.5,1.4); luzLinterna.castShadow=false; scene.add(luzLinterna); scene.add(luzLinterna.target);
-function pintarLinterna(){ const tiene=HIST.on&&HIST.e&&HIST.e.inv.includes('linterna'); $('bLinterna').hidden=!tiene; $('bLinterna').classList.toggle('activo',!!(tiene&&HIST.e.linterna)); }
-$('bLinterna').addEventListener('click',e=>{ e.stopPropagation(); if(!HIST.e) return; HIST.e.linterna=!HIST.e.linterna; Sonido.clic(); pintarLinterna(); guardarHist(); });
+function pintarLinterna(){ const L=HIST.d&&HIST.d.linterna, oid=(L&&L.objeto)||'linterna', tiene=HIST.on&&HIST.e&&HIST.e.inv.includes(oid), b=$('bLinterna'); b.hidden=!tiene; b.classList.toggle('activo',!!(tiene&&HIST.e.linterna));
+  const conBat=!!(tiene&&L), bat=conBat?Math.round(HIST.e.bat):100; b.querySelector('.carga').hidden=!conBat; b.querySelector('.carga i').style.width=bat+'%'; b.classList.toggle('baja',conBat&&bat<25);
+  b.dataset.pct=conBat&&bat<25?bat+' %':''; b.setAttribute('aria-label','Linterna'+(conBat?`, ${bat} %`:'')); }
+$('bLinterna').addEventListener('click',e=>{ e.stopPropagation(); if(!HIST.e) return; HIST.e.linterna=!HIST.e.linterna; sfx('linterna',HIST.e.linterna); pintarLinterna(); guardarHist(); });
 
 // ---------- Ambiente del modo historia: niebla espesa y gris; con el apagón, noche cerrada ----------
 function ambienteHistoria(){ const noche=HIST.e&&HIST.e.noche;
@@ -2602,7 +3378,7 @@ function ambientePaseo(){ COLOR_NIEBLA.set(0xbcc2c4); renderer.toneMappingExposu
 
 // ---------- Cosas que el capítulo pone en el pueblo ----------
 const PROPS=[];
-function puertaBodega(x,z){ const y=HT(x,z), gx=HT(x+1.5,z)-HT(x-1.5,z), gz=HT(x,z+1.5)-HT(x,z-1.5);
+function puertaBodega(x,z,numero){ const y=HT(x,z), gx=HT(x+1.5,z)-HT(x-1.5,z), gz=HT(x,z+1.5)-HT(x,z-1.5);
   let nx=-gx, nz=-gz, l=Math.hypot(nx,nz); if(l<0.02){ nx=-x; nz=-z; l=Math.hypot(nx,nz); } nx/=l; nz/=l;   // mira cuesta abajo
   const piedra=new THREE.MeshStandardMaterial({color:new THREE.Color('#857c6c').convertSRGBToLinear(),roughness:1}), g=new THREE.Group();
   const caja=(w,h,dd,px,py,pz,m)=>{ const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,dd),m); o.position.set(px,py,pz); o.castShadow=o.receiveShadow=true; g.add(o); return o; };
@@ -2615,40 +3391,45 @@ function puertaBodega(x,z){ const y=HT(x,z), gx=HT(x+1.5,z)-HT(x-1.5,z), gz=HT(x
   g.position.set(...V(px,HT(px,pz)-0.2,pz)); g.rotation.y=Math.atan2(nx,-nz); scene.add(g);
   const esq=(a,b)=>[px+ex*a+nx*b,pz+ez*a+nz*b];
   nuevoSolido([esq(-2.1,0.35),esq(2.1,0.35),esq(2.1,-2.9),esq(-2.1,-2.9)]);   // que no se pueda atravesar
+  if(numero){ const c=document.createElement('canvas'); c.width=128; c.height=64; const x2=c.getContext('2d'); x2.fillStyle='#d9d2c0'; x2.fillRect(0,0,128,64); x2.fillStyle='#2a1d14'; x2.font='bold 44px Georgia, serif'; x2.textAlign='center'; x2.textBaseline='middle'; x2.fillText(String(numero),64,34);
+    const placa=new THREE.Mesh(new THREE.PlaneGeometry(0.6,0.3),new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(c),roughness:.8})); placa.position.set(0,1.6,0.17); g.add(placa); }
   return g; }
 function luzLejana(x,z,alto){ const g=new THREE.Group(), sp=new THREE.Sprite(new THREE.SpriteMaterial({map:texBrillo,color:0xffd9a0,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,fog:false}));
   sp.scale.set(2.2,2.2,1); g.add(sp); g.position.set(...V(x,HT(x,z)+(alto||8),z)); scene.add(g); return g; }
 function ponerProps(){ const d=HIST.d, e=HIST.e;
-  if(!PROPS.length) for(const p of d.props||[]){ const g=p.tipo==='puerta_bodega'?puertaBodega(p.x,p.z):p.tipo==='luz'?luzLejana(p.x,p.z,p.alto):null; if(g){ g.userData.desde=p.desde||0; g.userData.hasta=p.hasta??99; PROPS.push(g); } }
+  if(!PROPS.length) for(const p of d.props||[]){ const g=p.tipo==='puerta_bodega'?puertaBodega(p.x,p.z,p.numero):p.tipo==='luz'?luzLejana(p.x,p.z,p.alto):null; if(g){ g.userData.desde=p.desde||0; g.userData.hasta=p.hasta??99; PROPS.push(g); } }
   for(const g of PROPS) g.visible=e.m>=g.userData.desde&&e.m<=g.userData.hasta; }
 
 // ---------- Personajes y la marca del paso actual ----------
 function pintarMundo(){ const d=HIST.d, e=HIST.e; ponerProps();
   // Personajes: salen los de la misión actual y los de las anteriores (se quedan donde estaban).
-  const vistos=new Set(); d.misiones.forEach((m,i)=>{ if(i<=e.m) for(const p of m.pasos) if(p.tipo==='hablar') vistos.add(p.personaje); });
+  const vistos=new Set(); d.misiones.forEach((m,i)=>{ if(i<=e.m) for(const p of m.pasos) if(p.tipo==='hablar'||p.tipo==='entregar') vistos.add(p.personaje); });
   for(const [id,pj] of Object.entries(d.personajes)){ let g=HIST.figuras[id];
     if(!g&&vistos.has(id)){ g=HIST.figuras[id]=hFigura(pj.tipo,pj.color); ponerEn(g,pj.x,pj.z,pj.mira); scene.add(g); }
     if(g) g.visible=vistos.has(id); }
   if(HIST.marca){ scene.remove(HIST.marca); HIST.marca=null; }
   const p=pasoActual(); if(!p) return;
   if(typeof p.x==='number'&&Math.hypot(p.x,p.z)>280) ruina(p.x,p.z);
-  if(p.tipo==='coger'||p.tipo==='leer'||p.tipo==='usar') HIST.marca=marcaEn(p.x,p.z,p.tipo); }
+  if(p.tipo==='coger'||p.tipo==='leer'||p.tipo==='usar'||p.tipo==='codigo') HIST.marca=marcaEn(p.x,p.z,p.tipo==='codigo'?'usar':p.tipo); }
 
 // ---------- Avance: pasos, misiones, recompensas ----------
-function darObjeto(id){ if(!id||HIST.e.inv.includes(id)) return; HIST.e.inv.push(id); const o=HIST.d.objetos[id];
-  toast('Nuevo en la mochila',o?o.nombre:id,()=>abrirFicha(o?o.nombre:id,`<p>${o?o.descripcion:''}</p>`,'')); pintarLinterna(); }
 function darLogro(id){ if(!id||HIST.e.logros.includes(id)) return; HIST.e.logros.push(id); const l=HIST.d.logros[id]; setTimeout(()=>toast('Logro conseguido',l?l.nombre:id),1500); }
 function darRecuerdo(id){ if(!id||HIST.e.rec.includes(id)) return; HIST.e.rec.push(id); }
 function leerRecuerdo(id){ const r=HIST.d.recuerdos[id]; if(r) abrirFicha(r.titulo,parrafos(r.texto),r.tipo==='foto'?'Una foto':'Una nota'); }
 function pensar(t){ narrar(t); }
-function siguientePaso(){ const d=HIST.d, e=HIST.e, m=d.misiones[e.m];
-  HIST.pend=false; e.p++; if(e.p>=m.pasos.length){ const r=m.recompensa||{}; darObjeto(r.objeto); darLogro(r.logro); e.m++; e.p=0; }
-  guardarHist(); pintarObjetivo(); pintarMundo(); pintarPanel(); }
+function siguientePaso(){ const d=HIST.d, e=HIST.e; const hecho=pasoActual(); accionAct=null; $('accion').hidden=true;   // que no quede el botón del paso anterior
+  if(hecho&&hecho.efectos) aplicarEfectos(hecho.efectos);
+  HIST.pend=false; e.tPaso=0;
+  do { const m=d.misiones[e.m]; if(!m) break; e.p++; if(e.p>=m.pasos.length){ const r=m.recompensa||{}; darObjeto(r.objeto); darLogro(r.logro); if(r.efectos) aplicarEfectos(r.efectos); e.m++; e.p=0; } }
+  while(pasoActual()&&!cumple(pasoActual()));
+  guardarHist(); pintarObjetivo(); pintarMundo(); pintarPanel(); comprobarPasoAuto(); }
 function evento(p){ const e=HIST.e;
   if(p.evento==='campanas') Sonido.campanas(12);
-  else if(p.evento==='radio'){ Sonido.radio(1); setTimeout(()=>Sonido.radio(0),1800); }
-  else if(p.evento==='sombras'){ e.sombras=true; }
-  else if(p.evento==='apagon'){ e.noche=true; ambienteHistoria(); }
+  else if(p.evento==='radio'){ Sonido.radio(1); setTimeout(()=>Sonido.radio(0),1800);
+    // Si el texto trae lo que dice la voz («…»), la radio lo «dice» (síntesis, sin grabaciones).
+    const dicho=(p.texto||'').match(/«([^»]+)»/); if(dicho) setTimeout(()=>{ try{ Sonido.vozRadio(dicho[1],p.voz||(/tu voz/i.test(p.texto)?'susurro':/muchas/i.test(p.texto)?'susurro':'mujer'),p.sucia??(/Marta/.test(p.texto)?0.15:0.6)); }catch(err){} },700); }
+  else if(p.evento==='sombras'){ e.sombras=true; sfx('chillido'); }
+  else if(p.evento==='apagon'){ e.noche=true; ambienteHistoria(); sfx('apagon'); }
   else if(p.evento==='calma'){ e.sombras=false; quitarSombras(); }
   else if(p.evento==='fin_capitulo'){ e.sombras=false; e.acabada=true; quitarSombras(); guardarHist();
     setTimeout(()=>cine([...(HIST.d.final||[]),'Fin del capítulo 1',`Recuerdos: ${e.rec.length} de ${Object.keys(HIST.d.recuerdos).length} · Logros: ${e.logros.length} de ${Object.keys(HIST.d.logros).length}`,'Continuará…'],()=>{ volverTitulo(); }),1200); }
@@ -2657,16 +3438,21 @@ function evento(p){ const e=HIST.e;
 function accionPosible(){ const p=pasoActual(); if(!p||HIST.bloqueo) return null; const dist=(x,z)=>Math.hypot(player.x-x,player.z-z);
   if(p.tipo==='hablar'){ const pj=HIST.d.personajes[p.personaje]; if(pj&&dist(pj.x,pj.z)<3) return {texto:'Hablar con '+pj.nombre,fn:()=>{ HIST.mirar=[pj.x,pj.z];
     const g=HIST.figuras[p.personaje]; if(g) g.rotation.y=-Math.atan2(player.x-pj.x,player.z-pj.z)+Math.PI; dialogo(p.dialogo||[],p.eleccion,()=>{ HIST.mirar=null; siguientePaso(); }); }}; }
-  if(p.tipo==='coger'&&dist(p.x,p.z)<2.6){ const o=HIST.d.objetos[p.objeto]; return {texto:'Coger: '+(o?o.nombre:p.objeto),fn:()=>{ darObjeto(p.objeto); pensar(p.texto); siguientePaso(); }}; }
+  if(p.tipo==='coger'&&dist(p.x,p.z)<2.6){ const o=obj(p.objeto); return {texto:'Coger: '+o.nombre,fn:()=>{ darObjeto(p.objeto); pensar(p.texto); siguientePaso(); }}; }
+  if(p.tipo==='examinar'&&HIST.e.inv.includes(p.objeto)) return {texto:'Examinar: '+obj(p.objeto).nombre,fn:()=>examinar(p.objeto)};
+  if(p.tipo==='combinar') return {texto:'Abrir la mochila',fn:()=>abrirMochila()};
+  if(p.tipo==='codigo'&&dist(p.x,p.z)<(p.r||3)) return {texto:p.boton||'Probar el candado',fn:()=>abrirCandado(p)};
+  if(p.tipo==='entregar'){ const pj=HIST.d.personajes[p.personaje]; if(pj&&dist(pj.x,pj.z)<3) return {texto:'Dar algo a '+pj.nombre+'…',fn:()=>elegirDeMochila(p.pregunta||'¿Qué le das?',p.boton_nada||'Nada').then(id=>entregar(p,id))}; }
   if(p.tipo==='leer'&&dist(p.x,p.z)<2.6){ const r=HIST.d.recuerdos[p.recuerdo]; return {texto:r&&r.tipo==='foto'?'Mirar la foto':'Leer «'+(r?r.titulo:'')+'»',fn:()=>{ darRecuerdo(p.recuerdo); leerRecuerdo(p.recuerdo); siguientePaso(); }}; }
-  if(p.tipo==='usar'&&dist(p.x,p.z)<(p.r||3)){ const o=HIST.d.objetos[p.objeto], tiene=HIST.e.inv.includes(p.objeto);
-    return {texto:tiene?'Usar: '+(o?o.nombre:p.objeto):'Necesitas: '+(o?o.nombre:p.objeto),fn:tiene?()=>{ pensar(p.texto); siguientePaso(); }:null}; }
+  if(p.tipo==='usar'&&dist(p.x,p.z)<(p.r||3)){ const o=obj(p.objeto), tiene=HIST.e.inv.includes(p.objeto);
+    if(p.elegir) return {texto:p.boton||'Usar algo…',fn:()=>elegirDeMochila(p.pregunta||'¿Qué usas aquí?').then(id=>{ if(id) probarUso(p,id); })};
+    return {texto:tiene?'Usar: '+o.nombre:'Necesitas: '+o.nombre,fn:tiene?()=>probarUso(p,p.objeto):null}; }
   return null; }
 let accionAct=null;
 $('accion').addEventListener('click',e=>{ e.stopPropagation(); if(accionAct&&accionAct.fn){ const f=accionAct.fn; accionAct=null; $('accion').hidden=true; Sonido.clic(); f(); } });
 
 // ---------- Sombras ----------
-function quitarSombras(){ for(const s of HIST.sombras) scene.remove(s.g); HIST.sombras.length=0; $('susto').style.opacity=0; Sonido.radio(0); }
+function quitarSombras(){ for(const s of HIST.sombras) scene.remove(s.g); HIST.sombras.length=0; $('susto').style.opacity=0; Sonido.radio(0); sfx('tension',0); }
 function puntoDeCalle(cx,cz,dmin,dmax){ for(let k=0;k<40;k++){ const seg=SUELO[Math.floor(Math.random()*SUELO.length)], t=Math.random(), x=seg[0]+(seg[2]-seg[0])*t, z=seg[1]+(seg[3]-seg[1])*t, d=Math.hypot(x-cx,z-cz);
   if(d>dmin&&d<dmax&&Math.hypot(x-REFUGIO[0],z-REFUGIO[1])>R_REFUGIO+4) return [x,z]; }
   // Lejos de las calles (el castillo, el campo): un punto cualquiera alrededor, fuera de las casas.
@@ -2688,16 +3474,17 @@ function moverSombras(dt){ const e=HIST.e; if(!e.sombras){ if(HIST.sombras.lengt
     const dx=player.x-s.x, dz=player.z-s.z, d=Math.hypot(dx,dz)||1;
     // La linterna: si la tienes encendida y apuntas a una sombra cercana, se aparta y se deshace.
     const ang=Math.acos(Math.max(-1,Math.min(1,(dx*-fx+dz*-fz)/d)));
-    if(e.linterna&&d<20&&ang<0.4){ if(!s.huye&&HIST.d.logro_linterna) darLogro(HIST.d.logro_linterna); s.huye=Math.min(1,s.huye+dt*1.5); }
+    const fl=factorLuz(); if(e.linterna&&fl>0&&d<20*Math.max(.5,fl)&&ang<0.4){ if(!s.huye&&HIST.d.logro_linterna) darLogro(HIST.d.logro_linterna); s.huye=Math.min(1,s.huye+dt*1.5*fl); }
     if(s.huye>0){ s.op=Math.max(0,s.op-dt*0.9); s.x-=dx/d*3*dt; s.z-=dz/d*3*dt; if(s.op<=0.01){ scene.remove(s.g); HIST.sombras.splice(i,1); continue; } }
     else { s.op=Math.min(0.88,s.op+dt*0.4);
-      const v=enRefugio&&d<R_REFUGIO+6?0:1.5; [s.x,s.z]=collide(s.x+dx/d*v*dt,s.z+dz/d*v*dt);
-      if(d<1.3&&!enRefugio){ atrapado(); return; } }
+      const vela=e.velaT>0&&d<(HIST.velaR||4)+1.5, v=(enRefugio&&d<R_REFUGIO+6)||vela?0:1.5; [s.x,s.z]=collide(s.x+dx/d*v*dt,s.z+dz/d*v*dt);
+      if(d<1.3&&!enRefugio&&!vela){ atrapado(); return; } }
     if(d>70){ scene.remove(s.g); HIST.sombras.splice(i,1); continue; }
     s.g.position.set(...V(s.x,HT(s.x,s.z)+0.02+Math.sin(s.fase*2)*0.04,s.z)); s.g.rotation.y=Math.atan2(dx,-dz)+Math.PI;
     s.g.traverse(o=>{ if(o.material) o.material.opacity=s.op*(0.85+0.15*Math.sin(s.fase*7)); });
     cerca=Math.max(cerca,1-d/35); }
   if(e.inv.includes('radio')) Sonido.radio(cerca); else Sonido.radio(0);
+  try{ Sonido.tension(cerca,suelo,velPasos); }catch(err){}
   $('susto').style.opacity=Math.max(0,(cerca-0.55)*1.6).toFixed(2); }
 
 // ---------- Cada fotograma ----------
@@ -2706,12 +3493,15 @@ function actualizarHistoria(dt){ const e=HIST.e, d=HIST.d; if(!e||!d) return;
   const fx=Math.sin(player.yaw), fz=Math.cos(player.yaw), cp=Math.cos(player.pitch);
   luzLinterna.position.set(...V(player.x+fz*0.25,player.y-0.25,player.z-fx*0.25));
   luzLinterna.target.position.set(...V(player.x+fx*cp*10,player.y+Math.sin(player.pitch)*10,player.z+fz*cp*10)); luzLinterna.target.updateMatrixWorld();
-  luzLinterna.intensity=e.linterna?(e.noche?180:70)*(0.97+0.03*Math.sin(performance.now()/90)):0;
+  relojLuz(HIST.pausa||HIST.bloqueo?0:dt); const fl=factorLuz(), parpadeo=fl<1?(Math.random()<.06*(1-fl)?.15:1):1;
+  luzLinterna.intensity=e.linterna?(e.noche?180:70)*(0.97+0.03*Math.sin(performance.now()/90))*Math.max(fl,.3)*parpadeo*(HIST.cambioPilas?0:1):0;
+  luzLinterna.angle=Math.PI/7.5*(0.6+0.4*Math.min(1,fl+.2));
+  relojExamen(dt); relojEncuadre();
   if(HIST.marca){ const sp=HIST.marca.children[0]; const k=1+0.25*Math.sin(performance.now()/300); sp.scale.set(1.1*k,1.1*k,1); }
   for(const g of Object.values(HIST.figuras)) if(g.visible) g.children[2].position.x=Math.sin(performance.now()/1400)*0.01;
   if(HIST.mirar){ let a=Math.atan2(HIST.mirar[0]-player.x,HIST.mirar[1]-player.z)-player.yaw; a=Math.atan2(Math.sin(a),Math.cos(a)); const k=Math.min(1,dt*5); player.yaw+=a*k; player.pitch+=(-0.05-player.pitch)*k; }
-  if(HIST.bloqueo) return;
-  moverSombras(dt);
+  if(HIST.bloqueo||HIST.pausa) return;
+  moverSombras(dt); relojPistas(dt);
   HIST.t-=dt; if(HIST.t>0) return; HIST.t=0.2; HIST.tLuz+=0.2; if(HIST.tLuz>5){ HIST.tLuz=0; guardarHist(); }
   // Flecha del objetivo: hacia dónde queda y a cuántos metros.
   const p=pasoActual(), dst=destino(p);
@@ -2724,18 +3514,258 @@ function actualizarHistoria(dt){ const e=HIST.e, d=HIST.d; if(!e||!d) return;
   // Botón de acción.
   const ac=accionPosible(); accionAct=ac; const b=$('accion'); b.hidden=!ac; if(ac){ b.textContent=ac.texto; b.disabled=!ac.fn; } }
 
+// ================= MOCHILA: objetos que se ven, se examinan, se combinan y se gastan =================
+// Diseño de juego (inventario v2): botón propio, cuadrícula de 12 huecos, ficha con Examinar/Usar/Combinar, examen con
+// giro, vuelta y luz rasante (detalles ocultos), usar o dar eligiendo, combinar, pilas de la linterna, vela, candado de
+// cifras, encuadrar una foto en su sitio y pistas que se refuerzan. Todo campo nuevo del capítulo es opcional.
+const sfx=(n,...a)=>{ try{ (Sonido[n]||Sonido.clic)(...a); }catch(e){} };
+const vibra=p=>{ try{ if(AJ.vibrar!==false&&'vibrate' in navigator) navigator.vibrate(p); }catch(e){} };
+const sinMovimiento=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Estado nuevo (con valores por defecto para las partidas guardadas antes).
+function normalizar(e){ for(const [k,v] of Object.entries({est:{},det:[],nuevo:[],cant:{},bat:100,marcas:[],fallos:{},tPaso:0,pistaN:{},velaT:0})) if(e[k]===undefined) e[k]=typeof v==='object'?JSON.parse(JSON.stringify(v)):v; return e; }
+// Un objeto tal como está ahora (su estado cambia descripción, dibujo, caras y detalles).
+function obj(id){ const b=HIST.d.objetos[id]; if(!b) return {nombre:id,descripcion:''}; const s=HIST.e.est[id], st=s&&b.estados&&b.estados[s];
+  if(!st) return b; const o={...b,...st}; if(st.caras){ o.caras={...(b.caras||{})}; for(const [k,c] of Object.entries(st.caras)) o.caras[k]={...(b.caras||{})[k],...c}; } return o; }
+const clase=o=>o.clase||'clave';
+const cuantos=id=>HIST.e.inv.includes(id)?(HIST.e.cant[id]||1):0;
+// Dibujos: SVG en el capítulo («svg») o en data/historia/dibujos/<id>.svg; si no hay, el icono en grande.
+const DIBUJOS={};
+async function cargarDibujos(){ const d=HIST.d, pedir=new Set();
+  for(const o of Object.values(d.objetos||{})){ if(o.dibujo) pedir.add(o.dibujo);
+    for(const c of Object.values(o.caras||{})){ if(c.dibujo) pedir.add(c.dibujo); if(c.oculto_dibujo) pedir.add(c.oculto_dibujo); }
+    for(const st of Object.values(o.estados||{})){ if(st.dibujo) pedir.add(st.dibujo); for(const c of Object.values(st.caras||{})) if(c.dibujo) pedir.add(c.dibujo); } }
+  for(const p of d.misiones.flatMap(m=>m.pasos)) if(p.dibujo) pedir.add(p.dibujo);
+  await Promise.all([...pedir].filter(n=>!(n in DIBUJOS)).map(n=>fetch('data/historia/dibujos/'+n+'.svg').then(r=>r.ok?r.text():'').then(t=>{ DIBUJOS[n]=t.includes('<svg')?t:''; }).catch(()=>{ DIBUJOS[n]=''; }))); }
+const DIB48={"linterna": "<svg class=\"obj\" viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><g><g class=\"b\"><path fill=\"#3d3a35\" fill-rule=\"evenodd\" d=\"M6 26a18 10 0 1 0 36 0a18 10 0 1 0-36 0zM9.5 26a14.5 6.8 0 1 0 29 0a14.5 6.8 0 1 0-29 0z\"/><rect fill=\"#5f5d58\" x=\"15\" y=\"25\" width=\"18\" height=\"13\" rx=\"3\"/><rect fill=\"#2e2c29\" x=\"20.5\" y=\"22.5\" width=\"7\" height=\"2.5\" rx=\"1\"/><circle fill=\"#e6d8b0\" cx=\"24\" cy=\"31.5\" r=\"4.2\"/></g><g class=\"d\"><circle cx=\"24\" cy=\"31.5\" r=\"2.3\" opacity=\".6\"/><path d=\"M10.5 20.6C15 18 20 17.2 24 17.2s9 .8 13.5 3.4\" opacity=\".35\"/><path d=\"M17 28.5v6M31 28.5v6\" opacity=\".45\"/></g></g></svg>", "pilas": "<svg class=\"obj\" viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><g><g class=\"b\"><g transform=\"rotate(-8 17 25)\"><rect fill=\"#2e2c29\" x=\"11\" y=\"10\" width=\"12\" height=\"30\" rx=\"2\"/><rect fill=\"#8a877f\" x=\"14.5\" y=\"7\" width=\"5\" height=\"3\" rx=\"1\"/><path fill=\"#a9563a\" d=\"M11 30h12v8a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2z\"/></g><g transform=\"rotate(7 31 27)\"><rect fill=\"#2e2c29\" x=\"25\" y=\"12\" width=\"12\" height=\"30\" rx=\"2\"/><rect fill=\"#8a877f\" x=\"28.5\" y=\"9\" width=\"5\" height=\"3\" rx=\"1\"/><path fill=\"#a9563a\" d=\"M25 32h12v8a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2z\"/></g></g><g class=\"d\"><path d=\"M17 15v4M15 17h4\" transform=\"rotate(-8 17 25)\"/><path d=\"M31 17v4M29 19h4\" transform=\"rotate(7 31 27)\"/></g></g></svg>", "foto": "<svg class=\"obj\" viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><g transform=\"rotate(-7 24 24)\"><g class=\"b\"><rect fill=\"#d6c9a6\" x=\"10\" y=\"6\" width=\"28\" height=\"35\" rx=\"1\"/><rect class=\"k\" fill=\"#2a2925\" x=\"13\" y=\"9\" width=\"22\" height=\"22\"/><circle cx=\"28\" cy=\"15.6\" r=\"2.3\"/><path d=\"M24.6 31c0-6 1.5-10 3.4-10s3.4 4 3.4 10\"/><circle cx=\"18.4\" cy=\"21\" r=\"1.8\"/><path d=\"M16 31c0-4 1-6.4 2.4-6.4s2.4 2.4 2.4 6.4\"/><path d=\"M10 30L13 28.5 14.5 30 17.5 27.5 19.5 29 22.5 26 24.5 27.5 27.5 24.5 29.5 25.5 32.5 22.5 34.5 23.5 38 20.5\"/><path class=\"boli\" d=\"M14 36h8\"/></g><g class=\"d\"><g stroke=\"none\" clip-path=\"url(#cFoto)\"><rect x=\"13\" y=\"9\" width=\"22\" height=\"22\" fill=\"url(#gFotoNiebla)\"/><path d=\"M13 31v-3.6h22V31z\" fill=\"#46443e\"/><rect x=\"22.6\" y=\"21.6\" width=\"2.8\" height=\"6\" fill=\"#3a3833\"/><ellipse cx=\"24\" cy=\"21.8\" rx=\"4.2\" ry=\"1.2\" fill=\"#3a3833\"/><path d=\"M24.8 31c0-6 1.4-9.6 3.2-9.6s3.2 3.6 3.2 9.6z\" fill=\"#64635e\"/><rect x=\"30.3\" y=\"21.6\" width=\"2.7\" height=\"5.6\" rx=\"1\" fill=\"#4b4a46\"/><path d=\"M16.2 31c0-4 .9-6.3 2.2-6.3s2.2 2.3 2.2 6.3z\" fill=\"#3a5f8f\"/><g filter=\"url(#fBorroso)\"><ellipse cx=\"28\" cy=\"15.8\" rx=\"2.1\" ry=\"2.5\" fill=\"#64635e\"/><circle cx=\"18.4\" cy=\"21.2\" r=\"1.7\" fill=\"#3a5f8f\"/></g></g><path d=\"M13 9h22v22H13z\" opacity=\".6\"/><path d=\"M10 30L13 28.5 14.5 30 17.5 27.5 19.5 29 22.5 26 24.5 27.5 27.5 24.5 29.5 25.5 32.5 22.5 34.5 23.5 38 20.5\"/></g></g></svg>", "foto_dorso": "<svg class=\"obj\" viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><g transform=\"rotate(7 24 24)\"><g class=\"b\"><rect fill=\"#cdbf9b\" x=\"10\" y=\"6\" width=\"28\" height=\"35\" rx=\"1\"/><path d=\"M38 30L35 28.5 33.5 30 30.5 27.5 28.5 29 25.5 26 23.5 27.5 20.5 24.5 18.5 25.5 15.5 22.5 13.5 23.5 10 20.5\"/></g><g class=\"d\"><g stroke=\"none\" fill=\"#efe6cf\" fill-opacity=\".5\"><rect x=\"25\" y=\"22.5\" width=\"5\" height=\"9\" transform=\"rotate(-50 27.5 27)\"/><rect x=\"14.5\" y=\"19\" width=\"5\" height=\"9\" transform=\"rotate(-50 17 23.5)\"/></g><path d=\"M20 9.5h3m2 0h3m2 0h3m2 0h2\" opacity=\".22\"/><path class=\"boli\" d=\"M14 14c.8-1.6 1.6-1.6 2 0s1.2-1.6 2 0M20.5 14.4c.6-1.2 1.2-1.2 1.6 0s1-1.2 1.6 0 1-1.2 1.6 0\" opacity=\".85\"/></g></g></svg>", "llave": "<svg class=\"obj\" viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><g><g class=\"b\"><path fill=\"#8a877f\" fill-rule=\"evenodd\" d=\"M9.5 33a5.5 5.5 0 1 0 11 0a5.5 5.5 0 1 0-11 0zM13 33a2 2 0 1 0 4 0a2 2 0 1 0-4 0z\"/><path fill=\"#8a877f\" d=\"M18.1 28.1L33.1 13.1 34.9 14.9 19.9 29.9z\"/><path fill=\"#8a877f\" d=\"M28.3 19.7l2.6 2.6-1.3 1.3-1.1-1.1-1.1 1.1-2-2z\"/><path d=\"M18.4 37.6c2 1.8 4.4 2.4 7.2 1.9\"/><path fill=\"#b39a6e\" d=\"M24 36.5L39.5 33 41.5 41.5 26 45z\"/><circle cx=\"26.7\" cy=\"39.7\" r=\".9\"/></g><g class=\"d\"><g class=\"boli\" transform=\"translate(28.6 37.4) rotate(-12.7)\"><path transform=\"translate(0.0 0)\" d=\"M0 1C0 .3.6 0 1.2 0S2.4.4 2.4 1.1C2.4 2 0 3 0 4H2.5\"/><path transform=\"translate(3.4 0)\" d=\"M1.2 0C.4 0 0 .9 0 2S.4 4 1.2 4 2.4 3.1 2.4 2 2 0 1.2 0z\"/><path transform=\"translate(6.7 0)\" d=\"M0 .8L.9 0V4\"/></g><path d=\"M30.6 17.2l1.2-1.2\" opacity=\".5\"/></g></g></svg>", "acreditacion": "<svg class=\"obj\" viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><g transform=\"rotate(-5 24 24)\"><g class=\"b\"><rect fill=\"#5f5d58\" x=\"20.5\" y=\"6.5\" width=\"7\" height=\"6\" rx=\"1.2\"/><rect fill=\"#d9d2c2\" x=\"7\" y=\"12\" width=\"34\" height=\"24\" rx=\"2.5\"/><path fill=\"#a9563a\" d=\"M7 17v-2.5A2.5 2.5 0 0 1 9.5 12h29a2.5 2.5 0 0 1 2.5 2.5V17z\"/><rect class=\"k\" fill=\"#6d6a62\" x=\"10.5\" y=\"20\" width=\"10\" height=\"12.5\" rx=\"1\"/><circle cx=\"15.5\" cy=\"24.6\" r=\"2.3\"/><path d=\"M11.8 32.5c0-3.2 1.7-5 3.7-5s3.7 1.8 3.7 5\"/><path d=\"M24 22h13M24 26h9M24 30.5h11\"/></g><g class=\"d\"><path d=\"M22.3 9.3h3.4\"/><g filter=\"url(#fBorroso)\" stroke=\"none\"><ellipse cx=\"15.6\" cy=\"24.8\" rx=\"3.3\" ry=\"3.6\" fill=\"#9a958a\"/></g><path d=\"M24 33.5h1.2m1 0h.6m1 0h1.6m1 0h.6m1 0h1.4\" opacity=\".7\"/></g></g></svg>", "radio": "<svg class=\"obj\" viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><g><g class=\"b\"><rect fill=\"#2e2c29\" x=\"17\" y=\"3.5\" width=\"3.2\" height=\"11\" rx=\"1.6\"/><rect fill=\"#2e2c29\" x=\"27\" y=\"9.5\" width=\"4\" height=\"4\" rx=\"1\"/><rect fill=\"#a4832f\" x=\"14\" y=\"13\" width=\"20\" height=\"30\" rx=\"3\"/><path d=\"M18 19h12M18 22.5h12M18 26h12\"/><rect fill=\"#7d7f6a\" x=\"18\" y=\"31\" width=\"12\" height=\"5.5\" rx=\"1\"/></g><g class=\"d\"><rect fill=\"#d6c9a6\" stroke=\"none\" x=\"19\" y=\"38.4\" width=\"10\" height=\"2.4\" rx=\".4\" opacity=\".85\"/><circle cx=\"16.6\" cy=\"15.6\" r=\".5\" fill=\"#16110c\" stroke=\"none\"/><circle cx=\"31.4\" cy=\"15.6\" r=\".5\" fill=\"#16110c\" stroke=\"none\"/><circle cx=\"29\" cy=\"11.5\" r=\".7\" fill=\"#7fb27a\" stroke=\"none\"/></g></g></svg>", "tableta": "<svg class=\"obj\" viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><g transform=\"rotate(-4 24 24)\"><g class=\"b\"><rect fill=\"#2e2c29\" x=\"5\" y=\"11\" width=\"38\" height=\"27\" rx=\"3.5\"/><rect class=\"k\" fill=\"#1c211e\" x=\"9\" y=\"14.5\" width=\"30\" height=\"20\" rx=\"1\"/><path class=\"brilla\" d=\"M12 31l6-7 6 3 7-8\"/><rect class=\"brilla\" fill=\"#e3a668\" x=\"31.5\" y=\"17.5\" width=\"3.6\" height=\"3.6\"/></g><g class=\"d\"><path class=\"brilla\" d=\"M9 24.5h7.5l4-7.5h18.5M20.5 17l2 17.5M28 17v17.5\" opacity=\".4\"/><g stroke=\"none\" fill=\"#5577a0\"><circle cx=\"14\" cy=\"28.7\" r=\".8\"/><circle cx=\"16.5\" cy=\"25.8\" r=\".8\"/><circle cx=\"20.5\" cy=\"25.3\" r=\".8\"/></g><path d=\"M5 17v-2.5A3.5 3.5 0 0 1 8.5 11H11M37 11h2.5a3.5 3.5 0 0 1 3.5 3.5V17M43 32v2.5a3.5 3.5 0 0 1-3.5 3.5H37M11 38H8.5A3.5 3.5 0 0 1 5 34.5V32\" stroke-width=\"2.5\" opacity=\".7\"/></g></g></svg>", "bengala": "<svg class=\"obj\" viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><g transform=\"rotate(45 24 24)\"><g class=\"b\"><rect fill=\"#8e3a26\" x=\"20\" y=\"12\" width=\"8\" height=\"29\" rx=\"2\"/><rect fill=\"#2e2c29\" x=\"19.3\" y=\"6\" width=\"9.4\" height=\"7\" rx=\"1.5\"/><path d=\"M21 9.5h6M22.2 41l1.8 3.6 1.8-3.6\"/></g><g class=\"d\"><rect fill=\"#d6c9a6\" fill-opacity=\".85\" stroke=\"none\" x=\"20\" y=\"20\" width=\"8\" height=\"7\"/><path d=\"M21.6 22.6h4.8M21.6 24.6h3.2\" opacity=\".7\"/></g></g></svg>"};
+const ICONO48={pila:'pilas',tarjeta:'acreditacion',camara:'tableta',mapa:'tableta'};
+const iconoGrande=n=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">${ICONO_OBJ[n]||ICONO_OBJ.caja}</svg>`;
+let nDib=0; const conIds=t=>t.replace(/(id="|url\(#)([a-z0-9]+-)/g,(_,a,b)=>a+'u'+(++nDib)+b);
+function dibujo(o,cara){ return conIds(dibujoSin(o,cara)); }
+function dibujoSin(o,cara){ const c=cara&&o.caras&&o.caras[cara]; const n=(c&&c.dibujo)||(cara!=='dorso'&&o.dibujo); const k=ICONO48[o.icono]||o.icono;
+  const propio=(c&&c.svg)||(n&&DIBUJOS[n])||(cara==='dorso'?DIB48[k+'_dorso']:(o.svg||DIB48[k]));
+  if(propio) return propio;
+  if(cara==='dorso'){ const fr=dibujoSin(o,'frente'); return fr.replace('<svg class="obj"','<svg class="obj espejo"').replace(/^<svg([^>]*)>/,'<svg$1><g transform="translate(48 0) scale(-1 1)">').replace(/<\/svg>$/,'</g></svg>'); }
+  return iconoGrande(o.icono); }
+
+// ---------- Botón de la mochila ----------
+function pintarBotonMochila(){ const b=$('bMochila'), e=HIST.e; b.hidden=!(HIST.on&&e); if(b.hidden) return;
+  b.classList.toggle('izq',AJ.andar==='der'); document.body.classList.toggle('zurdo',AJ.andar==='der'); const n=e.nuevo.length, cambio=e.cambio;
+  b.querySelector('.marca').hidden=!(n||cambio); b.querySelector('.marca').textContent=cambio?'!':String(n); b.querySelector('.marca').classList.toggle('cambio',!!cambio);
+  b.setAttribute('aria-label','Mochila'+(n?`, ${n} ${n===1?'cosa nueva':'cosas nuevas'}`:'')+(cambio?', algo ha cambiado':'')); }
+$('bMochila').addEventListener('click',e=>{ e.stopPropagation(); abrirMochila(); });
+
+// ---------- Coger: el objeto aparece en grande y vuela a la mochila ----------
+function darObjeto(id,callado){ if(!id) return; const e=HIST.e, b=HIST.d.objetos[id]||{}, o=obj(id);
+  if(e.inv.includes(id)){ if(!b.apila) return; e.cant[id]=Math.min(b.apila,(e.cant[id]||1)+1); }
+  else { e.inv.push(id); if(b.apila) e.cant[id]=1; }
+  if(!e.nuevo.includes(id)) e.nuevo.push(id);
+  pintarLinterna(); pintarBotonMochila(); if(callado) return;
+  sfx('coger',(b.coger&&b.coger.sonido)||'tela'); vibra(clase(o)==='clave'?[20,40,30]:15);
+  if(clase(o)==='consumible'&&e.inv.length>1&&HIST.vistoVuelo){ toast('+1',o.nombre); return; }
+  vuelo(o,clase(o)==='clave'); }
+function vuelo(o,importante){ const v=$('vuelo'); v.innerHTML=dibujo(o,'frente')+`<div class="nom">${o.nombre}${importante?'<span class="imp">Importante</span>':''}</div>`; v.hidden=false;
+  const bm=$('bMochila').getBoundingClientRect(), r=v.getBoundingClientRect(), dx=bm.left+bm.width/2-(r.left+r.width/2), dy=bm.top+bm.height/2-(r.top+r.height/2);
+  const fin=()=>{ v.hidden=true; const b=$('bMochila'); b.classList.remove('traga'); void b.offsetWidth; b.classList.add('traga'); sfx('cremallera');
+    if(!HIST.vistoVuelo){ HIST.vistoVuelo=true; setTimeout(()=>toast('La mochila','Tócala para verlo de cerca'),300); } };
+  if(sinMovimiento()||!v.animate){ setTimeout(fin,900); return; }
+  const t=importante?1600:1300;
+  v.animate([{transform:'scale(.6) rotate(-8deg)',opacity:0},{transform:'scale(1) rotate(0)',opacity:1,offset:.19},{transform:'scale(1)',opacity:1,offset:.65},
+    {transform:`translate(${dx}px,${dy}px) scale(.18)`,opacity:.9}],{duration:t,easing:'cubic-bezier(.3,.1,.3,1)'}).onfinish=fin; }
+function quitarObjeto(id){ const e=HIST.e; if(!e.inv.includes(id)) return; if((e.cant[id]||1)>1){ e.cant[id]--; return; }
+  e.inv=e.inv.filter(x=>x!==id); delete e.cant[id]; e.nuevo=e.nuevo.filter(x=>x!==id); pintarLinterna(); pintarBotonMochila(); }
+// Efectos de pasos, detalles, combinaciones y entregas.
+function aplicarEfectos(f){ if(!f) return; const e=HIST.e;
+  for(const id of [].concat(f.da||[])) darObjeto(id); for(const id of [].concat(f.quita||[])) quitarObjeto(id);
+  if(f.estado) for(const [id,s] of Object.entries(f.estado)){ e.est[id]=s; if(f.aviso){ e.cambio=true; } }
+  for(const m of [].concat(f.marca||[])) if(!e.marcas.includes(m)) e.marcas.push(m);
+  if(f.pilas){ const pid=(HIST.d.linterna||{}).pila||'pilas'; for(let i=0;i<f.pilas;i++) darObjeto(pid,true); toast('+'+f.pilas,obj(pid).nombre); }
+  if(f.recuerdo) darRecuerdo(f.recuerdo); if(f.logro) darLogro(f.logro);
+  if(f.aviso){ sfx('cambio'); vibra([40,60,40]); toast('Algo ha cambiado','En tu mochila'); }
+  if(f.texto) pensar(f.texto); pintarBotonMochila(); guardarHist(); }
+const cumple=p=>(!p.si||HIST.e.marcas.includes(p.si))&&(!p.si_no||!HIST.e.marcas.includes(p.si_no));
+
+// ---------- La mochila abierta ----------
+const MOCHI={sel:null,pest:'obj',modo:'ver',pide:null,resolver:null,combA:null,msg:''};
+function abrirMochila(op={}){ if(!HIST.on||!HIST.e) return; Object.assign(MOCHI,{modo:op.modo||'ver',pide:op.pide||null,resolver:op.resolver||null,combA:null,msg:'',pest:'obj',sel:op.sel||(op.modo?null:HIST.e.inv[0])||null});
+  HIST.pausa=true; keys.clear(); moveVec=[0,0]; $('mochila').hidden=false; HIST.e.cambio=false; sfx('mochila',true,HIST.e.inv.map(id=>HIST.d.objetos[id]?.coger?.sonido)); pintarMochila(); pintarBotonMochila(); $('mochila').querySelector('.cerrar').focus(); }
+function cerrarMochila(valor){ $('mochila').hidden=true; HIST.pausa=false; sfx('mochila',false); const r=MOCHI.resolver; MOCHI.resolver=null; MOCHI.modo='ver';
+  HIST.e.nuevo=[]; pintarBotonMochila(); guardarHist(); if(r) r(valor===undefined?null:valor); }
+function pintarMochila(){ const d=HIST.d, e=HIST.e, M=$('mochila'), huecos=(d.mochila&&d.mochila.huecos)||12;
+  let h=`<header><h2>Mochila</h2><button class="cerrar" type="button" data-m="cerrar" aria-label="Cerrar la mochila">×</button></header>`;
+  if(MOCHI.modo==='elegir') h+=`<div class="pide">${MOCHI.pide||'¿Qué usas?'}<button type="button" data-m="nada">${MOCHI.nada||'Nada'}</button></div>`;
+  if(MOCHI.modo==='combinar') h+=`<div class="pide">Combinar «${obj(MOCHI.combA).nombre}» con…<button type="button" data-m="cancelar">Cancelar</button></div>`;
+  const recs=e.rec.length, tot=Object.keys(d.recuerdos||{}).length, hist=Object.entries(d.objetos).filter(([,o])=>o.clase==='historia'), histT=hist.filter(([id])=>e.inv.includes(id)).length;
+  h+=`<div class="pestanas" role="tablist"><button type="button" role="tab" data-m="pest" data-p="obj" aria-selected="${MOCHI.pest==='obj'}">Objetos${hist.length?` · ${histT}/${hist.length} con historia`:''}</button><button type="button" role="tab" data-m="pest" data-p="rec" aria-selected="${MOCHI.pest==='rec'}">Fotos y notas · ${recs}/${tot}</button></div><div class="cuerpo">`;
+  if(MOCHI.pest==='obj'){ h+='<div class="rejilla">';
+    for(let i=0;i<huecos;i++){ const id=e.inv[i]; if(!id){ h+='<div class="hueco vacio" aria-hidden="true"></div>'; continue; }
+      const o=obj(id), marca=e.nuevo.includes(id)?'Nuevo':(e.est[id]&&!e.vistoEst?.includes(id+':'+e.est[id]))?'Cambiado':'';
+      h+=`<button class="hueco${MOCHI.sel===id?' sel':''}${MOCHI.combA===id?' elegido':''}" type="button" data-m="hueco" data-id="${id}" aria-label="${o.nombre}${marca?', '+marca:''}"><span class="dib">${dibujo(o,'frente')}</span>${marca?`<small${marca==='Nuevo'?'':' class="cambio"'}>${marca==='Nuevo'?'● Nuevo':'◉ Cambiado'}</small>`:''}${(e.cant[id]||1)>1?`<span class="num">×${e.cant[id]}</span>`:''}</button>`; }
+    h+='</div>';
+    if(MOCHI.sel&&e.inv.includes(MOCHI.sel)&&MOCHI.modo==='ver'){ const id=MOCHI.sel, o=obj(id), cl={clave:'Importante',historia:'Cuenta una historia',consumible:'Se gasta'}[clase(o)];
+      const examinable=!!(o.caras||o.detalles), nDet=(o.detalles||[]).length, vistos=(o.detalles||[]).filter(x=>e.det.includes(id+'.'+x.id)).length;
+      h+=`<div class="ficha"><div class="grande">${dibujo(o,'frente')}</div><h3>${o.nombre}</h3><span class="clase">${cl}${nDet?` · detalles ${vistos} de ${nDet}`:''}</span><p>${o.descripcion||''}</p>
+        <div class="botones">${examinable||true?`<button type="button" data-m="examinar" data-id="${id}">Examinar</button>`:''}<button type="button" class="prim" data-m="usar" data-id="${id}">Usar</button><button type="button" data-m="combinar" data-id="${id}">Combinar</button></div></div>`; }
+  } else { h+='<div class="lista">'+(recs?e.rec.map(id=>{ const r=d.recuerdos[id]; return `<button type="button" data-m="rec" data-id="${id}">${iconoObj(r?.tipo==='foto'?'foto':'nota')}${r?r.titulo:id}</button>`; }).join(''):'<p class="msg">Todavía nada.</p>')+'</div>'; }
+  h+=`</div><p class="msg" aria-live="polite">${MOCHI.msg||''}</p>`;
+  const L=HIST.d.linterna; if(L&&e.inv.includes(L.objeto||'linterna')){ const seg=Math.ceil(e.bat/25), pid=L.pila||'pilas';
+    h+=`<div class="pie"><span>Linterna</span><span class="seg${e.bat<25?' baja':''}">${[1,2,3,4].map(i=>`<i class="${i<=seg?'on':''}"></i>`).join('')}</span><span>${Math.round(e.bat)} %</span><span>· ${obj(pid).nombre}: ${cuantos(pid)}</span></div>`; }
+  M.innerHTML=h;
+  // Lo marcado como visto deja de salir como «Cambiado».
+  e.vistoEst=e.vistoEst||[]; for(const id of e.inv) if(e.est[id]&&!e.vistoEst.includes(id+':'+e.est[id])&&MOCHI.sel===id) e.vistoEst.push(id+':'+e.est[id]); }
+$('mochila').addEventListener('click',ev=>{ const b=ev.target.closest('button'); if(!b) return; ev.stopPropagation(); const m=b.dataset.m, id=b.dataset.id;
+  if(m==='cerrar') return cerrarMochila(MOCHI.modo==='elegir'?null:undefined);
+  if(m==='nada') return cerrarMochila(null);
+  if(m==='cancelar'){ MOCHI.modo='ver'; MOCHI.combA=null; MOCHI.msg=''; sfx('clic'); return pintarMochila(); }
+  if(m==='pest'){ MOCHI.pest=b.dataset.p; sfx('seleccion'); return pintarMochila(); }
+  if(m==='rec') return leerRecuerdo(id);
+  if(m==='hueco'){
+    if(MOCHI.modo==='elegir') return cerrarMochila(id);
+    if(MOCHI.modo==='combinar') return combinar(MOCHI.combA,id,b);
+    MOCHI.sel=id; HIST.e.nuevo=HIST.e.nuevo.filter(x=>x!==id); MOCHI.msg=''; sfx('seleccion'); return pintarMochila(); }   // tocar el elegido no lo suelta: siempre hay ficha
+  if(m==='examinar') return examinar(id);
+  if(m==='usar') return usarDesdeMochila(id);
+  if(m==='combinar'){ MOCHI.modo='combinar'; MOCHI.combA=id; MOCHI.msg='Toca el otro objeto.'; sfx('seleccion'); return pintarMochila(); } });
+// Elegir algo de la mochila (para usar o dar). Devuelve el id, o null si no se elige nada.
+function elegirDeMochila(pregunta,nada){ return new Promise(res=>{ MOCHI.nada=nada||'Nada'; abrirMochila({modo:'elegir',pide:pregunta,resolver:res}); }); }
+
+// ---------- Combinar ----------
+function receta(a,b){ const A=HIST.d.objetos[a]||{}, B=HIST.d.objetos[b]||{}; return (A.combinar&&A.combinar[b])||(B.combinar&&B.combinar[a])||null; }
+function combinar(a,b,boton){ if(a===b){ MOCHI.msg='Elige otro objeto.'; return pintarMochila(); }
+  const r=receta(a,b);
+  if(!r){ const A=HIST.d.objetos[a]||{}, B=HIST.d.objetos[b]||{}; MOCHI.msg=(A.no_combina&&A.no_combina[b])||(B.no_combina&&B.no_combina[a])||'No encajan.';
+    sfx('combinarMal'); vibra(30); MOCHI.modo='ver'; MOCHI.combA=null; pintarMochila(); const h=$('mochila').querySelector(`[data-id="${b}"]`); if(h){ h.classList.add('sacude'); } return; }
+  for(const id of [].concat(r.gasta||[a,b])) quitarObjeto(id);
+  MOCHI.modo='ver'; MOCHI.combA=null; MOCHI.sel=r.da||null; MOCHI.msg=r.texto||'';
+  sfx('combinarBien'); vibra([20,40,30]);
+  if(r.da) darObjeto(r.da,true); aplicarEfectos(r.efectos); pintarMochila(); comprobarPasoAuto(); }
+
+// ---------- Usar desde la mochila ----------
+function usarDesdeMochila(id){ const o=obj(id), e=HIST.e, L=HIST.d.linterna||{}, p=pasoActual();
+  if(id===(L.pila||'pilas')){ if(e.bat>=99){ MOCHI.msg='La linterna está llena.'; return pintarMochila(); } quitarObjeto(id); e.bat=100; sfx('pilas'); vibra(20); MOCHI.msg='Pilas nuevas. Luz.'; return pintarMochila(); }
+  if(o.usar&&o.usar.efecto==='vela'){ if(e.velaT>0){ MOCHI.msg='Ya está encendida.'; return pintarMochila(); } quitarObjeto(id); e.velaT=o.usar.dura||60; HIST.velaR=o.usar.radio||4; e.velaFin=o.usar.fin||'La vela se ha consumido.'; sfx('vela'); cerrarMochila(); return pensar(o.usar.texto||'La llama tiembla.'); }
+  if(id===(L.objeto||'linterna')){ e.linterna=!e.linterna; pintarLinterna(); MOCHI.msg=e.linterna?'Encendida.':'Apagada.'; sfx('clic'); return pintarMochila(); }
+  // ¿Lo pide el paso de ahora, aquí?
+  if(p&&cerca(p)){ if(p.tipo==='usar'){ cerrarMochila(); return probarUso(p,id); } if(p.tipo==='entregar'){ cerrarMochila(); return entregar(p,id); } }
+  MOCHI.msg=(o.usar&&o.usar.texto_no)||'Aquí no sirve.'; sfx('combinarMal'); pintarMochila(); }
+function cerca(p){ const dd=destino(p); if(!dd) return false; const r=p.tipo==='entregar'||p.tipo==='hablar'?3:(p.r||3); return Math.hypot(player.x-dd[0],player.z-dd[1])<r; }
+function fallo(p){ const k=p.id||(HIST.e.m+'.'+HIST.e.p); HIST.e.fallos[k]=(HIST.e.fallos[k]||0)+1; }
+function probarUso(p,id){ if(id===p.objeto){ if(p.gasta) quitarObjeto(id); sfx('abrir'); vibra([20,40,30]); pensar(p.texto); siguientePaso(); return; }
+  fallo(p); sfx('combinarMal'); vibra(30); pensar((p.respuestas&&p.respuestas[id])||p.otro||'Eso no sirve aquí.'); }
+function entregar(p,id){ const pj=HIST.d.personajes[p.personaje], o=(p.opciones||{})[id];
+  HIST.mirar=[pj.x,pj.z];
+  if(!id){ dialogo([{quien:p.personaje,texto:p.nada||'…'}],null,()=>{ HIST.mirar=null; }); return; }
+  if(!o){ fallo(p); dialogo([{quien:p.personaje,texto:p.otro||'No.'}],null,()=>{ HIST.mirar=null; }); return; }
+  dialogo([{quien:p.personaje,texto:o.respuesta}],null,()=>{ HIST.mirar=null; aplicarEfectos(o.efectos); if(o.avanza!==false) siguientePaso(); }); }
+
+// ---------- Examinar: girar, dar la vuelta, alumbrar, detalles ----------
+const EX={id:null,cara:'frente',luz:false,t:0,pistaDada:false};
+function examinar(id){ const o=obj(id); EX.id=id; EX.cara='frente'; EX.luz=false; EX.t=0; EX.pistaDada=false; HIST.pausa=true;
+  $('exNombre').textContent=o.nombre; $('exTexto').textContent=(o.caras&&o.caras.frente&&o.caras.frente.texto)||o.descripcion||'';
+  $('exLuz').hidden=!HIST.e.inv.includes((HIST.d.linterna||{}).objeto||'linterna'); $('exLuz').setAttribute('aria-pressed','false'); $('examen').classList.remove('luz');
+  $('exVuelta').hidden=!(o.caras&&o.caras.dorso); pintarExamen(); $('exCarta').style.transform=''; $('examen').hidden=false; sfx('examinar',(HIST.d.objetos[id]?.coger?.sonido)||'papel'); comprobarPasoAuto(); }
+function pintarExamen(){ const o=obj(EX.id), e=HIST.e;
+  for(const cara of ['frente','dorso']){ const c=(o.caras&&o.caras[cara])||{}, el=$('exCarta').querySelector('.'+cara);
+    let h=`<div class="dib">${cara==='frente'||c.dibujo||c.svg?dibujo(o,cara):''}</div>`;
+    if(c.oculto||c.oculto_dibujo) h+=`<div class="oculto">${c.oculto_dibujo?conIds(DIBUJOS[c.oculto_dibujo]||''):`<div class="txt">${c.oculto}</div>`}</div>`;
+    for(const dt of (o.detalles||[]).filter(x=>(x.cara||'frente')===cara)){ const visto=e.det.includes(EX.id+'.'+dt.id);
+      h+=`<button type="button" class="det${visto?' visto':''}" data-det="${dt.id}" aria-label="${visto?'Detalle visto':'Algo aquí'}" style="left:${dt.x*100}%;top:${dt.y*100}%;width:${Math.max(56,(dt.r||.12)*2*320)}px;height:${Math.max(56,(dt.r||.12)*2*320)}px"></button>`; }
+    el.innerHTML=h; }
+  const n=(o.detalles||[]).length, v=(o.detalles||[]).filter(x=>e.det.includes(EX.id+'.'+x.id)).length;
+  $('exDet').textContent=n?`Detalles: ${v} de ${n}`:''; }
+function cerrarExamen(){ $('examen').hidden=true; EX.id=null; HIST.pausa=!$('mochila').hidden; if(!$('mochila').hidden) pintarMochila(); }
+function darVuelta(){ EX.cara=EX.cara==='frente'?'dorso':'frente'; $('exCarta').classList.remove('arrastra'); $('exCarta').style.transform=EX.cara==='dorso'?'rotateY(180deg)':'';
+  const o=obj(EX.id), c=o.caras&&o.caras[EX.cara]; $('exTexto').textContent=(c&&c.texto)||''; sfx('girar',(HIST.d.objetos[EX.id]?.coger?.sonido)||'papel'); }
+$('exVuelta').addEventListener('click',e=>{ e.stopPropagation(); darVuelta(); });
+$('exLuz').addEventListener('click',e=>{ e.stopPropagation(); EX.luz=!EX.luz; $('examen').classList.toggle('luz',EX.luz); $('exLuz').setAttribute('aria-pressed',String(EX.luz)); sfx('clic'); });
+$('exCerrar').addEventListener('click',e=>{ e.stopPropagation(); cerrarExamen(); });
+$('exCarta').addEventListener('click',ev=>{ const b=ev.target.closest('.det'); if(!b) return; ev.stopPropagation(); const o=obj(EX.id), dt=(o.detalles||[]).find(x=>x.id===b.dataset.det); if(!dt) return;
+  if(dt.luz&&!EX.luz){ $('exTexto').textContent='Hay algo, pero no se ve bien. Con luz rasante, quizá.'; return; }
+  const k=EX.id+'.'+dt.id, e=HIST.e; $('exTexto').textContent=dt.texto||'';
+  if(!e.det.includes(k)){ e.det.push(k); sfx('descubrir'); vibra([15,30,15]); aplicarEfectos(dt.efectos); pintarExamen(); comprobarPasoAuto(); } });
+// Arrastrar inclina el objeto; pasar de la mitad, o deslizar rápido, le da la vuelta. Con la luz, el círculo sigue al dedo.
+{ let x0=0,y0=0,t0=0,activo=false; const esc=$('exEscena'), carta=$('exCarta');
+  const luzEn=(ev)=>{ for(const c of carta.querySelectorAll('.cara')){ const r=c.getBoundingClientRect(); let lx=ev.clientX-r.left, ly=ev.clientY-r.top; if(c.classList.contains('dorso')&&EX.cara==='dorso') lx=r.width-lx; c.style.setProperty('--lx',lx+'px'); c.style.setProperty('--ly',ly+'px'); } };
+  esc.addEventListener('pointerdown',ev=>{ if(ev.target.closest('.det')) return; activo=true; x0=ev.clientX; y0=ev.clientY; t0=performance.now(); carta.classList.add('arrastra'); if(EX.luz) luzEn(ev); });
+  esc.addEventListener('pointermove',ev=>{ if(EX.luz) luzEn(ev); if(!activo||EX.luz) return; const dx=ev.clientX-x0, dy=ev.clientY-y0, base=EX.cara==='dorso'?180:0;
+    carta.style.transform=`rotateX(${Math.max(-30,Math.min(30,-dy*.25))}deg) rotateY(${base+Math.max(-40,Math.min(40,dx*.3))}deg)`; });
+  const suelta=ev=>{ if(!activo) return; activo=false; carta.classList.remove('arrastra'); const dx=ev.clientX-x0, v=Math.abs(dx)/Math.max(1,performance.now()-t0);
+    if(!EX.luz&&!$('exVuelta').hidden&&(Math.abs(dx)>esc.clientWidth*.3||(v>.6&&Math.abs(dx)>40))) darVuelta(); else carta.style.transform=EX.cara==='dorso'?'rotateY(180deg)':''; };
+  esc.addEventListener('pointerup',suelta); esc.addEventListener('pointercancel',suelta); }
+// Pistas del examen: a los 12 s brilla lo que falta; a los 25 s, una frase.
+function relojExamen(dt){ if(!EX.id) return; EX.t+=dt; const o=obj(EX.id), faltan=(o.detalles||[]).filter(x=>!HIST.e.det.includes(EX.id+'.'+x.id));
+  if(EX.luz){ HIST.e.bat=Math.max(0,HIST.e.bat-dt*.5); }
+  if(!faltan.length) return;
+  if(EX.t>12) for(const b of $('exCarta').querySelectorAll('.det:not(.visto)')) b.classList.add('pista');
+  if(EX.t>25&&!EX.pistaDada){ EX.pistaDada=true; const f=faltan[0]; $('exTexto').textContent=f.pista||((f.cara||'frente')!==EX.cara?'Por detrás hay algo.':f.luz?'Habría que alumbrarlo.':'Hay algo que no has mirado de cerca.'); } }
+
+// ---------- Candado de cifras ----------
+let CD=null;
+function abrirCandado(p){ CD={p,v:Array(p.cifras||3).fill(0)}; HIST.pausa=true; $('cdTitulo').textContent=p.titulo||'Candado'; $('cdMsg').textContent=''; pintarCandado(); $('candado').hidden=false; sfx('examinar'); }
+function pintarCandado(){ $('cdRuedas').innerHTML=CD.v.map((n,i)=>`<div class="rueda" data-i="${i}"><button type="button" data-d="1" aria-label="Subir la cifra ${i+1}">▲</button><b aria-live="polite">${n}</b><button type="button" data-d="-1" aria-label="Bajar la cifra ${i+1}">▼</button></div>`).join(''); }
+$('cdRuedas').addEventListener('click',ev=>{ const b=ev.target.closest('button'); if(!b) return; ev.stopPropagation(); const i=+b.closest('.rueda').dataset.i; CD.v[i]=(CD.v[i]+(+b.dataset.d)+10)%10; sfx('rueda'); pintarCandado(); });
+{ let y0=null,i0=-1; $('cdRuedas').addEventListener('pointerdown',ev=>{ const r=ev.target.closest('.rueda'); if(!r||ev.target.closest('button')) return; y0=ev.clientY; i0=+r.dataset.i; });
+  addEventListener('pointerup',ev=>{ if(y0===null||!CD) return; const dy=ev.clientY-y0; if(Math.abs(dy)>18){ CD.v[i0]=(CD.v[i0]+(dy<0?1:-1)+10)%10; sfx('rueda'); pintarCandado(); } y0=null; }); }
+$('cdProbar').addEventListener('click',ev=>{ ev.stopPropagation(); const p=CD.p;
+  if(CD.v.join('')===String(p.solucion)){ $('candado').hidden=true; HIST.pausa=false; CD=null; sfx('abrir'); vibra([20,40,30]); pensar(p.texto); siguientePaso(); return; }
+  fallo(p); sfx('cerrado'); vibra(40); $('cdMsg').textContent='No abre.'; const r=$('cdRuedas'); r.classList.remove('sacude'); void r.offsetWidth; r.classList.add('sacude'); });
+$('cdCerrar').addEventListener('click',ev=>{ ev.stopPropagation(); $('candado').hidden=true; HIST.pausa=false; CD=null; });
+
+// ---------- Pilas de la linterna y vela ----------
+const luzVela=new THREE.PointLight(0xffb060,0,9,1.6); scene.add(luzVela);
+function relojLuz(dt){ const e=HIST.e, L=HIST.d.linterna; HIST.cambioPilas=Math.max(0,(HIST.cambioPilas||0)-dt);
+  if(L&&e.inv.includes(L.objeto||'linterna')){ const dura=L.dura||180, reserva=L.reserva??25;
+    if(e.linterna&&!HIST.cambioPilas) e.bat=Math.max(0,e.bat-100/dura*dt);
+    else if(!e.linterna&&e.bat<reserva) e.bat=Math.min(reserva,e.bat+(L.recarga??1)*dt);
+    if(e.linterna&&e.bat<=0&&!HIST.cambioPilas){ const pid=L.pila||'pilas';
+      if(cuantos(pid)>0){ HIST.cambioPilas=1.2; sfx('pilas'); vibra([30,80,30]); setTimeout(()=>{ quitarObjeto(pid); e.bat=100; pintarLinterna(); },1200); }
+      else { e.linterna=false; sfx('pilasFuera'); pensar(L.sin_pilas||'Sin pilas. Apágala un rato: algo de luz vuelve sola.'); } }
+    if(e.linterna&&e.bat<15&&Math.random()<dt*0.3) sfx('parpadeo');
+    if(Math.floor(e.bat)!==HIST.batPintada){ HIST.batPintada=Math.floor(e.bat); pintarLinterna(); } }
+  if(e.velaT>0){ e.velaT=Math.max(0,e.velaT-dt); luzVela.position.set(...V(player.x,player.y-0.4,player.z)); luzVela.intensity=e.velaT>0?(e.noche?14:6)*(0.85+0.15*Math.sin(performance.now()/70)):0; if(!e.velaT) pensar(e.velaFin||'La vela se ha consumido.'); }
+  else luzVela.intensity=0; }
+const factorLuz=()=>{ const e=HIST.e; if(!HIST.d.linterna) return 1; if(HIST.cambioPilas) return 0; return e.bat<25?Math.max(.25,e.bat/25):1; };
+
+// ---------- Pistas que se refuerzan (por tiempo, por fallos o al tocar el objetivo) ----------
+function relojPistas(dt){ const p=pasoActual(); if(!p||!p.pistas||!p.pistas.length) return; const e=HIST.e, k=p.id||(e.m+'.'+e.p), cada=HIST.d.pistas_cada||[90,180,300];
+  e.tPaso+=dt; const f=e.fallos[k]||0; let nivel=0; for(let i=0;i<3;i++) if(e.tPaso>=cada[i]||f>=2*(i+1)) nivel=i+1;
+  nivel=Math.min(nivel,p.pistas.length); if(nivel>(e.pistaN[k]||0)){ e.pistaN[k]=nivel; pensar(p.pistas[nivel-1]); } }
+function pedirPista(){ const p=pasoActual(); if(!HIST.on||!p) return; const e=HIST.e, k=p.id||(e.m+'.'+e.p);
+  if(!p.pistas||!p.pistas.length){ const m=HIST.d.misiones[e.m]; return pensar(m?m.objetivo:''); }
+  const n=Math.min(p.pistas.length,(e.pistaN[k]||0)+1); e.pistaN[k]=n; pensar(p.pistas[n-1]); }
+$('objetivo').addEventListener('click',e=>{ e.stopPropagation(); sfx('clic'); pedirPista(); });
+
+// ---------- Pasos que se cumplen solos: examinar, combinar, encuadrar ----------
+function comprobarPasoAuto(){ const p=pasoActual(); if(!p) return; const e=HIST.e;
+  if(p.tipo==='examinar'&&(p.detalle?e.det.includes(p.objeto+'.'+p.detalle):EX.id===p.objeto)){ if(p.texto) pensar(p.texto); siguientePaso(); }
+  else if(p.tipo==='combinar'&&e.inv.includes(p.da)){ if(p.texto) pensar(p.texto); siguientePaso(); } }
+function relojEncuadre(){ const p=pasoActual(), el=$('encuadre'); if(!p||p.tipo!=='encuadrar'||HIST.pausa||HIST.bloqueo){ el.hidden=true; return; }
+  const d=Math.hypot(player.x-p.x,player.z-p.z); if(d>(p.r||3)+4){ el.hidden=true; return; }
+  const o=obj(p.foto); if(el.hidden){ el.hidden=false; el.classList.remove('ok'); el.querySelector('.foto').innerHTML=dibujo(o,'frente'); }
+  let a=(p.mira||0)*Math.PI/180-player.yaw; a=Math.atan2(Math.sin(a),Math.cos(a)); const tol=(p.tolerancia||20)*Math.PI/180;
+  el.querySelector('p').textContent=d>(p.r||3)?'Acércate: la foto se hizo aquí cerca.':Math.abs(a)<tol?'':a>0?'Gira a la derecha →':'← Gira a la izquierda';
+  if(d<=(p.r||3)&&Math.abs(a)<tol&&!HIST.encuadrado){ HIST.encuadrado=true; el.classList.add('ok'); sfx(p.sonido||'foto'); vibra(25);
+    setTimeout(()=>{ el.hidden=true; HIST.encuadrado=false; pensar(p.texto); siguientePaso(); },450); } }
+
+// Teclado: I o Tab, la mochila; E o Intro, la acción; F, la linterna.
+addEventListener('keydown',e=>{ if(!HIST.on||!$('load').hidden) return;
+  if((e.code==='KeyI'||e.code==='Tab')&&$('examen').hidden&&$('candado').hidden){ e.preventDefault(); if($('mochila').hidden) abrirMochila(); else cerrarMochila(); }
+  else if((e.code==='KeyE'||e.code==='Enter')&&!$('accion').hidden&&$('mochila').hidden){ e.preventDefault(); $('accion').click(); }
+  else if(e.code==='KeyF'&&!$('bLinterna').hidden){ $('bLinterna').click(); }
+  else if(e.code==='Escape'){ if(!$('examen').hidden) cerrarExamen(); else if(!$('candado').hidden) $('cdCerrar').click(); else if(!$('mochila').hidden) cerrarMochila(); } });
+
 // ---------- Empezar: historia o paseo libre ----------
 async function empezarHistoria(){ HIST.on=true; HIST.d=await promHist;
   if(!HIST.d){ HIST.on=false; toast('Aviso','No se ha podido cargar la historia'); return; }
-  const guardada=partidaGuardada(); HIST.e=guardada&&guardada.cap===1?guardada:nuevoEstado(); visitadosOff=true;
+  const hid=HIST.d.id||'cap1', guardada=partidaGuardada(); HIST.e=normalizar(guardada&&guardada.cap===1&&(guardada.hist||'cap1')===hid?guardada:Object.assign(nuevoEstado(),{hist:hid})); visitadosOff=true;
+  document.body.classList.add('hist'); cargarDibujos().then(()=>{ if(!$('mochila').hidden) pintarMochila(); }); pintarBotonMochila();
   ambienteHistoria(); pintarObjetivo(); pintarMundo(); pintarLinterna(); pintarPanel(); $('place').lastElementChild.textContent=HIST.d.titulo;
-  if(!HIST.e.inicio){ HIST.e.inicio=true; player.x=-20; player.z=101; player.yaw=96*Math.PI/180; player.pitch=0; guardarHist();
+  if(!HIST.e.inicio){ const I=HIST.d.inicio||{x:-20,z:101,mira:96}; HIST.e.inicio=true; player.x=I.x; player.z=I.z; player.yaw=(I.mira||0)*Math.PI/180; player.pitch=0; guardarHist();
     cine([{tit:HIST.d.titulo,sub:HIST.d.subtitulo},...(HIST.d.intro||[])],()=>{ pensar(HIST.d.misiones[0]?.objetivo); }); }
   else { if(HIST.e.pos){ [player.x,player.z,player.yaw]=HIST.e.pos; player.pitch=0; } const m=HIST.d.misiones[HIST.e.m]; if(m) pensar(m.objetivo); } }
-function empezarPaseo(){ HIST.on=false; visitadosOff=false; quitarSombras(); for(const g of Object.values(HIST.figuras)) g.visible=false; if(HIST.marca){ scene.remove(HIST.marca); HIST.marca=null; }
+function empezarPaseo(){ HIST.on=false; visitadosOff=false; document.body.classList.remove('hist'); $('bMochila').hidden=true; $('encuadre').hidden=true; quitarSombras(); for(const g of Object.values(HIST.figuras)) g.visible=false; if(HIST.marca){ scene.remove(HIST.marca); HIST.marca=null; }
   $('objetivo').hidden=true; $('accion').hidden=true; ambientePaseo(); pintarLinterna(); pintarCuenta(); pintarPanel(); }
 let visitadosOff=false;
-function reiniciarHistoria(){ try{ localStorage.removeItem('langa-historia'); }catch(e){} HIST.e=null; HIST.pend=false; HIST.mirar=null; callarNarra(); for(const g of Object.values(HIST.figuras)) scene.remove(g); HIST.figuras={}; empezarHistoria(); }
+function reiniciarHistoria(){ try{ localStorage.removeItem('langa-historia'); }catch(e){} HIST.e=null; HIST.vistoVuelo=false; HIST.pend=false; HIST.mirar=null; callarNarra(); for(const g of Object.values(HIST.figuras)) scene.remove(g); HIST.figuras={}; empezarHistoria(); }
 
 // Recuperar la posición tras una actualización de la página.
 window.claude?.hot?.snapshot?.(()=>({x:player.x,z:player.z,yaw:player.yaw,pitch:player.pitch}));
@@ -2746,7 +3776,7 @@ let last=performance.now(), nameTimer=0, shownName='', bob=0, correr=0, velPasos
 const cineEl=$('cine');
 function frame(now){
   const dt=Math.min(0.05,(now-last)/1000); last=now;
-  if(HIST.bloqueo){ moveVec=[0,0]; keys.clear(); }
+  if(HIST.bloqueo||HIST.pausa){ moveVec=[0,0]; keys.clear(); }
   // Joystick con zona muerta y velocidad continua; al borde (o con Mayús) se corre, acelerando sin saltos.
   const jm=Math.hypot(moveVec[0],moveVec[1]), jk=jm>0.15?Math.min(1,(jm-0.15)/0.75)/jm:0;
   let mx=moveVec[0]*jk, mz=moveVec[1]*jk;

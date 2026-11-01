@@ -1,387 +1,881 @@
 {
+ "id": "fuera-del-mapa-1",
  "titulo": "La niebla de Langa",
- "subtitulo": "Capítulo 1 · Los que esperan",
+ "subtitulo": "Fuera del mapa · Capítulo 1: La casa 201",
+ "inicio": {
+  "x": 228,
+  "z": -238,
+  "mira": 302
+ },
  "intro": [
-  "Hace dos días, tu hermana Nora vino a Langa del Castillo a hacer un trabajo sobre su castillo.",
-  "Anoche te llegó su último mensaje: «Ha bajado la niebla. Las campanas suenan solas. Ven. Trae luz.»",
-  "Desde entonces, no contesta.",
-  "Llegas al atardecer. La niebla se ha tragado la carretera, los campos y hasta el ruido.",
-  "En la Plaza Mayor no hay nadie."
+  "Ruta 47. Último pueblo de la provincia: Langa del Castillo.",
+  "La furgoneta se ha quedado sin batería dos curvas atrás. Subes andando, con la mochila-cámara a la espalda.",
+  "Haces mapas a pie: la mochila hace una foto cada pocos pasos. Esta noche cierras el pueblo.",
+  "Ha bajado la niebla. Y en la tableta, Langa tiene un edificio que no existe: el 201."
  ],
  "final": [
-  "La puerta se abre hacia dentro. Una escalera tallada en la roca baja hacia la oscuridad.",
-  "La radio deja de crepitar. Por primera vez, la voz de Nora se oye clara, muy cerca:",
-  "«No te persiguen. Nunca te han perseguido. Te están llevando a refugio.»",
-  "Abajo, en el pueblo, la campana de San Pedro empieza a tocar. No es Simón: es un toque que nadie en Langa ha oído jamás.",
-  "Y desde el fondo de la bodega, despacio, muchos pasos empiezan a subir."
+  "La puerta se abre hacia dentro. Detrás no hay casa: solo niebla y una luz blanca.",
+  "La radio se calla. La voz de Marta suena a tu lado, sin ruido: «Gracias, Ferrer».",
+  "Una figura blanca sale de la niebla y pasa junto a ti. Tiene cara. No la ves bien. Pero sabes de quién es.",
+  "En tu mochila, la acreditación se ha quedado en blanco.",
+  "Alguien gris te pone una mano en el hombro. Por primera vez en toda la noche, la mochila no hace clic.",
+  "La radio crepita una última vez. Es Leo, bajito: «Yo le hice una foto a ella, ¿sabes? Una. Con su cara».",
+  "Capítulo 2: Sin cara."
  ],
- "logro_linterna": "luz_de_petaca",
+ "mochila": {
+  "huecos": 12
+ },
+ "linterna": {
+  "objeto": "linterna",
+  "pila": "pilas",
+  "dura": 180,
+  "reserva": 25,
+  "recarga": 1,
+  "sin_pilas": "Sin pilas. Apágala un rato: algo de luz vuelve sola."
+ },
+ "pistas_cada": [
+  90,
+  180,
+  300
+ ],
+ "logro_linterna": "la_luz_fija",
  "props": [
-  {
-   "tipo": "puerta_bodega",
-   "x": -53,
-   "z": 225
-  },
   {
    "tipo": "luz",
    "x": -58,
    "z": 229,
    "alto": 9,
-   "desde": 6
+   "desde": 7,
+   "hasta": 8
+  },
+  {
+   "tipo": "puerta_bodega",
+   "x": -53,
+   "z": 225,
+   "desde": 8,
+   "numero": "201"
   }
  ],
  "personajes": {
-  "orosia": {
-   "nombre": "Orosia",
+  "leo": {
+   "nombre": "Leo",
+   "tipo": "nino",
+   "color": "#3a5f8f",
+   "x": -11,
+   "z": -9,
+   "mira": 225
+  },
+  "andarin": {
+   "nombre": "El Andarín",
+   "tipo": "hombre",
+   "color": "#d2691e",
+   "x": 37,
+   "z": -90,
+   "mira": 10
+  },
+  "remedios": {
+   "nombre": "Remedios",
    "tipo": "anciana",
    "color": "#4f5f3a",
    "x": -5,
    "z": 105,
    "mira": 255
   },
-  "severo": {
-   "nombre": "Severo",
-   "tipo": "hombre",
-   "color": "#7a2a24",
-   "x": -17.5,
-   "z": 53,
-   "mira": 20
+  "gris": {
+   "nombre": "El Gris",
+   "tipo": "persona",
+   "color": "#8c8c88",
+   "x": -55.5,
+   "z": 227.5,
+   "mira": 300
   },
-  "telmo": {
-   "nombre": "Telmo",
-   "tipo": "nino",
-   "color": "#e0b020",
-   "x": -11,
-   "z": -9,
-   "mira": 225
-  },
-  "simon": {
-   "nombre": "Simón",
-   "tipo": "hombre",
-   "color": "#2f4466",
-   "x": -1.5,
-   "z": 99,
-   "mira": 270
+  "marta": {
+   "nombre": "Marta · por radio",
+   "tipo": "mujer",
+   "color": "#e8e4dc",
+   "x": -53,
+   "z": 225,
+   "mira": 0
   }
  },
  "objetos": {
-  "vela": {
-   "nombre": "Vela de cera",
-   "descripcion": "Regalo de Orosia. «Por si se acaban las pilas.»",
-   "icono": "vela"
+  "tableta": {
+   "nombre": "Tableta de ruta",
+   "icono": "tableta",
+   "clase": "clave",
+   "coger": {
+    "sonido": "plastico"
+   },
+   "descripcion": "La de la empresa. El mapa de Langa, casi entero. Y un edificio que no debería estar.",
+   "caras": {
+    "frente": {
+     "texto": "El mapa de Langa. Tus pasos, en azul. En un hueco al pie del castillo, un cuadradito gris: 201."
+    },
+    "dorso": {
+     "texto": "Una pegatina: «Ruta 47 · Langa del Castillo · Cerrar antes del amanecer».",
+     "oculto": "Debajo de la pegatina, rayado y casi borrado: «0112».",
+     "dibujo": "tableta_dorso",
+     "oculto_dibujo": "tableta_oculto"
+    }
+   },
+   "detalles": [
+    {
+     "id": "e201",
+     "cara": "frente",
+     "x": 0.36,
+     "y": 0.41,
+     "r": 0.13,
+     "texto": "Edificio 201. Sin referencia catastral. Sin fotos. Sin dirección.",
+     "pista": "Hay un cuadradito gris donde no hay ninguna casa.",
+     "efectos": {
+      "recuerdo": "orden_ruta"
+     }
+    },
+    {
+     "id": "historial",
+     "cara": "frente",
+     "x": 0.78,
+     "y": 0.69,
+     "r": 0.11,
+     "texto": "Historial: «Langa del Castillo · completada el 14/08/2016, 23:58 · D. Ferrer · fotos de archivo».",
+     "pista": "Abajo, en la esquina, hay un relojito: el historial."
+    }
+   ],
+   "combinar": {
+    "foto_cierre": {
+     "da": "tableta_cerrada",
+     "gasta": [
+      "tableta",
+      "foto_cierre"
+     ],
+     "texto": "La tableta cose la foto al mapa. El pueblo entero, sin huecos. Todo menos el 201, que ahora tiene sitio."
+    }
+   },
+   "no_combina": {
+    "foto_0001": "No. La tableta no quiere esa foto en el mapa."
+   },
+   "dibujo": "tableta"
   },
-  "linterna": {
-   "nombre": "Linterna de petaca",
-   "descripcion": "Vieja, pesada y fiable. Su luz aparta a las sombras. Enciéndela con el botón.",
-   "icono": "linterna"
+  "tableta_cerrada": {
+   "nombre": "Tableta de ruta",
+   "icono": "tableta",
+   "clase": "clave",
+   "coger": {
+    "sonido": "plastico"
+   },
+   "descripcion": "El mapa, cerrado. Todo fotografiado menos el 201. Ya sabes dónde está.",
+   "caras": {
+    "frente": {
+     "texto": "El mapa entero, sin huecos. El cuadradito gris del 201 ya tiene sitio: al pie de la torre-puerta."
+    },
+    "dorso": {
+     "texto": "Una pegatina: «Ruta 47 · Langa del Castillo · Cerrar antes del amanecer».",
+     "oculto": "Debajo de la pegatina, rayado y casi borrado: «0112».",
+     "dibujo": "tableta_dorso",
+     "oculto_dibujo": "tableta_oculto"
+    }
+   },
+   "detalles": [
+    {
+     "id": "e201b",
+     "cara": "frente",
+     "x": 0.68,
+     "y": 0.33,
+     "r": 0.13,
+     "texto": "Edificio 201 · torre-puerta del castillo. Titular: —. Estado: esperando.",
+     "pista": "Toca el cuadradito gris del 201."
+    },
+    {
+     "id": "historial",
+     "cara": "frente",
+     "x": 0.78,
+     "y": 0.69,
+     "r": 0.11,
+     "texto": "Historial: «Langa del Castillo · completada el 14/08/2016, 23:58 · D. Ferrer · fotos de archivo».",
+     "pista": "Abajo, en la esquina, hay un relojito: el historial."
+    }
+   ],
+   "dibujo": "tableta_cerrada"
   },
-  "badajo": {
-   "nombre": "Badajo de San Pedro",
-   "descripcion": "El badajo de la campana de la iglesia, envuelto en un trapo. Hay que llevárselo a Simón, el sacristán.",
-   "icono": "campana"
+  "acreditacion": {
+   "nombre": "Acreditación",
+   "icono": "tarjeta",
+   "clase": "historia",
+   "coger": {
+    "sonido": "plastico"
+   },
+   "descripcion": "Tu tarjeta de la empresa. DANI FERRER · Cartografía a pie · nº 0347.",
+   "caras": {
+    "frente": {
+     "texto": "DANI FERRER · Cartografía a pie · nº 0347. Tu foto, con tu cara de siempre.",
+     "oculto": "A contraluz, tu cara parece algo movida, como si hubieras girado la cabeza.",
+     "oculto_dibujo": "acreditacion_oculto"
+    },
+    "dorso": {
+     "texto": "«Alta: 02/06/2016. Si encuentras esta tarjeta, devuélvela a Central.»",
+     "dibujo": "acreditacion_dorso"
+    }
+   },
+   "detalles": [
+    {
+     "id": "numero",
+     "cara": "frente",
+     "x": 0.65,
+     "y": 0.64,
+     "r": 0.11,
+     "texto": "Tu número de empleado: 0347."
+    }
+   ],
+   "estados": {
+    "borrosa": {
+     "descripcion": "Tu tarjeta. La foto se ha emborronado. Solo la cara.",
+     "caras": {
+      "frente": {
+       "texto": "DANI FERRER · nº 0347. Donde estaba tu cara, una mancha, como las que pone la empresa en las fotos."
+      }
+     },
+     "dibujo": "acreditacion_borrosa"
+    },
+    "en_blanco": {
+     "descripcion": "La foto está en blanco. El nombre sigue ahí.",
+     "caras": {
+      "frente": {
+       "texto": "DANI FERRER · nº 0347. Donde va la foto, nada."
+      }
+     },
+     "dibujo": "acreditacion_en_blanco"
+    }
+   },
+   "combinar": {
+    "foto_2016": {
+     "gasta": [],
+     "texto": "Es tu número. Es tu mochila. Eres tú, hace diez años."
+    }
+   },
+   "no_combina": {
+    "foto_0001": "No encajan. Pero se parecen más de lo que te gustaría."
+   },
+   "dibujo": "acreditacion"
   },
   "radio": {
-   "nombre": "Radio de Nora",
-   "descripcion": "Un walkie con una pegatina: NORA. Crepita cuando hay sombras cerca. A veces, habla.",
-   "icono": "radio"
+   "nombre": "Radio de empresa",
+   "icono": "radio",
+   "clase": "clave",
+   "coger": {
+    "sonido": "plastico"
+   },
+   "descripcion": "Un walkie amarillo en el canal 4, el de Central. Crepita cuando hay borrones cerca.",
+   "caras": {
+    "frente": {
+     "texto": "Canal 4: Central. La lucecita verde parpadea."
+    },
+    "dorso": {
+     "texto": "Una pegatina: «CENTRAL · CANAL 4».",
+     "dibujo": "radio_dorso"
+    }
+   },
+   "estados": {
+    "rayada": {
+     "descripcion": "Un walkie amarillo en el canal 4. Alguien ha rayado algo debajo de la pegatina. Antes no estaba.",
+     "caras": {
+      "dorso": {
+       "texto": "La pegatina está levantada por una esquina. Debajo hay algo rayado.",
+       "oculto": "NO ES CENTRAL",
+       "dibujo": "radio_rayada_dorso",
+       "oculto_dibujo": "radio_rayada_oculto"
+      }
+     },
+     "detalles": [
+      {
+       "id": "rayado",
+       "cara": "dorso",
+       "x": 0.5,
+       "y": 0.73,
+       "r": 0.16,
+       "luz": true,
+       "texto": "Rayado con una llave, y con tu letra: NO ES CENTRAL.",
+       "pista": "Debajo de la pegatina hay algo. Alumbra."
+      }
+     ]
+    }
+   },
+   "dibujo": "radio"
   },
-  "cuaderno": {
-   "nombre": "Cuaderno de Nora",
-   "descripcion": "Su cuaderno del trabajo sobre el castillo. Húmedo y con hojas arrancadas.",
-   "icono": "libro"
+  "linterna": {
+   "nombre": "Linterna frontal",
+   "icono": "linterna",
+   "clase": "clave",
+   "coger": {
+    "sonido": "metal"
+   },
+   "descripcion": "Para las fotos de noche. La luz fija lo que toca: apunta a los borrones y se apartan.",
+   "dibujo": "linterna"
   },
-  "llave": {
-   "nombre": "Llave de la bodega",
-   "descripcion": "Grande, de hierro, con dos llaves cruzadas grabadas en el ojo, como las de San Pedro. Abre la bodega de la muela.",
-   "icono": "llave"
+  "pilas": {
+   "nombre": "Pilas",
+   "icono": "pila",
+   "clase": "consumible",
+   "apila": 3,
+   "coger": {
+    "sonido": "pilas"
+   },
+   "descripcion": "Dos pilas gordas para la linterna frontal.",
+   "dibujo": "pilas"
   },
-  "cruz": {
-   "nombre": "Cruz de hierro",
-   "descripcion": "Pequeña, gastada y fría como el hielo. En el revés, alguien grabó: «Santa Eulalia guarde al campanero».",
-   "icono": "cruz"
+  "bengala": {
+   "nombre": "Bengala de carretera",
+   "icono": "bengala",
+   "clase": "consumible",
+   "coger": {
+    "sonido": "carton"
+   },
+   "descripcion": "Del equipo del Andarín. Luz roja y fuerte durante un minuto. Para cuando ya no quede otra.",
+   "usar": {
+    "efecto": "vela",
+    "dura": 60,
+    "radio": 4,
+    "texto": "La bengala escupe luz roja. Los borrones no se acercan.",
+    "fin": "La bengala se apaga. Humo rojo, y otra vez niebla."
+   },
+   "dibujo": "bengala"
+  },
+  "foto_0001": {
+   "nombre": "Foto 0001",
+   "icono": "foto",
+   "clase": "historia",
+   "coger": {
+    "sonido": "papel"
+   },
+   "descripcion": "La primera foto de la noche. La carretera, detrás de ti. Y alguien gris.",
+   "caras": {
+    "frente": {
+     "texto": "La carretera, detrás de ti, en niebla. A cinco metros, una figura gris."
+    },
+    "dorso": {
+     "texto": "Datos: 0001 · 18:04 · automática.",
+     "oculto": "En el campo de notas, muy flojo: «no corras».",
+     "dibujo": "foto_0001_dorso"
+    }
+   },
+   "detalles": [
+    {
+     "id": "figura",
+     "cara": "frente",
+     "x": 0.62,
+     "y": 0.5,
+     "r": 0.14,
+     "texto": "Detrás de ti, una figura gris. Sin cara.",
+     "pista": "En la foto hay algo detrás de ti."
+    }
+   ],
+   "estados": {
+    "cerca": {
+     "descripcion": "La primera foto de la noche. La figura gris está más cerca que antes.",
+     "caras": {
+      "frente": {
+       "texto": "La carretera. La figura gris está más cerca que antes. Juras que antes estaba más lejos."
+      }
+     },
+     "dibujo": "foto_0001_cerca"
+    },
+    "al_lado": {
+     "descripcion": "Ya no hay distancia: está justo detrás de quien hizo la foto. Detrás de ti.",
+     "caras": {
+      "frente": {
+       "texto": "La figura gris ocupa media foto. Está justo detrás de quien la hizo."
+      },
+      "dorso": {
+       "texto": "Datos: 0001 · 18:04 · automática. Nota: estoy contigo.",
+       "oculto": "Debajo, más flojo: «no le des la cara»."
+      }
+     },
+     "dibujo": "foto_0001_al_lado"
+    }
+   },
+   "dibujo": "foto_0001"
+  },
+  "foto_fuente": {
+   "nombre": "Foto de la fuente (2016)",
+   "icono": "foto",
+   "clase": "clave",
+   "coger": {
+    "sonido": "papel"
+   },
+   "descripcion": "Del archivo. La única foto que hiciste en Langa.",
+   "caras": {
+    "frente": {
+     "texto": "La fuente, de día. En el borde, un niño de azul, con la cara difuminada."
+    },
+    "dorso": {
+     "texto": "Datos: 14/08/2016 · 18:52 · cámara de D. Ferrer.",
+     "dibujo": "foto_fuente_dorso"
+    }
+   },
+   "detalles": [
+    {
+     "id": "nino",
+     "cara": "frente",
+     "x": 0.45,
+     "y": 0.5,
+     "r": 0.14,
+     "texto": "Un niño de azul en el borde de la fuente. Con la cara difuminada, como manda la empresa.",
+     "pista": "En el borde de la fuente hay alguien.",
+     "efectos": {
+      "recuerdo": "unica_foto"
+     }
+    }
+   ],
+   "estados": {
+    "con_hoy": {
+     "descripcion": "La de 2016 y la de hoy, juntas. El niño está en el mismo sitio. Igual de pequeño.",
+     "caras": {
+      "frente": {
+       "texto": "Dos fotos de la fuente: 2016 y hoy. El niño de azul, en el mismo sitio, igual de pequeño."
+      }
+     },
+     "dibujo": "foto_fuente_con_hoy"
+    }
+   },
+   "dibujo": "foto_fuente"
+  },
+  "media_leo": {
+   "nombre": "Media foto (Leo)",
+   "icono": "foto",
+   "clase": "clave",
+   "coger": {
+    "sonido": "papel"
+   },
+   "descripcion": "De papel, rota. Un niño de azul en la fuente y el hombro de alguien gris.",
+   "caras": {
+    "frente": {
+     "texto": "Leo, en el borde de la fuente. A su lado, el hombro de alguien gris."
+    },
+    "dorso": {
+     "texto": "Media frase a boli: «Para Le…».",
+     "dibujo": "media_leo_dorso"
+    }
+   },
+   "combinar": {
+    "media_gris": {
+     "da": "foto_2016",
+     "gasta": [
+      "media_leo",
+      "media_gris"
+     ],
+     "texto": "Encajan. Leo, en la fuente. A su lado, alguien con la mochila y el chaleco de la empresa, con la cara borrosa. En papel. Y el papel no se difumina."
+    }
+   },
+   "dibujo": "media_leo"
+  },
+  "media_gris": {
+   "nombre": "Media foto (el Gris)",
+   "icono": "foto",
+   "clase": "clave",
+   "coger": {
+    "sonido": "papel"
+   },
+   "descripcion": "De papel, rota. Alguien gris con una mochila como la tuya.",
+   "caras": {
+    "frente": {
+     "texto": "Alguien gris, con una mochila como la tuya. Le falta la otra mitad."
+    },
+    "dorso": {
+     "texto": "El final de una frase a boli: «…o.».",
+     "dibujo": "media_gris_dorso"
+    }
+   },
+   "dibujo": "media_gris"
+  },
+  "foto_2016": {
+   "nombre": "Foto de 2016",
+   "icono": "foto",
+   "clase": "historia",
+   "coger": {
+    "sonido": "papel"
+   },
+   "descripcion": "Las dos mitades juntas: Leo y alguien con tu mochila, en la fuente.",
+   "caras": {
+    "frente": {
+     "texto": "Leo, en la fuente. A su lado, alguien con la mochila y el chaleco de la empresa. La cara, borrosa."
+    },
+    "dorso": {
+     "texto": "A boli: «Para Leo». Debajo hay algo más, muy flojo.",
+     "oculto": "Langa, 14-8-16. M.",
+     "dibujo": "foto_2016_dorso",
+     "oculto_dibujo": "foto_2016_oculto"
+    }
+   },
+   "detalles": [
+    {
+     "id": "tarjeta",
+     "cara": "frente",
+     "x": 0.39,
+     "y": 0.51,
+     "r": 0.12,
+     "texto": "En la tarjeta del pecho se lee un número: 0347.",
+     "pista": "El de gris lleva una tarjeta colgada al pecho."
+    },
+    {
+     "id": "fecha",
+     "cara": "dorso",
+     "x": 0.51,
+     "y": 0.7,
+     "r": 0.15,
+     "luz": true,
+     "texto": "A contraluz, en letra pequeña: «Langa, 14-8-16. M.».",
+     "pista": "Por detrás hay algo más, muy flojo. Alumbra."
+    }
+   ],
+   "dibujo": "foto_2016"
+  },
+  "sobre_azucar": {
+   "nombre": "Sobre de azúcar",
+   "icono": "nota",
+   "clase": "historia",
+   "coger": {
+    "sonido": "papel"
+   },
+   "descripcion": "Un sobre de azúcar de hace años, de los de la taberna. Tiene algo escrito.",
+   "caras": {
+    "frente": {
+     "texto": "Un sobre de azúcar, aplastado y seco."
+    },
+    "dorso": {
+     "texto": "A boli, un plano rápido del pueblo. Al pie del castillo, una casa dibujada y una flecha: «¿Y esto?».",
+     "oculto": "Letra pequeña e inclinada. La de Marta.",
+     "dibujo": "sobre_azucar_dorso"
+    }
+   },
+   "detalles": [
+    {
+     "id": "plano",
+     "cara": "dorso",
+     "x": 0.43,
+     "y": 0.39,
+     "r": 0.14,
+     "texto": "Marta dibujó el 201 en 2016, antes de quedarse. Ya estaba aquí antes que ella.",
+     "pista": "Por detrás hay un plano. Mira la casa dibujada."
+    }
+   ],
+   "dibujo": "sobre_azucar"
+  },
+  "postal_remedios": {
+   "nombre": "Postal de Remedios",
+   "icono": "foto",
+   "clase": "clave",
+   "coger": {
+    "sonido": "papel"
+   },
+   "descripcion": "La plaza de otro pueblo. Al fondo, de espaldas, una señora de verde.",
+   "caras": {
+    "frente": {
+     "texto": "La plaza de otro pueblo, en fiestas. Al fondo, de espaldas, una señora de verde."
+    },
+    "dorso": {
+     "texto": "Con letra redonda: «Para quien me mire».",
+     "dibujo": "postal_remedios_dorso"
+    }
+   },
+   "dibujo": "postal_remedios"
+  },
+  "foto_remedios": {
+   "nombre": "Foto de Remedios",
+   "icono": "foto",
+   "clase": "clave",
+   "coger": {
+    "sonido": "papel"
+   },
+   "descripcion": "Remedios en su banco, de espaldas, como siempre. Pero sale.",
+   "caras": {
+    "frente": {
+     "texto": "Remedios en su banco, junto a San Pedro. De espaldas, como siempre. Pero sale."
+    },
+    "dorso": {
+     "texto": "Datos: 0213 · 19:41 · manual.",
+     "dibujo": "foto_remedios_dorso"
+    }
+   },
+   "dibujo": "foto_remedios"
+  },
+  "foto_cierre": {
+   "nombre": "Foto de cierre",
+   "icono": "foto",
+   "clase": "clave",
+   "coger": {
+    "sonido": "papel"
+   },
+   "descripcion": "El pueblo entero desde la muela. Falta coserla al mapa de la tableta.",
+   "caras": {
+    "frente": {
+     "texto": "El pueblo entero desde la muela, en la niebla. Al este, junto a la torre-puerta, una lucecita."
+    },
+    "dorso": {
+     "texto": "Datos: 0377 · 20:12 · panorámica de cierre.",
+     "dibujo": "foto_cierre_dorso"
+    }
+   },
+   "dibujo": "foto_cierre"
+  },
+  "acreditacion_marta": {
+   "nombre": "Acreditación de Marta",
+   "icono": "tarjeta",
+   "clase": "historia",
+   "coger": {
+    "sonido": "plastico"
+   },
+   "descripcion": "MARTA LIS · Cartografía a pie · nº 0112. Donde va la foto, un hueco.",
+   "caras": {
+    "frente": {
+     "texto": "MARTA LIS · Cartografía a pie · nº 0112. Donde va la foto, un hueco."
+    },
+    "dorso": {
+     "texto": "«Alta: 1998.»",
+     "oculto": "A boli, muy flojo: «La que hace la foto no sale».",
+     "dibujo": "acreditacion_marta_dorso"
+    }
+   },
+   "detalles": [
+    {
+     "id": "hueco",
+     "cara": "frente",
+     "x": 0.33,
+     "y": 0.55,
+     "r": 0.15,
+     "texto": "Nunca se hizo la foto para la tarjeta. Dieciocho años en la empresa, y ni una foto suya.",
+     "pista": "Mira dónde debería ir la foto."
+    }
+   ],
+   "dibujo": "acreditacion_marta"
+  },
+  "llave_201": {
+   "nombre": "Llave del 201",
+   "icono": "llave",
+   "clase": "clave",
+   "coger": {
+    "sonido": "hierro"
+   },
+   "descripcion": "Pequeña y fría. Etiqueta de cartón: 201.",
+   "caras": {
+    "frente": {
+     "texto": "Una llave pequeña y fría. Etiqueta de cartón: 201."
+    },
+    "dorso": {
+     "texto": "La etiqueta, por detrás, parece vacía.",
+     "oculto": "«Para cuando vuelvas.» Letra de Marta.",
+     "dibujo": "llave_201_dorso"
+    }
+   },
+   "dibujo": "llave_201"
   }
  },
  "recuerdos": {
-  "nota_banco": {
-   "titulo": "Nota en el banco",
+  "orden_ruta": {
+   "titulo": "Orden de ruta",
    "tipo": "nota",
-   "texto": "Si lees esto, es que has venido. Gracias, y perdona el susto. Aquí a esta niebla la llaman «la niebla de la muela» y nadie quiere hablar de ella. Busca luz en la taberna, bajando por la Calle Ramón y Cajal. Yo voy a mirar las bodegas del castillo: creo que la historia de este pueblo está ahí abajo. No apagues nunca la linterna. —N."
+   "texto": "Ruta 47 · Langa del Castillo. Cerrar antes del amanecer. Empieza por abajo. —Central"
   },
-  "foto_nora": {
-   "titulo": "Foto: Nora en la torre-puerta",
+  "unica_foto": {
+   "titulo": "La única foto",
+   "tipo": "nota",
+   "texto": "Tu única foto de Langa, el 14 de agosto de 2016. Marta, a tu lado: «Mira de verdad, Ferrer. Un mapa es una promesa». Tú mirabas el reloj."
+  },
+  "dos_cafes": {
+   "titulo": "Dos cafés",
+   "tipo": "nota",
+   "texto": "Dos cafés en el poyete de la taberna, aquella tarde. Marta: «Vete a tus fiestas. Ya lo acabo yo». No lo pensaste dos veces. A las 23:58, desde tu pueblo, firmaste Langa como terminada."
+  },
+  "correo": {
+   "titulo": "Un correo sin abrir",
+   "tipo": "nota",
+   "texto": "21/08/2016. Asunto: Baja voluntaria — M. Lis. «No ha devuelto el equipo. No contesta.» Lo marcaste como leído sin abrirlo."
+  },
+  "puerta_dentro": {
+   "titulo": "La puerta, desde dentro",
    "tipo": "foto",
-   "texto": "Una foto instantánea sujeta en el portón de la taberna. Nora sonríe delante de la torre-puerta del castillo, con su radio en la mano. Al fondo, la niebla empieza a bajar de la muela. Por detrás, a boli: «Día 1. Mañana, las bodegas.»"
-  },
-  "cuaderno_ermitas": {
-   "titulo": "Cuaderno de Nora: las ermitas",
-   "tipo": "nota",
-   "texto": "«Lo que es seguro (Madoz, 1847): Langa tenía 47 vecinos, 225 almas, iglesia de San Pedro Apóstol, una fuente y dos ermitas, Nuestra Señora de Tocón y Santa Eulalia, “sin culto por deterioro”. Lo que no es seguro: la señora del parque dice que a Santa Eulalia la dejaron caer a propósito, porque la niebla siempre sube desde allí. Tengo que ir.»"
-  },
-  "hoja_toque": {
-   "titulo": "La hoja del sacristán",
-   "tipo": "nota",
-   "texto": "Una hoja copiada a mano que se le ha caído a Simón: «Cuando venía la guerra, se tocaba a refugio y todo el lugar subía al castillo. Pasado el peligro, se tocaba a salida. Un año bajó una niebla de siete días. El campanero salió a ver si el peligro había pasado y no volvió. Nadie tocó a salida.» Debajo, en otra letra: «Es un cuento. Pero no toquéis en falso.»"
-  },
-  "cuaderno_castillo": {
-   "titulo": "Cuaderno de Nora: el castillo",
-   "tipo": "nota",
-   "texto": "Hoja arrancada: «Lo que es seguro (ficha ARCA CD.34 y Wikipedia): en 1357 Bernat de Cabrera, ministro de Pedro IV, recorría los Campos de Langa. De esa época sería el castillo, quizá el mayor castillo-refugio de las Comunidades: un óvalo de unos 120 × 60 m. En 1367 se reunió aquí la Comunidad de aldeas de Daroca. Bajo la muela hay bodegas excavadas. La ficha empieza: “La única noticia que se tiene de Langa…”. Casi nada escrito. El resto lo cuenta la niebla.»"
-  },
-  "tablilla": {
-   "titulo": "La tablilla de la saetera",
-   "tipo": "nota",
-   "texto": "Encajada en una saetera de la torre, una tablilla de madera negra con siete rayas, como quien cuenta días. Debajo, a punta de navaja, un nombre: TELMO. La madera es tan vieja que se deshace entre los dedos."
-  },
-  "foto_puerta": {
-   "titulo": "Foto: la puerta, desde dentro",
-   "tipo": "foto",
-   "texto": "Asoma por debajo de la puerta una foto instantánea, todavía revelándose. Es esta misma puerta, vista desde dentro de la bodega. Por la rendija entra la luz de una linterna. La tuya. Detrás, a boli: «Ya casi.»"
+   "texto": "Una foto de papel, todavía caliente. Es esta misma puerta, vista desde dentro. Por la rendija entra una luz: la tuya. Detrás, a boli: «Ya casi»."
   }
  },
  "logros": {
-  "sin_cobertura": {
-   "nombre": "Sin cobertura",
-   "descripcion": "Llega a Langa con la niebla y encuentra la nota de Nora."
+  "ruta_47": {
+   "nombre": "Ruta 47",
+   "descripcion": "Llega a Langa y encuentra el edificio que no existe."
   },
-  "luz_de_petaca": {
-   "nombre": "Luz de petaca",
-   "descripcion": "Aparta a las sombras por primera vez."
+  "la_luz_fija": {
+   "nombre": "La luz fija",
+   "descripcion": "Aparta un borrón con la linterna."
   },
-  "el_camino_vuelve": {
-   "nombre": "El camino vuelve",
-   "descripcion": "Intenta salir del pueblo por el camino de Torralbilla."
+  "te_encontre": {
+   "nombre": "Te encontré",
+   "descripcion": "Encuentra a Leo con una foto."
   },
-  "a_la_sombra_de_san_pedro": {
-   "nombre": "A la sombra de San Pedro",
-   "descripcion": "Haz sonar la campana de San Pedro."
+  "fin_del_mapa": {
+   "nombre": "Fin del mapa",
+   "descripcion": "Intenta salir por la carretera de Torralbilla."
   },
-  "vigia": {
-   "nombre": "Vigía de la muela",
-   "descripcion": "Llega a la torre del homenaje en plena niebla."
+  "lo_mas_mirado": {
+   "nombre": "Lo más mirado",
+   "descripcion": "Llega a San Pedro con los borrones detrás."
   },
-  "los_que_esperan": {
-   "nombre": "Los que esperan",
-   "descripcion": "Abre la bodega de la muela y termina el Capítulo 1."
+  "de_espaldas": {
+   "nombre": "De espaldas",
+   "descripcion": "Hazle a Remedios la foto que te pide."
+  },
+  "mapa_cerrado": {
+   "nombre": "Mapa cerrado",
+   "descripcion": "Haz la foto de cierre desde la torre del homenaje."
+  },
+  "casa_201": {
+   "nombre": "La casa 201",
+   "descripcion": "Abre la puerta y termina el capítulo 1."
   }
  },
  "misiones": [
   {
    "id": "m1",
-   "titulo": "Niebla en la plaza",
-   "objetivo": "Cruza al parque de la iglesia, frente a la plaza",
+   "titulo": "Ruta 47",
+   "objetivo": "Sube al pueblo por el Barrio Alto",
    "pasos": [
     {
      "tipo": "ir",
-     "x": -11,
-     "z": 100,
-     "r": 5,
-     "texto": "Ni un alma. En un banco del parque hay un papel doblado, sujeto con una piedra."
-    },
-    {
-     "tipo": "leer",
-     "recuerdo": "nota_banco",
-     "x": -11,
-     "z": 100
-    },
-    {
-     "tipo": "hablar",
-     "personaje": "orosia",
-     "dialogo": [
-      {
-       "quien": "orosia",
-       "texto": "¿Tú también has venido por las campanas? Llevan dos noches sonando solas, desde que bajó la niebla."
-      },
-      {
-       "quien": "yo",
-       "texto": "Busco a mi hermana, Nora. Vino hace dos días con una radio."
-      },
-      {
-       "quien": "orosia",
-       "texto": "La chica de la radio. Me preguntó por las bodegas del castillo. Le dije que esas puertas no se abren."
-      },
-      {
-       "quien": "orosia",
-       "texto": "Mi abuela lo contaba: cuando la niebla tapa la muela, suben los que esperan."
-      },
-      {
-       "quien": "yo",
-       "texto": "¿Los que esperan?"
-      },
-      {
-       "quien": "orosia",
-       "texto": "Sombras, criatura. Sin cara. Dicen que no hacen daño, pero al que pillan sin luz se lo llevan a refugio."
-      },
-      {
-       "quien": "orosia",
-       "texto": "Aquí, a la vera de San Pedro, no se acercan. Tú necesitas luz: baja a la taberna, que Severo nunca apaga."
-      },
-      {
-       "quien": "orosia",
-       "texto": "Y toma esta vela. Por si se acaban las pilas."
-      }
-     ],
-     "eleccion": {
-      "pregunta": "¿Qué más le preguntas?",
-      "opciones": [
-       {
-        "texto": "¿Por qué no se va del pueblo?",
-        "respuesta": "¿Irme? Por el camino de Torralbilla la niebla te devuelve al mismo sitio. Lo he visto con estos ojos."
-       },
-       {
-        "texto": "¿Siempre se llamó Langa del Castillo?",
-        "respuesta": "Qué va. Era Langa, sin más. Lo del Castillo se lo pusieron en 1916. Como si alguien pudiera olvidarse de él."
-       }
+     "x": 175,
+     "z": -207,
+     "r": 8,
+     "texto": "Sacas la tableta. El mapa de Langa, casi entero. Algo no cuadra.",
+     "efectos": {
+      "da": [
+       "tableta"
       ]
      }
+    },
+    {
+     "tipo": "examinar",
+     "id": "m1_tableta",
+     "objeto": "tableta",
+     "detalle": "e201",
+     "objetivo": "Examina la tableta: algo no cuadra en el mapa",
+     "texto": "Un edificio que no existe. Lo arreglarás con una foto, como siempre.",
+     "pistas": [
+      "Mira de cerca el mapa de la tableta.",
+      "Hay un cuadradito gris donde no hay ninguna casa.",
+      "Abre la mochila, examina la tableta y toca el cuadradito gris."
+     ]
+    },
+    {
+     "tipo": "ir",
+     "x": 150,
+     "z": -193,
+     "r": 10,
+     "texto": "Clic. La mochila ha disparado sola. Nunca lo hace.",
+     "efectos": {
+      "da": [
+       "foto_0001"
+      ]
+     }
+    },
+    {
+     "tipo": "examinar",
+     "id": "m1_foto",
+     "objeto": "foto_0001",
+     "detalle": "figura",
+     "objetivo": "Mira la foto que ha hecho la mochila",
+     "texto": "Te giras. Solo niebla.",
+     "pistas": [
+      "La mochila ha hecho una foto. Mírala.",
+      "Hay algo en la foto, detrás de ti.",
+      "Mochila → Foto 0001 → Examinar. Toca la mancha gris."
+     ]
+    },
+    {
+     "tipo": "evento",
+     "evento": "radio",
+     "x": 116,
+     "z": -170,
+     "r": 14,
+     "texto": "La radio se enciende sola dentro de la mochila. «Dani, ¿me oyes? Soy Marta, de Central.» ¿Marta? Creías que lo había dejado.",
+     "efectos": {
+      "da": [
+       "radio"
+      ]
+     }
+    },
+    {
+     "tipo": "evento",
+     "evento": "radio",
+     "x": 98,
+     "z": -157,
+     "r": 14,
+     "texto": "Radio · Marta: «Volví. Alguien tenía que acabar Langa. Lo de la foto será un fallo del difuminado: a veces deja manchas.»"
+    },
+    {
+     "tipo": "evento",
+     "evento": "radio",
+     "x": 82,
+     "z": -146,
+     "r": 14,
+     "texto": "Radio · Marta: «Cuélgate la acreditación y sigue. Lo que fotografías, se queda en el mapa. Empieza por abajo.»",
+     "efectos": {
+      "da": [
+       "acreditacion"
+      ]
+     }
+    },
+    {
+     "tipo": "ir",
+     "x": 65,
+     "z": -124,
+     "r": 10,
+     "texto": "Oscurece. Te pones la linterna frontal. Al fondo de la Calle Alta, una figura gris, quieta. Parpadeas, y ya no está.",
+     "efectos": {
+      "da": [
+       "linterna"
+      ]
+     }
+    },
+    {
+     "tipo": "ir",
+     "x": 39,
+     "z": -86,
+     "r": 10,
+     "texto": "Al pasar junto al cartel de Torralbilla, la radio se calla un segundo. Como si contuviera el aire.",
+     "efectos": {
+      "estado": {
+       "foto_0001": "cerca"
+      },
+      "aviso": true
+     }
+    },
+    {
+     "tipo": "evento",
+     "evento": "sombras",
+     "x": 21,
+     "z": -49,
+     "r": 12,
+     "texto": "En el cruce, la niebla se espesa en manchas altas que se acercan. Borrones. ¡Enciende la linterna y apúntales! La luz los fija."
+    },
+    {
+     "tipo": "coger",
+     "objeto": "pilas",
+     "x": 19,
+     "z": -46,
+     "texto": "En un poyo, dos pilas gordas. Como si alguien las hubiera dejado para ti."
     }
    ],
    "recompensa": {
-    "objeto": "vela",
-    "logro": "sin_cobertura"
+    "logro": "ruta_47"
    }
   },
   {
    "id": "m2",
-   "titulo": "Luz en la taberna",
-   "objetivo": "Baja a la taberna por la Calle Ramón y Cajal",
+   "titulo": "Una sola foto",
+   "objetivo": "Sube por la Calle la Fuente hasta la fuente",
    "pasos": [
     {
-     "tipo": "ir",
-     "x": -16,
-     "z": 58,
-     "r": 7,
-     "texto": "La puerta de la taberna está abierta y dentro hay luz. Es lo único encendido en todo el pueblo."
-    },
-    {
-     "tipo": "hablar",
-     "personaje": "severo",
-     "dialogo": [
-      {
-       "quien": "severo",
-       "texto": "¡Alguien de fuera! Creía que con esta niebla no entraba ni salía nadie. ¿Vienes por la chica de la radio?"
-      },
-      {
-       "quien": "yo",
-       "texto": "Es mi hermana. ¿Sabe dónde está?"
-      },
-      {
-       "quien": "severo",
-       "texto": "Estuvo aquí anteayer. Me preguntó por las bodegas del castillo. Le dije la verdad: que están cerradas desde siempre."
-      },
-      {
-       "quien": "severo",
-       "texto": "Esa noche bajó la niebla y la campana de San Pedro tocó sola. Tres veces. Y sin badajo, que lo tengo yo."
-      },
-      {
-       "quien": "yo",
-       "texto": "¿Usted tiene el badajo de la campana?"
-      },
-      {
-       "quien": "severo",
-       "texto": "Me lo dio Simón, el sacristán, hace años. «Si vuelve la niebla, que alguien me lo traiga», dijo. Pues ese alguien vas a ser tú."
-      },
-      {
-       "quien": "severo",
-       "texto": "Coge también la linterna que hay junto a la puerta. Ahí fuera, sin luz, no duras ni una calle."
-      },
-      {
-       "quien": "severo",
-       "texto": "Tu hermana preguntó por la fuente. Decía que allí el agua se oye aunque no corra. Yo empezaría por ahí."
-      }
-     ],
-     "eleccion": {
-      "pregunta": "¿Qué le dices?",
-      "opciones": [
-       {
-        "texto": "Venga conmigo.",
-        "respuesta": "Yo me quedo. Si alguien vuelve, que encuentre una luz encendida."
-       },
-       {
-        "texto": "¿Qué hay en esas bodegas?",
-        "respuesta": "Las excavaron bajo la muela en tiempos del castillo, dicen. Mi padre contaba que, con niebla, ahí abajo se oye hablar bajito."
-       }
-      ]
-     }
-    },
-    {
-     "tipo": "coger",
-     "objeto": "linterna",
-     "x": -19.5,
-     "z": 52,
-     "texto": "Una linterna de petaca, de las de antes. Pesa. Funciona."
-    },
-    {
-     "tipo": "leer",
-     "recuerdo": "foto_nora",
-     "x": -15.5,
-     "z": 55
-    }
-   ],
-   "recompensa": {
-    "objeto": "badajo"
-   }
-  },
-  {
-   "id": "m3",
-   "titulo": "El agua que no corre",
-   "objetivo": "Ve a la fuente de la Calle la Fuente",
-   "pasos": [
-    {
-     "tipo": "ir",
+     "tipo": "evento",
+     "evento": "calma",
      "x": -15,
      "z": -13,
      "r": 8,
-     "texto": "La fuente. El caño está seco, pero se oye agua correr bajo las piedras. Un niño de amarillo la mira, de espaldas."
-    },
-    {
-     "tipo": "hablar",
-     "personaje": "telmo",
-     "dialogo": [
-      {
-       "quien": "telmo",
-       "texto": "Chist. Escucha. El agua corre por debajo, aunque el caño esté seco."
-      },
-      {
-       "quien": "yo",
-       "texto": "¿Qué haces aquí solo, con esta niebla? ¿Y tus padres?"
-      },
-      {
-       "quien": "telmo",
-       "texto": "Mi madre me dijo que no me moviera hasta oír la campana. La buena. La de estas noches no es la buena."
-      },
-      {
-       "quien": "telmo",
-       "texto": "La chica de la radio se sentó aquí. Llevaba dos radios. Una se le cayó."
-      },
-      {
-       "quien": "telmo",
-       "texto": "Habla sola, ¿sabes? Por las noches dice tu nombre."
-      },
-      {
-       "quien": "telmo",
-       "texto": "Cógela. Cuando chille, enciende la luz y apúntales. La luz les recuerda el día, y se apartan."
-      }
-     ],
-     "eleccion": {
-      "pregunta": "¿Qué le dices?",
-      "opciones": [
-       {
-        "texto": "Vente conmigo a la iglesia.",
-        "respuesta": "No puedo. Si me muevo, mi madre no me encontrará cuando suba."
-       },
-       {
-        "texto": "¿Quiénes son «ellos»?",
-        "respuesta": "Los que esperan. Como yo. Pero ellos ya se han cansado de esperar."
-       }
-      ]
-     }
-    },
-    {
-     "tipo": "coger",
-     "objeto": "radio",
-     "x": -13,
-     "z": -11,
-     "texto": "Un walkie con una pegatina: NORA. La lucecita roja parpadea."
+     "texto": "La fuente. Se oye el agua, y nada más. Los borrones se han quedado atrás, en el cruce."
     },
     {
      "tipo": "evento",
@@ -389,194 +883,526 @@
      "x": -15,
      "z": -13,
      "r": 10,
-     "texto": "Ruido… y una voz: «¿Me oyes? Intenté salir por Torralbilla, pero el camino vuelve. Se me cayó el cuaderno junto al cartel…»"
+     "texto": "Radio · Marta: «Te paso una del archivo. Es de aquí. Es tuya: la única que hiciste en Langa.»",
+     "efectos": {
+      "da": [
+       "foto_fuente"
+      ]
+     }
     },
     {
-     "tipo": "evento",
-     "evento": "sombras",
-     "x": -15,
-     "z": -13,
-     "r": 12,
-     "texto": "La radio chilla. De la niebla salen figuras oscuras, sin cara. ¡Enciende la linterna y apúntales!"
+     "tipo": "examinar",
+     "id": "m2_foto",
+     "objeto": "foto_fuente",
+     "detalle": "nino",
+     "objetivo": "Examina la foto de la fuente de 2016",
+     "texto": "Tú hiciste esta foto. Hace diez años. Te acuerdas a medias.",
+     "pistas": [
+      "Mira la foto que te ha pasado Marta.",
+      "En el borde de la fuente hay alguien.",
+      "Mochila → Foto de la fuente → Examinar. Toca al niño."
+     ]
+    },
+    {
+     "tipo": "encuadrar",
+     "id": "m2_encuadre",
+     "foto": "foto_fuente",
+     "x": -5,
+     "z": -21,
+     "r": 2.5,
+     "mira": 320,
+     "tolerancia": 25,
+     "objetivo": "Busca desde dónde se hizo la foto de 2016",
+     "texto": "Clic. La misma fuente. En la pantalla, el mismo niño de azul, en el mismo sitio. Diez años después, igual de pequeño.",
+     "efectos": {
+      "estado": {
+       "foto_fuente": "con_hoy"
+      }
+     },
+     "pistas": [
+      "La foto de 2016 se hizo desde la calle, no desde la fuente.",
+      "Baja unos pasos por la Calle la Fuente, hacia la Calle Alta, y mira a la fuente.",
+      "A unos doce pasos, calle abajo, con la fuente de frente."
+     ]
     }
    ],
    "recompensa": {}
   },
   {
-   "id": "m4",
-   "titulo": "El camino vuelve",
-   "objetivo": "Sube por la Calle Alta hasta el cartel de Torralbilla",
-   "pasos": [
-    {
-     "tipo": "ir",
-     "x": 40,
-     "z": -86,
-     "r": 8,
-     "texto": "El cartel de Torralbilla. Detrás, la niebla es una pared blanca. Das diez pasos… y el cartel vuelve a estar delante."
-    },
-    {
-     "tipo": "coger",
-     "objeto": "cuaderno",
-     "x": 37,
-     "z": -82,
-     "texto": "El cuaderno de Nora, al pie del cartel. Húmedo y con hojas arrancadas. Queda una suelta."
-    },
-    {
-     "tipo": "leer",
-     "recuerdo": "cuaderno_ermitas",
-     "x": 37.5,
-     "z": -81
-    },
-    {
-     "tipo": "evento",
-     "evento": "apagon",
-     "x": 40,
-     "z": -86,
-     "r": 12,
-     "texto": "De golpe, el atardecer se apaga como una vela. Es noche cerrada y no son ni las ocho. Enciende la linterna."
-    }
-   ],
-   "recompensa": {
-    "logro": "el_camino_vuelve"
-   }
-  },
-  {
-   "id": "m5",
-   "titulo": "A refugio",
-   "objetivo": "Vuelve a San Pedro por la Calle Ramón y Cajal",
-   "pasos": [
-    {
-     "tipo": "evento",
-     "evento": "radio",
-     "x": 5,
-     "z": -7,
-     "r": 14,
-     "texto": "En el cruce de la Calle Eras, la radio cambia de voz. Ya no es Nora: son muchas, muy bajito. «…a refugio… a refugio…»"
-    },
-    {
-     "tipo": "evento",
-     "evento": "sombras",
-     "x": -9,
-     "z": 31,
-     "r": 12,
-     "texto": "Pasos detrás de ti. Muchos. Se paran cuando te paras. ¡Luz sobre ellos, y a San Pedro!"
-    },
-    {
-     "tipo": "ir",
-     "x": -4,
-     "z": 99,
-     "r": 8,
-     "texto": "En el borde del parque, las sombras se detienen, como ante un muro. A la sombra de San Pedro no entran."
-    }
-   ],
-   "recompensa": {}
-  },
-  {
-   "id": "m6",
-   "titulo": "La campana de San Pedro",
-   "objetivo": "Habla con el sacristán en la puerta de San Pedro",
+   "id": "m3",
+   "titulo": "El escondite",
+   "objetivo": "Habla con el niño de la fuente",
    "pasos": [
     {
      "tipo": "hablar",
-     "personaje": "simon",
+     "personaje": "leo",
      "dialogo": [
       {
-       "quien": "simon",
-       "texto": "¡Aquí, a la sombra de San Pedro! Aquí no entran. Nunca han entrado."
+       "quien": "leo",
+       "texto": "¡Me has encontrado! Nadie me encuentra si no es con una foto."
       },
       {
        "quien": "yo",
-       "texto": "Severo me ha dado esto para usted. El badajo."
+       "texto": "¿Qué haces aquí, con esta niebla?"
       },
       {
-       "quien": "simon",
-       "texto": "Bendito Severo. Lo quité yo hace años, para que nadie tocara en falso. Y ahora la campana toca sola…"
+       "quien": "leo",
+       "texto": "Esperar. Aquí se espera mucho."
       },
       {
-       "quien": "simon",
-       "texto": "¿Sabes lo que cuentan? Que en tiempos de la guerra con Castilla todo el lugar se refugió en el castillo. En las bodegas."
+       "quien": "leo",
+       "texto": "El de gris me cuida. No habla, pero escribe en las fotos. Te pareces a él."
       },
       {
-       "quien": "simon",
-       "texto": "Bajó una niebla de siete días. El campanero salió a ver si el peligro había pasado, para tocar a salida. No volvió."
+       "quien": "leo",
+       "texto": "La chica de la impresora me regaló una foto. Se rompió. La otra mitad se la llevó el de gris, hacia el cartel."
       },
       {
-       "quien": "simon",
-       "texto": "Nadie tocó a salida. Y dicen que algunos se quedaron abajo, esperando la campana. Los que esperan."
-      },
-      {
-       "quien": "simon",
-       "texto": "Cuentos de viejos, ¿eh? Pero esta campana es lo único que los calma. Subo a colgar el badajo y, cuando te avise, tiras de la soga."
+       "quien": "leo",
+       "texto": "¿Esa foto de la fuente es mía? Salgo yo. Te la cambio por mi mitad."
       }
      ],
      "eleccion": {
       "pregunta": "¿Qué le preguntas?",
       "opciones": [
        {
-        "texto": "¿Ha visto a mi hermana?",
-        "respuesta": "Vino a pedirme la llave de las bodegas. No se la di. Pero esas bodegas tienen más de una boca, y no todas las conozco."
+        "texto": "¿La chica de la impresora?",
+        "respuesta": "Una que hacía fotos y nunca salía en ellas. Decía que la que hace la foto no sale."
        },
        {
-        "texto": "¿Por qué no entran aquí?",
-        "respuesta": "Porque esperan esta campana. Y a lo que se espera, se le tiene respeto."
+        "texto": "¿Desde cuándo esperas?",
+        "respuesta": "Desde la foto. De antes no me acuerdo."
        }
       ]
      }
     },
     {
-     "tipo": "leer",
-     "recuerdo": "hoja_toque",
-     "x": 0.5,
-     "z": 97
+     "tipo": "entregar",
+     "id": "m3_leo",
+     "personaje": "leo",
+     "pregunta": "¿Qué le das a Leo?",
+     "opciones": {
+      "foto_fuente": {
+       "respuesta": "«¡Salgo yo!» La aprieta contra el pecho. «Toma. Trato hecho.»",
+       "avanza": true,
+       "efectos": {
+        "quita": [
+         "foto_fuente"
+        ],
+        "da": [
+         "media_leo"
+        ]
+       }
+      },
+      "foto_0001": {
+       "respuesta": "«Ese es el de gris. Él no juega al escondite.»",
+       "avanza": false
+      },
+      "acreditacion": {
+       "respuesta": "«Esa no. Esa es tu cara.»",
+       "avanza": false
+      }
+     },
+     "otro": "«Esa no. Quiero la de la fuente.»",
+     "nada": "«Vale. Yo espero. Aquí se espera mucho.»",
+     "pistas": [
+      "Leo quiere algo que llevas.",
+      "Leo sale en una de tus fotos.",
+      "Dale la Foto de la fuente."
+     ]
+    }
+   ],
+   "recompensa": {
+    "logro": "te_encontre"
+   }
+  },
+  {
+   "id": "m4",
+   "titulo": "Fin del mapa",
+   "objetivo": "Vuelve al cartel de Torralbilla: allí está la otra mitad",
+   "pasos": [
+    {
+     "tipo": "ir",
+     "x": 39,
+     "z": -86,
+     "r": 8,
+     "texto": "Detrás del cartel, la carretera se mete en la niebla. Un hombre de naranja camina por la cuneta, arriba y abajo."
     },
     {
-     "tipo": "usar",
-     "objeto": "badajo",
-     "x": 2.3,
-     "z": 98.7,
-     "r": 5,
-     "texto": "Simón se lleva el badajo al campanario. Al poco, su voz baja desde lo alto: «¡Ahora! ¡Tira de la soga!»"
+     "tipo": "hablar",
+     "personaje": "andarin",
+     "dialogo": [
+      {
+       "quien": "andarin",
+       "texto": "No te canses. Por ahí se acaba el mapa."
+      },
+      {
+       "quien": "yo",
+       "texto": "¿Quién es usted?"
+      },
+      {
+       "quien": "andarin",
+       "texto": "Uno que salió en una foto de carretera, con el chaleco puesto. Del nombre no me acuerdo. Me llaman el Andarín, porque no paro."
+      },
+      {
+       "quien": "yo",
+       "texto": "¿Y la gente del pueblo?"
+      },
+      {
+       "quien": "andarin",
+       "texto": "En su casa, durmiendo tan tranquila. Esto no es el pueblo: es el mapa. Y en los mapas nunca sale nadie."
+      },
+      {
+       "quien": "andarin",
+       "texto": "Aquí acabamos los que nos quedamos sin cara en una foto. Lo que nadie mira, la niebla se lo come."
+      },
+      {
+       "quien": "andarin",
+       "texto": "Toma pilas. Y una bengala de las de la obra, para cuando no quede otra."
+      }
+     ],
+     "eleccion": {
+      "pregunta": "¿Qué le preguntas?",
+      "opciones": [
+       {
+        "texto": "¿Ha visto a alguien de gris?",
+        "respuesta": "Pasa a veces. Dejó algo en el poste del cartel. Yo no toco lo de nadie."
+       },
+       {
+        "texto": "¿Se puede salir de aquí?",
+        "respuesta": "Con cara, sí. Sin cara, ni hasta la cuneta."
+       }
+      ]
+     },
+     "efectos": {
+      "da": [
+       "bengala"
+      ],
+      "pilas": 1
+     }
+    },
+    {
+     "tipo": "coger",
+     "objeto": "media_gris",
+     "x": 40,
+     "z": -87.5,
+     "texto": "Sujeta con cinta al poste, media foto. Alguien gris, con una mochila como la tuya."
+    },
+    {
+     "tipo": "examinar",
+     "id": "m4_foto",
+     "objeto": "foto_2016",
+     "detalle": "tarjeta",
+     "objetivo": "Junta las dos medias fotos y mira bien la foto entera",
+     "texto": "0347. Miras tu acreditación: 0347.",
+     "pistas": [
+      "Son dos mitades de la misma foto.",
+      "En la mochila: Combinar, y toca las dos medias fotos.",
+      "Cuando la tengas entera, examínala y mira el pecho del de gris."
+     ]
+    },
+    {
+     "tipo": "ir",
+     "x": 33,
+     "z": -117,
+     "r": 6,
+     "texto": "Diez pasos más por la carretera. La niebla se cierra como una cortina y la tableta pita: FUERA DE ZONA. El mapa se acaba aquí."
     },
     {
      "tipo": "evento",
-     "evento": "campanas",
-     "x": 2.3,
-     "z": 98.7,
-     "r": 6,
-     "texto": "Tiras de la soga. La campana de San Pedro suena por encima de la niebla, y el pueblo entero parece contener el aliento."
+     "evento": "apagon",
+     "x": 33,
+     "z": -117,
+     "r": 10,
+     "texto": "La luz se apaga de golpe, como una pantalla. Noche cerrada, y no son ni las siete.",
+     "efectos": {
+      "estado": {
+       "acreditacion": "borrosa"
+      },
+      "aviso": true
+     }
+    },
+    {
+     "tipo": "evento",
+     "evento": "radio",
+     "x": 33,
+     "z": -117,
+     "r": 12,
+     "texto": "Radio · Marta: «Dani, sube a San Pedro. Ya. Por la Calle Ramón y Cajal. Allí no entran.»"
+    }
+   ],
+   "recompensa": {
+    "logro": "fin_del_mapa"
+   }
+  },
+  {
+   "id": "m5",
+   "titulo": "Lo más mirado",
+   "objetivo": "Sube a San Pedro por la Calle Ramón y Cajal",
+   "pasos": [
+    {
+     "tipo": "evento",
+     "evento": "sombras",
+     "x": 21,
+     "z": -49,
+     "r": 14,
+     "texto": "Borrones. Muchos. Salen de las fachadas como la humedad. ¡Luz encima, y a San Pedro!"
+    },
+    {
+     "tipo": "evento",
+     "evento": "radio",
+     "x": 6,
+     "z": -7,
+     "r": 12,
+     "texto": "En el cruce de la Calle Eras, la radio cambia de voz. Ya no es Marta: son muchas, muy bajito. «…¿me ves?… ¿me ves?…»"
+    },
+    {
+     "tipo": "ir",
+     "x": -16,
+     "z": 58,
+     "r": 7,
+     "texto": "La puerta de la taberna. Te acuerdas de golpe: dos cafés, aquí mismo. «Vete a tus fiestas, Ferrer. Ya lo acabo yo.»",
+     "efectos": {
+      "recuerdo": "dos_cafes"
+     }
+    },
+    {
+     "tipo": "coger",
+     "objeto": "sobre_azucar",
+     "x": -15.5,
+     "z": 55,
+     "texto": "En el poyete, un sobre de azúcar viejo. Tiene algo escrito a boli."
+    },
+    {
+     "tipo": "ir",
+     "x": -18.5,
+     "z": 86,
+     "r": 8,
+     "texto": "Clic. En la tableta, la Plaza Mayor. En medio, la figura gris. Esta vez no está detrás de ti: te espera delante."
+    },
+    {
+     "tipo": "ir",
+     "x": -4,
+     "z": 99,
+     "r": 8,
+     "texto": "En el borde del parque, los borrones se paran en seco. Junto a San Pedro no entran."
     },
     {
      "tipo": "evento",
      "evento": "calma",
-     "x": 2.3,
-     "z": 98.7,
-     "r": 8,
-     "texto": "La niebla se abre un momento. Al noroeste, sobre la muela, se ve el castillo… y una lucecita en la torre-puerta."
+     "x": -4,
+     "z": 99,
+     "r": 10,
+     "texto": "Silencio. La radio se calla. En el banco del parque hay alguien de verde."
     }
    ],
    "recompensa": {
-    "objeto": "llave",
-    "logro": "a_la_sombra_de_san_pedro"
+    "logro": "lo_mas_mirado"
    }
   },
   {
+   "id": "m6",
+   "titulo": "De espaldas",
+   "objetivo": "Habla con la señora del banco",
+   "pasos": [
+    {
+     "tipo": "hablar",
+     "personaje": "remedios",
+     "dialogo": [
+      {
+       "quien": "remedios",
+       "texto": "Ay, por fin alguien con luz. Siéntate, criatura, que aquí no entran."
+      },
+      {
+       "quien": "yo",
+       "texto": "¿Por qué aquí no?"
+      },
+      {
+       "quien": "remedios",
+       "texto": "Porque San Pedro es lo más mirado del pueblo. Bodas, bautizos, fiestas, gente que pasa. Siglos de miradas. A eso la niebla no le puede."
+      },
+      {
+       "quien": "remedios",
+       "texto": "Yo salí de espaldas en mil fotos de plazas. Siempre al fondo. Mira: esta es de otro pueblo."
+      },
+      {
+       "quien": "remedios",
+       "texto": "Hace años que nadie me mira de frente. ¿Me haces una igual, pero aquí? Ponte delante de mí, como en la postal."
+      }
+     ],
+     "eleccion": {
+      "pregunta": "¿Qué le preguntas?",
+      "opciones": [
+       {
+        "texto": "¿Usted también es… de una foto?",
+        "respuesta": "Como todos los de aquí. Menos tú. Tú todavía tienes cara."
+       },
+       {
+        "texto": "¿Conoce al de gris?",
+        "respuesta": "Lo he visto pasar. Va siempre detrás de alguien. Ahora, detrás de ti."
+       }
+      ]
+     },
+     "efectos": {
+      "da": [
+       "postal_remedios"
+      ]
+     }
+    },
+    {
+     "tipo": "encuadrar",
+     "id": "m6_encuadre",
+     "foto": "postal_remedios",
+     "x": -7.9,
+     "z": 104.2,
+     "r": 2,
+     "mira": 75,
+     "tolerancia": 25,
+     "objetivo": "Hazle a Remedios una foto como la de la postal",
+     "texto": "Clic. El flash la alumbra un instante. En la pantalla, Remedios sale de espaldas, como siempre. Pero sale.",
+     "efectos": {
+      "da": [
+       "foto_remedios"
+      ]
+     },
+     "pistas": [
+      "Remedios quiere una foto como la de su postal.",
+      "Ponte delante de ella, a unos tres pasos, mirándola.",
+      "Colócate al oeste del banco y mira hacia Remedios."
+     ]
+    },
+    {
+     "tipo": "entregar",
+     "id": "m6_remedios",
+     "personaje": "remedios",
+     "pregunta": "¿Qué le das a Remedios?",
+     "opciones": {
+      "foto_remedios": {
+       "respuesta": "De espaldas, como siempre… Pero estoy. Las guardo juntas: la de antes y la de ahora. Toma, de mi lata.",
+       "avanza": true,
+       "efectos": {
+        "quita": [
+         "foto_remedios",
+         "postal_remedios"
+        ],
+        "marca": "remedios_foto",
+        "pilas": 1,
+        "logro": "de_espaldas"
+       }
+      },
+      "acreditacion": {
+       "respuesta": "¡Eso es tu cara! No se la des a nadie. A nadie, ¿me oyes? Ni a mí.",
+       "avanza": false
+      },
+      "foto_0001": {
+       "respuesta": "Ese gris… No te persigue, ¿eh? Mira cómo anda: como quien acompaña.",
+       "avanza": false
+      },
+      "foto_2016": {
+       "respuesta": "Qué majo el crío de azul. ¿Y el del chaleco? Se te parece.",
+       "avanza": false
+      },
+      "postal_remedios": {
+       "respuesta": "Esa ya la tengo, criatura. Quiero la de hoy.",
+       "avanza": false
+      }
+     },
+     "otro": "Eso no, criatura. Una foto mía.",
+     "nada": "Tú piénsalo. Yo aquí estoy.",
+     "pistas": [
+      "Remedios quiere una foto suya.",
+      "La que acabas de hacerle.",
+      "Dale la Foto de Remedios."
+     ]
+    },
+    {
+     "tipo": "hablar",
+     "personaje": "remedios",
+     "dialogo": [
+      {
+       "quien": "remedios",
+       "texto": "Te digo una cosa, y no me preguntes cómo lo sé. La de tu radio… ¿le has visto alguna vez la cara?"
+      },
+      {
+       "quien": "yo",
+       "texto": "Es Marta. Era mi compañera."
+      },
+      {
+       "quien": "remedios",
+       "texto": "Ya. Pues aquí lleva más que yo. Y yo llevo mucho."
+      },
+      {
+       "quien": "remedios",
+       "texto": "Coge más pilas de la lata, que aquí la gente se deja de todo. Y mira bien tu radio: algo le ha pasado."
+      }
+     ],
+     "efectos": {
+      "pilas": 1,
+      "estado": {
+       "radio": "rayada"
+      },
+      "aviso": true
+     }
+    },
+    {
+     "tipo": "examinar",
+     "id": "m6_radio",
+     "objeto": "radio",
+     "detalle": "rayado",
+     "objetivo": "Mira bien tu radio",
+     "texto": "Tu letra. Tú no has escrito eso. ¿O sí?",
+     "pistas": [
+      "Remedios dice que mires bien tu radio.",
+      "Dale la vuelta a la radio y alumbra.",
+      "Mochila → Radio → Examinar → darle la vuelta → Alumbrar. Toca la pegatina."
+     ]
+    },
+    {
+     "tipo": "evento",
+     "evento": "radio",
+     "x": -5,
+     "z": 103,
+     "r": 12,
+     "texto": "Radio · Marta: «Se te oye raro. Sube a la torre del homenaje y haz la foto de cierre. Y no hagas caso a nadie de por ahí: la niebla confunde.»"
+    }
+   ],
+   "recompensa": {}
+  },
+  {
    "id": "m7",
-   "titulo": "Hacia la muela",
-   "objetivo": "Sube a la Calle Castillo por la Calle los Poyos",
+   "titulo": "La subida",
+   "objetivo": "Sube hacia el castillo por la Calle los Poyos",
    "pasos": [
     {
      "tipo": "ir",
      "x": -58,
-     "z": 111,
+     "z": 110.5,
      "r": 10,
-     "texto": "Calle los Poyos. Ni una puerta abierta, ni una ventana con luz. Solo tus pasos… y, un poco detrás, otros."
+     "texto": "Calle los Poyos. Ni una ventana con luz. Solo tus pasos y el clic de la mochila."
+    },
+    {
+     "tipo": "coger",
+     "objeto": "pilas",
+     "x": -60,
+     "z": 110.5,
+     "texto": "En un poyo de piedra, otras dos pilas. Alguien te las va dejando."
     },
     {
      "tipo": "ir",
      "x": -86,
      "z": 130,
      "r": 8,
-     "texto": "El callejón sube hacia la Calle Castillo. Arriba, la niebla es más espesa. La radio empieza a chisporrotear."
+     "texto": "La tableta vibra: un correo de hace diez años, sin abrir. «Baja voluntaria: M. Lis. No ha devuelto el equipo.»",
+     "efectos": {
+      "recuerdo": "correo"
+     }
+    },
+    {
+     "tipo": "ir",
+     "x": -95,
+     "z": 140,
+     "r": 8,
+     "texto": "Arriba, en el callejón, una figura gris. Quieta. Te mira sin cara. Das un paso, y ya no está."
     },
     {
      "tipo": "evento",
@@ -584,20 +1410,21 @@
      "x": -105,
      "z": 153,
      "r": 12,
-     "texto": "Bajan de la muela, muchas, despacio. No corren: te rodean. Mantén la luz encima de ellas y sigue subiendo."
+     "texto": "Bajan de la muela, despacio. No corren: te rodean. Luz encima, y sigue subiendo."
     },
     {
-     "tipo": "leer",
-     "recuerdo": "cuaderno_castillo",
-     "x": -125,
-     "z": 153
+     "tipo": "coger",
+     "objeto": "pilas",
+     "x": -107,
+     "z": 150,
+     "texto": "Junto a la Calle Castillo, dos pilas más. Quien te las deja sabe por dónde vas."
     }
    ],
    "recompensa": {}
   },
   {
    "id": "m8",
-   "titulo": "La torre del homenaje",
+   "titulo": "Foto de cierre",
    "objetivo": "Sube al castillo, a la torre del homenaje",
    "pasos": [
     {
@@ -605,67 +1432,191 @@
      "x": -131.5,
      "z": 235,
      "r": 7,
-     "texto": "La torre del homenaje, sola en mitad del recinto. Seis metros de piedra por lado y saeteras como ojos entornados."
+     "texto": "La torre del homenaje, sola en el recinto. Lo más alto del mapa. Desde aquí se cierra el pueblo."
+    },
+    {
+     "tipo": "encuadrar",
+     "id": "m8_cierre",
+     "foto": "tableta",
+     "x": -131.5,
+     "z": 235,
+     "r": 5,
+     "mira": 140,
+     "tolerancia": 35,
+     "objetivo": "Haz la foto de cierre mirando al pueblo",
+     "texto": "Clic largo. La mochila gira sus ojos y guarda el pueblo entero.",
+     "efectos": {
+      "da": [
+       "foto_cierre"
+      ]
+     },
+     "pistas": [
+      "La foto de cierre se hace desde lo más alto, mirando al pueblo.",
+      "Mira hacia el pueblo, al sureste.",
+      "Junto a la torre, de cara a la iglesia: espera a que encaje."
+     ],
+     "sonido": "fotoCierre"
+    },
+    {
+     "tipo": "examinar",
+     "id": "m8_tableta",
+     "objeto": "tableta_cerrada",
+     "detalle": "e201b",
+     "objetivo": "Junta la foto de cierre con la tableta",
+     "texto": "El 201 tiene sitio: al pie de la torre-puerta.",
+     "pistas": [
+      "La foto de cierre tiene que entrar en el mapa.",
+      "En la mochila: Combinar, la foto de cierre con la tableta.",
+      "Después, examina la tableta y toca el 201."
+     ]
     },
     {
      "tipo": "evento",
      "evento": "radio",
      "x": -131.5,
      "z": 235,
-     "r": 8,
-     "texto": "«¡Veo tu luz por un respiradero! Estoy bajo la muela. La puerta está junto a la torre-puerta. Solo se abre desde fuera.»"
-    },
-    {
-     "tipo": "leer",
-     "recuerdo": "tablilla",
-     "x": -130.5,
-     "z": 237.3
-    },
-    {
-     "tipo": "coger",
-     "objeto": "cruz",
-     "x": -136,
-     "z": 236.5,
-     "texto": "En la hierba, una cruz pequeña de hierro. Está helada."
-    }
-   ],
-   "recompensa": {
-    "logro": "vigia"
-   }
-  },
-  {
-   "id": "m9",
-   "titulo": "Los que esperan",
-   "objetivo": "Ve a la torre-puerta, en el extremo este del castillo",
-   "pasos": [
-    {
-     "tipo": "ir",
-     "x": -58,
-     "z": 229,
-     "r": 8,
-     "texto": "La torre-puerta. Fuera del recinto, al pie de la muela, una puerta de bodega de madera negra entre las zarzas."
-    },
-    {
-     "tipo": "leer",
-     "recuerdo": "foto_puerta",
-     "x": -53.5,
-     "z": 225.5
+     "r": 12,
+     "texto": "La radio cambia de canal sola. No es Marta. Es tu voz, la de hace diez años: «No le des la cara.»",
+     "efectos": {
+      "estado": {
+       "foto_0001": "al_lado"
+      },
+      "aviso": true
+     }
     },
     {
      "tipo": "evento",
      "evento": "radio",
+     "x": -131.5,
+     "z": 235,
+     "r": 12,
+     "texto": "Radio · Marta: «Ya lo tienes. Baja a la torre-puerta. Solo falta abrir el 201.» Al este, junto a la torre-puerta, se enciende una luz."
+    }
+   ],
+   "recompensa": {
+    "logro": "mapa_cerrado"
+   }
+  },
+  {
+   "id": "m9",
+   "titulo": "La casa 201",
+   "objetivo": "Ve a la torre-puerta, en el extremo este del castillo",
+   "pasos": [
+    {
+     "tipo": "evento",
+     "evento": "calma",
+     "x": -58,
+     "z": 229,
+     "r": 8,
+     "texto": "Al pie de la torre-puerta, entre las zarzas, una puerta sola en la roca. Sin casa. Un buzón y un número pintado: 201. Los borrones no se acercan."
+    },
+    {
+     "tipo": "coger",
+     "objeto": "acreditacion_marta",
+     "x": -56,
+     "z": 226,
+     "texto": "En las zarzas, una tarjeta de la empresa. No es la tuya."
+    },
+    {
+     "tipo": "codigo",
+     "id": "m9_buzon",
      "x": -53,
      "z": 225,
-     "r": 6,
-     "texto": "«Abre. No tengas miedo de ellos.» Es Nora. Detrás de su voz, muchas otras respiran despacio."
+     "r": 3,
+     "titulo": "Buzón del 201",
+     "boton": "Abrir el buzón",
+     "cifras": 4,
+     "solucion": "1408",
+     "objetivo": "Abre el buzón. En la tapa pone: «¿Cuándo pasaste por aquí?»",
+     "texto": "Clac. Dentro hay una llave con una etiqueta: 201. Y una foto de papel, todavía caliente.",
+     "efectos": {
+      "da": [
+       "llave_201"
+      ]
+     },
+     "pistas": [
+      "El buzón pregunta cuándo pasaste por aquí. ¿Llevas algo con fecha?",
+      "Dale la vuelta a la Foto de 2016 y alúmbrala. O mira el historial de la tableta.",
+      "14-8-16: el día y el mes. 1, 4, 0, 8."
+     ]
+    },
+    {
+     "tipo": "leer",
+     "recuerdo": "puerta_dentro",
+     "x": -53.5,
+     "z": 225.5
+    },
+    {
+     "tipo": "hablar",
+     "personaje": "gris",
+     "dialogo": [
+      {
+       "quien": "marta",
+       "texto": "Ábrela, Dani. Desde dentro no se puede."
+      },
+      {
+       "quien": "yo",
+       "texto": "Marta… Aquella noche, ¿qué pasó?"
+      },
+      {
+       "quien": "marta",
+       "texto": "Que te fuiste. Y yo me quedé a acabar tu pueblo."
+      },
+      {
+       "quien": "marta",
+       "texto": "La que hace la foto no sale en ella, ¿te acuerdas? Diez años, y ni una foto con mi cara."
+      },
+      {
+       "quien": "marta",
+       "texto": "Ábreme. Me lo debes."
+      },
+      {
+       "quien": "gris",
+       "texto": "(No dice nada. Está junto a la puerta y, por primera vez, no se va. Niega con la cabeza, despacio.)"
+      }
+     ],
+     "eleccion": {
+      "pregunta": "¿Qué le dices a Marta?",
+      "opciones": [
+       {
+        "texto": "¿Por qué yo?",
+        "respuesta": "Porque fuiste tú quien se fue."
+       },
+       {
+        "texto": "Lo siento.",
+        "respuesta": "Ya. Diez años tarde. Ábreme."
+       }
+      ]
+     }
     },
     {
      "tipo": "usar",
-     "objeto": "llave",
+     "id": "m9_puerta",
+     "objeto": "llave_201",
      "x": -53,
      "z": 225,
-     "r": 4,
-     "texto": "La llave de Simón entra a la primera. Al girarla, alguien empuja suavemente desde el otro lado."
+     "r": 3,
+     "elegir": true,
+     "gasta": true,
+     "pregunta": "¿Qué usas en la puerta?",
+     "boton": "Usar algo en la puerta…",
+     "respuestas": {
+      "acreditacion": "¿Tu cara? Ni se te ocurra.",
+      "tableta_cerrada": "El mapa ya sabe dónde está la puerta. No la abre.",
+      "acreditacion_marta": "La tarjeta de Marta no abre nada. Ni siquiera tiene foto."
+     },
+     "otro": "Eso no abre.",
+     "texto": "La llave gira sola.",
+     "efectos": {
+      "estado": {
+       "acreditacion": "en_blanco"
+      }
+     },
+     "pistas": [
+      "La puerta tiene cerradura.",
+      "La llave estaba en el buzón.",
+      "Usa la Llave del 201 en la puerta."
+     ]
     },
     {
      "tipo": "evento",
@@ -677,7 +1628,7 @@
     }
    ],
    "recompensa": {
-    "logro": "los_que_esperan"
+    "logro": "casa_201"
    }
   }
  ]
